@@ -1059,19 +1059,60 @@
         const pair = (chars[i] || "") + (chars[i + 1] || "");
 
         if(ch === "っ"){
-          const nextBase = getBaseChunk(chars, i + 1);
-          let inputs = ["xtu", "ltu"];
-          let display = "tu";
+  const nextBase = getBaseChunk(chars, i + 1);
 
-          if(nextBase && nextBase.inputs.length){
-            const doubled = [];
-            for(const opt of nextBase.inputs){
-              const first = opt[0];
-              if(first && consonants.includes(first) && first !== "n"){
-                doubled.push(first + opt);
-              }
-            }
-            if(doubled.length){
+  let inputs = ["xtu","ltu"];
+  let display = "tu";
+
+  if(nextBase && nextBase.inputs.length){
+
+    const doubled = [];
+
+    for(const opt of nextBase.inputs){
+
+      const first = opt[0];
+
+      if(first && consonants.includes(first) && first !== "n"){
+
+        // 入力候補
+        doubled.push(first + opt);
+
+      }
+    }
+
+    if(doubled.length){
+
+      inputs = [...new Set([...doubled,"xtu","ltu"])];
+
+      // 表示ローマ字
+      const first = nextBase.display[0];
+
+      if(first && consonants.includes(first) && first !== "n"){
+
+        display = first + nextBase.display.slice(1);
+
+      }else{
+
+        display = "tu";
+
+      }
+    }
+  }
+
+  chunks.push({
+    kana:"っ",
+    display,
+    patterns: makePatterns(display, inputs),
+    typed:"",
+    accepted:"",
+    paintedCount:0,
+    done:false,
+    missFlash:false
+  });
+
+  continue;
+}            
+        if(doubled.length){
               inputs = [...new Set([...doubled, "xtu", "ltu"])];
               const d0 = nextBase.display[0];
               display = (d0 && consonants.includes(d0) && d0 !== "n")
