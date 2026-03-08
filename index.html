@@ -813,7 +813,6 @@
         "うぃ":["wi"],"うぇ":["we"],"うぉ":["who","wo"]
       };
 
-      const smallKana = new Set(["ゃ","ゅ","ょ","ぁ","ぃ","ぅ","ぇ","ぉ"]);
       const consonants = "bcdfghjklmnpqrstvwxyz";
 
       const $ = (id) => document.getElementById(id);
@@ -867,7 +866,6 @@
         currentWord:"",
         currentWordKana:"",
         currentWordRomanOptions:[],
-        totalTyped:0,
         totalMiss:0,
         totalAcceptedChars:0,
         latestRankId:null,
@@ -897,7 +895,6 @@
           if(i >= kana.length) return [""];
 
           let results = [];
-
           const ch = kana[i];
           const pair = kana.slice(i, i+2);
 
@@ -980,7 +977,6 @@
         state.currentWord = "";
         state.currentWordKana = "";
         state.currentWordRomanOptions = [];
-        state.totalTyped = 0;
         state.totalMiss = 0;
         state.totalAcceptedChars = 0;
         clearInterval(state.timerId);
@@ -1116,7 +1112,7 @@
         const chars = [...romajiWrap.querySelectorAll(".rchar.done")];
         const rectBase = romajiWrap.getBoundingClientRect();
 
-        chars.forEach((el, i) => {
+        chars.forEach((el) => {
           const r = el.getBoundingClientRect();
           const piece = document.createElement("span");
           piece.className = "shatterPiece";
@@ -1237,10 +1233,12 @@
         if(key.length !== 1) return;
         if(!/^[a-zA-Z\-]$/.test(key)) return;
 
+        unlockAudio();
         startTimerIfNeeded();
-        const ch = key.toLowerCase();
 
+        const ch = key.toLowerCase();
         let nextBranches = [];
+
         for(const branch of state.branches){
           for(const opt of branch.remainingSet){
             if(opt[branch.typed.length] === ch){
@@ -1256,6 +1254,7 @@
         }
 
         if(nextBranches.length === 0){
+          playMissSound();
           state.totalMiss++;
           const best = computeBestBranch(state.branches);
           best.missFlash = true;
@@ -1264,10 +1263,11 @@
             best.missFlash = false;
             renderRoman();
           }, 120);
-          playMissSound();
           updateStats();
           return;
         }
+
+        playTypeSound();
 
         const grouped = new Map();
         for(const b of nextBranches){
@@ -1291,7 +1291,6 @@
 
         state.branches = normalized;
         state.totalAcceptedChars++;
-        playTypeSound();
         renderRoman();
         updateStats();
 
@@ -1322,42 +1321,76 @@
         });
       }
 
-      const audioCtxHolder = {ctx:null};
+      const audioCtxHolder = {
+        ctx:null,
+        master:null,
+        unlocked:false
+      };
 
       function getAudioCtx(){
         if(!audioCtxHolder.ctx){
-          audioCtxHolder.ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const ctx = new (window.AudioContext || window.webkitAudioContext)({
+            latencyHint:"interactive"
+          });
+          const master = ctx.createGain();
+          master.gain.value = 1.45;
+          master.connect(ctx.destination);
+          audioCtxHolder.ctx = ctx;
+          audioCtxHolder.master = master;
         }
         return audioCtxHolder.ctx;
       }
 
-      function tone(freq=440, duration=.04, type="sine", gain=.03){
+      function unlockAudio(){
+        const ctx = getAudioCtx();
+        if(ctx.state === "suspended"){
+          ctx.resume();
+        }
+        if(!audioCtxHolder.unlocked){
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          gain.gain.setValueAtTime(0.0001, now);
+          osc.connect(gain);
+          gain.connect(audioCtxHolder.master);
+          osc.start(now);
+          osc.stop(now + 0.001);
+          audioCtxHolder.unlocked = true;
+        }
+      }
+
+      function tone(freq=440, duration=.04, type="sine", gainAmount=.06, freqEnd=null){
         if(!state.soundOn) return;
         const ctx = getAudioCtx();
-        if(ctx.state === "suspended") ctx.resume();
+        if(ctx.state !== "running") return;
+
         const now = ctx.currentTime;
         const osc = ctx.createOscillator();
-        const g = ctx.createGain();
+        const gain = ctx.createGain();
 
         osc.type = type;
         osc.frequency.setValueAtTime(freq, now);
-        g.gain.setValueAtTime(0.0001, now);
-        g.gain.exponentialRampToValueAtTime(gain, now + 0.01);
-        g.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        if(freqEnd != null){
+          osc.frequency.exponentialRampToValueAtTime(Math.max(40, freqEnd), now + duration);
+        }
 
-        osc.connect(g);
-        g.connect(ctx.destination);
+        gain.gain.cancelScheduledValues(now);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.003);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc.connect(gain);
+        gain.connect(audioCtxHolder.master);
         osc.start(now);
-        osc.stop(now + duration + 0.02);
+        osc.stop(now + duration + 0.01);
       }
 
       function playTypeSound(){
-        tone(700, .03, "triangle", .022);
-        setTimeout(() => tone(980, .03, "triangle", .014), 10);
+        tone(1100, 0.045, "triangle", 0.11, 1380);
       }
 
       function playMissSound(){
-        tone(210, .07, "sawtooth", .03);
+        tone(220, 0.08, "sawtooth", 0.13, 150);
       }
 
       function resetRanking(){
@@ -1368,12 +1401,16 @@
         showNotice("ランキングを初期化しました");
       }
 
+      document.addEventListener("pointerdown", unlockAudio, { passive:true });
+      document.addEventListener("touchstart", unlockAudio, { passive:true });
       document.addEventListener("keydown", (e) => {
+        unlockAudio();
         if(resultOverlay.classList.contains("show")) return;
         handleKeyInput(e.key);
       });
 
       startBtn.addEventListener("click", () => {
+        unlockAudio();
         state.modeLabel = modes.find(m => m.count === state.modeCount)?.label || "10問";
         if(state.modeLabel === "∞") state.modeLabel = "終わりなし";
         modeLabel.textContent = state.modeLabel;
@@ -1381,6 +1418,7 @@
       });
 
       soundBtn.addEventListener("click", () => {
+        unlockAudio();
         state.soundOn = !state.soundOn;
         soundBtn.classList.toggle("off", !state.soundOn);
         soundBtn.textContent = state.soundOn ? "🔊 効果音 ON" : "🔈 効果音 OFF";
@@ -1403,7 +1441,7 @@
         modeLabel.textContent = "10問";
         stateLabel.textContent = "待機中";
         kanjiDisplay.textContent = "四字熟語";
-        kanaDisplay.textContent = "しじゅくご";
+        kanaDisplay.textContent = "よじじゅくご";
         romajiWrap.innerHTML = `
           <span class="rchar pending">s</span>
           <span class="rchar pending">h</span>
