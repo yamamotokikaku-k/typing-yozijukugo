@@ -623,9 +623,9 @@
 
       <div class="topActions">
         <select class="soundSelect" id="soundTypeSelect" title="効果音タイプ">
-          <option value="crystal">効果音: クリスタル</option>
-          <option value="click">効果音: クリック</option>
+          <option value="click">効果音: ドライ</option>
           <option value="arcade">効果音: アーケード</option>
+          <option value="crystal">効果音: クリスタル</option>
         </select>
         <button class="soundBtn" id="soundBtn" type="button">🔊 効果音 ON</button>
       </div>
@@ -640,7 +640,7 @@
           <div class="pill">モード <strong id="modeLabel">10問</strong></div>
           <div class="pill">状態 <strong id="stateLabel">待機中</strong></div>
           <div class="pill">開始 <strong>最初のキー入力で計測</strong></div>
-          <div class="pill">効果音 <strong id="soundTypeLabel">クリスタル</strong></div>
+          <div class="pill">効果音 <strong id="soundTypeLabel">ドライ</strong></div>
         </div>
 
         <div class="kanji" id="kanjiDisplay">四字熟語</div>
@@ -701,7 +701,7 @@
 
     <div class="footerNote">
       入力対応例: し = si / shi、ち = ti / chi、つ = tu / tsu、ふ = hu / fu、じ = zi / ji など。<br>
-      画面に表示するローマ字は訓令式で統一しています。
+      「ん」は表示も実入力に合わせて n / nn を切り替えます。画面に表示するローマ字は訓令式で統一しています。
     </div>
   </div>
 
@@ -934,9 +934,9 @@
     ];
 
     const soundNames = {
-      crystal:"クリスタル",
-      click:"クリック",
-      arcade:"アーケード"
+      click:"ドライ",
+      arcade:"アーケード",
+      crystal:"クリスタル"
     };
 
     const state = {
@@ -957,7 +957,7 @@
       totalAcceptedChars:0,
       latestRankId:null,
       soundOn:true,
-      soundType:"crystal"
+      soundType:"click"
     };
 
     function showNotice(msg){
@@ -1068,21 +1068,21 @@
           let display = "tu";
 
           if(nextBase && nextBase.inputs.length){
-            const doubled = [];
+            const doubledHeads = [];
 
             for(const opt of nextBase.inputs){
-              const first = opt[0];
+              const first = (opt[0] || "").toLowerCase();
               if(first && consonants.includes(first) && first !== "n"){
-                doubled.push(first + opt);
+                doubledHeads.push(first);
               }
             }
 
-            if(doubled.length){
-              inputs = [...new Set([...doubled, "xtu", "ltu"])];
+            if(doubledHeads.length){
+              inputs = [...new Set([...doubledHeads, "xtu", "ltu"])];
 
-              const first = nextBase.display[0];
-              if(first && consonants.includes(first) && first !== "n"){
-                display = first;
+              const firstDisplay = (nextBase.display[0] || "").toLowerCase();
+              if(firstDisplay && consonants.includes(firstDisplay) && firstDisplay !== "n"){
+                display = firstDisplay;
               }else{
                 display = "tu";
               }
@@ -1108,12 +1108,14 @@
             nextBase ? nextBase.inputs.map(v => (v[0] || "").toLowerCase()) : []
           );
           const blocked = [...nextStarts].some(c => ["a","i","u","e","o","y","n"].includes(c));
+
+          const display = blocked ? "nn" : "n";
           const inputs = blocked ? ["nn","xn"] : ["n","nn","xn"];
 
           chunks.push({
             kana:"ん",
-            display:"n",
-            patterns:makePatterns("n", [...new Set(inputs)]),
+            display,
+            patterns:makePatterns(display, [...new Set(inputs)]),
             typed:"",
             accepted:"",
             paintedCount:0,
@@ -1552,7 +1554,7 @@
           latencyHint:"interactive"
         });
         const master = ctx.createGain();
-        master.gain.value = 1.45;
+        master.gain.value = 1.05;
         master.connect(ctx.destination);
         audioCtxHolder.ctx = ctx;
         audioCtxHolder.master = master;
@@ -1578,7 +1580,7 @@
       }
     }
 
-    function tone(freq=440, duration=.04, type="sine", gainAmount=.06, freqEnd=null){
+    function tone(freq=440, duration=.03, type="square", gainAmount=.05, freqEnd=null){
       if(!state.soundOn) return;
       const ctx = getAudioCtx();
       if(ctx.state !== "running") return;
@@ -1595,16 +1597,16 @@
 
       gain.gain.cancelScheduledValues(now);
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.003);
+      gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.0015);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
       osc.connect(gain);
       gain.connect(audioCtxHolder.master);
       osc.start(now);
-      osc.stop(now + duration + 0.01);
+      osc.stop(now + duration + 0.005);
     }
 
-    function noise(duration=.03, gainAmount=.04, highpass=1500){
+    function noise(duration=.012, gainAmount=.02, highpass=2400){
       if(!state.soundOn) return;
       const ctx = getAudioCtx();
       if(ctx.state !== "running") return;
@@ -1625,7 +1627,7 @@
       const now = ctx.currentTime;
 
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.002);
+      gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.001);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
       source.buffer = buffer;
@@ -1633,39 +1635,40 @@
       filter.connect(gain);
       gain.connect(audioCtxHolder.master);
       source.start(now);
-      source.stop(now + duration + 0.01);
+      source.stop(now + duration + 0.005);
     }
 
     function playTypeSound(){
       switch(state.soundType){
-        case "click":
-          tone(780, 0.022, "square", 0.14, 700);
-          noise(0.012, 0.022, 2200);
-          break;
         case "arcade":
-          tone(920, 0.028, "square", 0.11, 1280);
-          setTimeout(() => tone(1480, 0.018, "square", 0.07, 1620), 8);
+          tone(900, 0.018, "square", 0.065, 780);
+          noise(0.006, 0.012, 3200);
           break;
         case "crystal":
+          tone(1200, 0.02, "triangle", 0.05, 980);
+          noise(0.005, 0.008, 4200);
+          break;
+        case "click":
         default:
-          tone(1100, 0.045, "triangle", 0.11, 1380);
+          tone(1500, 0.012, "square", 0.055, 1300);
+          noise(0.004, 0.016, 3600);
           break;
       }
     }
 
     function playMissSound(){
       switch(state.soundType){
-        case "click":
-          tone(190, 0.06, "sawtooth", 0.14, 120);
-          noise(0.02, 0.026, 900);
-          break;
         case "arcade":
-          tone(260, 0.05, "square", 0.14, 160);
-          setTimeout(() => tone(180, 0.04, "square", 0.1, 110), 18);
+          tone(220, 0.028, "square", 0.07, 150);
+          noise(0.01, 0.012, 1500);
           break;
         case "crystal":
+          tone(260, 0.03, "sawtooth", 0.06, 180);
+          break;
+        case "click":
         default:
-          tone(220, 0.08, "sawtooth", 0.13, 150);
+          tone(180, 0.02, "square", 0.06, 120);
+          noise(0.006, 0.014, 1800);
           break;
       }
     }
