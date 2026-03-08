@@ -9,7 +9,6 @@
       --bg1:#07111f;
       --bg2:#0d1b2f;
       --panel:rgba(255,255,255,.08);
-      --panel-strong:rgba(255,255,255,.12);
       --line:rgba(255,255,255,.12);
       --text:#eef6ff;
       --sub:#b8c8de;
@@ -66,7 +65,7 @@
       align-items:center;
       gap:12px;
       padding:14px 16px;
-      background:var(--panel);
+      background:rgba(255,255,255,.08);
       border:1px solid var(--line);
       border-radius:20px;
       box-shadow:var(--shadow);
@@ -278,7 +277,7 @@
     }
 
     .controls, .infoGrid, .rankPanel{
-      background:var(--panel);
+      background:rgba(255,255,255,.08);
       border:1px solid var(--line);
       border-radius:24px;
       box-shadow:var(--shadow);
@@ -590,6 +589,7 @@
         <div class="logo"></div>
         <div>
           <h1>四字熟語ローマ字タイピング</h1>
+          <p>入力は複数方式対応、表示ローマ字はヘボン式で統一</p>
         </div>
       </div>
       <button class="soundBtn" id="soundBtn" type="button">🔊 効果音 ON</button>
@@ -626,6 +626,7 @@
     <div class="grid">
       <section class="infoGrid">
         <h2 class="panelTitle">プレイ情報</h2>
+        <div class="panelSub">中央以外の情報は下にまとめています。</div>
 
         <div class="cards">
           <div class="card">
@@ -650,6 +651,7 @@
           <div class="miniBox">入力文字数<strong id="typedText">0</strong></div>
           <div class="miniBox">ミス数<strong id="missText">0</strong></div>
           <div class="miniBox">WPM 目安<strong id="wpmText">0</strong></div>
+          <div class="miniBox">表示ローマ字<strong id="candidateText">-</strong></div>
         </div>
       </section>
 
@@ -661,8 +663,8 @@
     </div>
 
     <div class="footerNote">
-      対応例: し = shi / si、ち = chi / ti、つ = tsu / tu、ふ = fu / hu、じ = ji / zi など。<br>
-      n は次の文字に応じて自動的に n / nn を許容します。
+      入力対応例: し = shi / si、ち = chi / ti、つ = tsu / tu、ふ = fu / hu、じ = ji / zi など。<br>
+      ただし画面に表示するローマ字はヘボン式で統一しています。
     </div>
   </div>
 
@@ -810,6 +812,48 @@
         "うぃ":["wi"],"うぇ":["we"],"うぉ":["who","wo"]
       };
 
+      const hepburnSingle = {
+        "あ":"a","い":"i","う":"u","え":"e","お":"o",
+        "か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko",
+        "さ":"sa","し":"shi","す":"su","せ":"se","そ":"so",
+        "た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to",
+        "な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no",
+        "は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho",
+        "ま":"ma","み":"mi","む":"mu","め":"me","も":"mo",
+        "や":"ya","ゆ":"yu","よ":"yo",
+        "ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro",
+        "わ":"wa","を":"o",
+        "ん":"n",
+        "が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go",
+        "ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo",
+        "だ":"da","ぢ":"ji","づ":"zu","で":"de","ど":"do",
+        "ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo",
+        "ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po",
+        "ぁ":"a","ぃ":"i","ぅ":"u","ぇ":"e","ぉ":"o",
+        "ゃ":"ya","ゅ":"yu","ょ":"yo",
+        "ゔ":"vu",
+        "ー":"-"
+      };
+
+      const hepburnDigraph = {
+        "きゃ":"kya","きゅ":"kyu","きょ":"kyo",
+        "しゃ":"sha","しゅ":"shu","しょ":"sho",
+        "ちゃ":"cha","ちゅ":"chu","ちょ":"cho",
+        "にゃ":"nya","にゅ":"nyu","にょ":"nyo",
+        "ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo",
+        "みゃ":"mya","みゅ":"myu","みょ":"myo",
+        "りゃ":"rya","りゅ":"ryu","りょ":"ryo",
+        "ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo",
+        "じゃ":"ja","じゅ":"ju","じょ":"jo",
+        "びゃ":"bya","びゅ":"byu","びょ":"byo",
+        "ぴゃ":"pya","ぴゅ":"pyu","ぴょ":"pyo",
+        "ゔぁ":"va","ゔぃ":"vi","ゔぇ":"ve","ゔぉ":"vo","ゔゅ":"vyu",
+        "てぃ":"thi","でぃ":"dhi","とぅ":"tu","どぅ":"du",
+        "ふぁ":"fa","ふぃ":"fi","ふぇ":"fe","ふぉ":"fo","ふゅ":"fyu",
+        "しぇ":"she","じぇ":"je","ちぇ":"che",
+        "うぃ":"wi","うぇ":"we","うぉ":"wo"
+      };
+
       const consonants = "bcdfghjklmnpqrstvwxyz";
 
       const $ = (id) => document.getElementById(id);
@@ -863,6 +907,7 @@
         currentWord:"",
         currentWordKana:"",
         currentWordRomanOptions:[],
+        currentDisplayRoman:"",
         totalMiss:0,
         totalAcceptedChars:0,
         latestRankId:null,
@@ -944,6 +989,39 @@
         return solve(0);
       }
 
+      function kanaToHepburn(kana){
+        let result = "";
+        for(let i=0; i<kana.length; i++){
+          const ch = kana[i];
+          const pair = kana.slice(i, i+2);
+
+          if(ch === "っ"){
+            const nextPair = kana.slice(i+1, i+3);
+            let nextRoman = "";
+            if(hepburnDigraph[nextPair]){
+              nextRoman = hepburnDigraph[nextPair];
+            } else {
+              nextRoman = hepburnSingle[kana[i+1]] || "";
+            }
+            if(nextRoman && consonants.includes(nextRoman[0]) && nextRoman[0] !== "n"){
+              result += nextRoman[0];
+            } else {
+              result += "tsu";
+            }
+            continue;
+          }
+
+          if(hepburnDigraph[pair]){
+            result += hepburnDigraph[pair];
+            i++;
+            continue;
+          }
+
+          result += hepburnSingle[ch] || ch;
+        }
+        return result;
+      }
+
       function pickProblems(count){
         const arr = [...dictionary];
         for(let i=arr.length-1;i>0;i--){
@@ -974,6 +1052,7 @@
         state.currentWord = "";
         state.currentWordKana = "";
         state.currentWordRomanOptions = [];
+        state.currentDisplayRoman = "";
         state.totalMiss = 0;
         state.totalAcceptedChars = 0;
         clearInterval(state.timerId);
@@ -1003,36 +1082,31 @@
         ensureInfiniteProblems();
         const item = state.problems[index];
         if(!item) return;
+
         state.currentWord = item.kanji;
         state.currentWordKana = item.kana;
         state.currentWordRomanOptions = hiraToRomanOptions(item.kana);
+        state.currentDisplayRoman = kanaToHepburn(item.kana);
 
         state.branches = [{
           typed:"",
           remainingSet:new Set(state.currentWordRomanOptions),
-          displayTarget:getDisplayTarget(state.currentWordRomanOptions),
+          displayTarget:state.currentDisplayRoman,
           missFlash:false
         }];
 
         kanjiDisplay.textContent = item.kanji;
         kanaDisplay.textContent = item.kana;
         ghostInput.textContent = "入力待機中";
-        candidateText.textContent = shortenText(state.currentWordRomanOptions.slice(0,5).join(" / "), 28);
+        candidateText.textContent = shortenText(state.currentDisplayRoman, 28);
         renderRoman();
         updateStats();
       }
 
-      function getDisplayTarget(options){
-        return [...options].sort((a,b)=>a.length-b.length || a.localeCompare(b))[0];
-      }
-
       function computeBestBranch(branches){
         return [...branches].sort((a,b)=>{
-          const ar = a.displayTarget.length - a.typed.length;
-          const br = b.displayTarget.length - b.typed.length;
-          if(ar !== br) return ar - br;
           if(a.typed.length !== b.typed.length) return b.typed.length - a.typed.length;
-          return a.displayTarget.length - b.displayTarget.length;
+          return 0;
         })[0];
       }
 
@@ -1041,7 +1115,7 @@
         romajiWrap.innerHTML = "";
 
         const typed = best.typed;
-        const display = best.displayTarget;
+        const display = state.currentDisplayRoman;
 
         for(let i=0;i<display.length;i++){
           const span = document.createElement("span");
@@ -1243,7 +1317,7 @@
               nextBranches.push({
                 typed: typedNew,
                 remainingSet: new Set(),
-                displayTarget: opt,
+                displayTarget: state.currentDisplayRoman,
                 missFlash:false
               });
             }
@@ -1268,25 +1342,23 @@
 
         const grouped = new Map();
         for(const b of nextBranches){
-          const key = b.typed;
-          if(!grouped.has(key)){
-            grouped.set(key, {typed:b.typed, remainingSet:new Set(), displayTarget:b.displayTarget, missFlash:false});
+          const mapKey = b.typed;
+          if(!grouped.has(mapKey)){
+            grouped.set(mapKey, {
+              typed:b.typed,
+              remainingSet:new Set(),
+              displayTarget:state.currentDisplayRoman,
+              missFlash:false
+            });
           }
-          grouped.get(key).remainingSet.add(b.displayTarget);
+          for(const opt of state.currentWordRomanOptions){
+            if(opt.startsWith(b.typed)){
+              grouped.get(mapKey).remainingSet.add(opt);
+            }
+          }
         }
 
-        const normalized = [];
-        for(const g of grouped.values()){
-          const remainArr = [...g.remainingSet];
-          normalized.push({
-            typed:g.typed,
-            remainingSet:new Set(remainArr),
-            displayTarget:getDisplayTarget(remainArr),
-            missFlash:false
-          });
-        }
-
-        state.branches = normalized;
+        state.branches = [...grouped.values()];
         state.totalAcceptedChars++;
         renderRoman();
         updateStats();
@@ -1439,6 +1511,7 @@
         stateLabel.textContent = "待機中";
         kanjiDisplay.textContent = "四字熟語";
         kanaDisplay.textContent = "よじじゅくご";
+        state.currentDisplayRoman = "yojijukugo";
         romajiWrap.innerHTML = `
           <span class="rchar pending">y</span>
           <span class="rchar pending">o</span>
@@ -1451,6 +1524,7 @@
           <span class="rchar pending">g</span>
           <span class="rchar pending">o</span>
         `;
+        candidateText.textContent = "yojijukugo";
         renderRanking();
         updateStats();
       }
