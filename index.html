@@ -54,7 +54,7 @@
 
     .topbar{
       display:grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns:1fr auto;
       gap:12px;
       align-items:center;
       margin-bottom:16px;
@@ -69,11 +69,13 @@
       border:1px solid var(--line);
       border-radius:20px;
       box-shadow:var(--shadow);
-      backdrop-filter: blur(12px);
+      backdrop-filter:blur(12px);
     }
 
     .logo{
-      width:46px;height:46px;border-radius:14px;
+      width:46px;
+      height:46px;
+      border-radius:14px;
       background:
         radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 30%),
         linear-gradient(135deg,var(--accent),#72a5ff 55%, var(--accent2));
@@ -119,7 +121,7 @@
       border-radius:16px;
       font-weight:700;
       box-shadow:var(--shadow);
-      backdrop-filter: blur(12px);
+      backdrop-filter:blur(12px);
     }
 
     .soundBtn{
@@ -145,7 +147,7 @@
       border-radius:30px;
       padding:20px;
       box-shadow:var(--shadow);
-      backdrop-filter: blur(14px);
+      backdrop-filter:blur(14px);
       margin-bottom:18px;
       overflow:hidden;
       position:relative;
@@ -159,14 +161,16 @@
     .glow{
       position:absolute;
       inset:auto;
-      width:360px;height:360px;
+      width:360px;
+      height:360px;
       background:radial-gradient(circle, rgba(101,214,255,.17), transparent 65%);
       filter:blur(10px);
       pointer-events:none;
-      animation: floatGlow 7s ease-in-out infinite;
+      animation:floatGlow 7s ease-in-out infinite;
     }
     .glow.g2{
-      width:300px;height:300px;
+      width:300px;
+      height:300px;
       background:radial-gradient(circle, rgba(140,255,199,.12), transparent 65%);
       animation-duration:9s;
       animation-delay:-2s;
@@ -200,7 +204,7 @@
       color:var(--sub);
       font-size:13px;
       letter-spacing:.03em;
-      backdrop-filter: blur(6px);
+      backdrop-filter:blur(6px);
     }
     .pill strong{color:var(--text)}
 
@@ -296,12 +300,12 @@
       }
     }
 
-    .controls, .infoGrid, .rankPanel{
+    .controls,.infoGrid,.rankPanel{
       background:rgba(255,255,255,.08);
       border:1px solid var(--line);
       border-radius:24px;
       box-shadow:var(--shadow);
-      backdrop-filter: blur(12px);
+      backdrop-filter:blur(12px);
     }
 
     .controls{
@@ -328,7 +332,7 @@
       flex-wrap:wrap;
     }
 
-    .modeBtn, .actionBtn{
+    .modeBtn,.actionBtn{
       border:none;
       cursor:pointer;
       color:var(--text);
@@ -358,7 +362,7 @@
 
     .grid{
       display:grid;
-      grid-template-columns: 1.25fr .95fr;
+      grid-template-columns:1.25fr .95fr;
       gap:14px;
       align-items:start;
     }
@@ -468,8 +472,11 @@
     }
 
     .rankNum{
-      width:42px;height:42px;border-radius:12px;
-      display:grid;place-items:center;
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
       background:rgba(255,255,255,.08);
       font-weight:900;
     }
@@ -516,7 +523,7 @@
       justify-content:center;
       padding:16px;
       z-index:50;
-      backdrop-filter: blur(7px);
+      backdrop-filter:blur(7px);
     }
     .overlay.show{display:flex}
 
@@ -578,11 +585,11 @@
       transform:translateX(-50%) translateY(0);
     }
 
-    @media (max-width: 980px){
+    @media (max-width:980px){
       .grid{grid-template-columns:1fr}
     }
 
-    @media (max-width: 720px){
+    @media (max-width:720px){
       .topbar{grid-template-columns:1fr}
       .topActions{justify-content:flex-start}
       .cards{grid-template-columns:1fr}
@@ -976,17 +983,17 @@
       const pair = (chars[index] || "") + (chars[index + 1] || "");
       if(digraphMap[pair]){
         return {
-          kana: pair,
-          display: kunreiDigraph[pair] || digraphMap[pair][0],
-          inputs: [...new Set(digraphMap[pair])]
+          kana:pair,
+          display:kunreiDigraph[pair] || digraphMap[pair][0],
+          inputs:[...new Set(digraphMap[pair])]
         };
       }
 
       const ch = chars[index];
       return {
-        kana: ch,
-        display: kunreiSingle[ch] || ch,
-        inputs: [...new Set(kanaMap[ch] || [ch])]
+        kana:ch,
+        display:kunreiSingle[ch] || ch,
+        inputs:[...new Set(kanaMap[ch] || [ch])]
       };
     }
 
@@ -1005,17 +1012,17 @@
         "di|ji":[0,1],
         "du|zu":[0,1],
 
-        "sya|sha":[0,null,[1,2]],
-        "syu|shu":[0,null,[1,2]],
-        "syo|sho":[0,null,[1,2]],
+        "sya|sha":[0,null,1,2],
+        "syu|shu":[0,null,1,2],
+        "syo|sho":[0,null,1,2],
 
-        "tya|cha":[0,null,[1,2]],
-        "tyu|chu":[0,null,[1,2]],
-        "tyo|cho":[0,null,[1,2]],
+        "tya|cha":[0,null,1,2],
+        "tyu|chu":[0,null,1,2],
+        "tyo|cho":[0,null,1,2],
 
-        "zya|ja":[0,[1,2]],
-        "zyu|ju":[0,[1,2]],
-        "zyo|jo":[0,[1,2]]
+        "zya|ja":[0,1,2],
+        "zyu|ju":[0,1,2],
+        "zyo|jo":[0,1,2]
       };
       return map[`${display}|${seq}`] || null;
     }
@@ -1033,12 +1040,9 @@
       }
 
       const paint = [];
+      const lastIndex = Math.max(0, display.length - 1);
       for(let i = 0; i < seq.length; i++){
-        if(i < display.length){
-          paint.push(i);
-        }else{
-          paint.push(display.length - 1);
-        }
+        paint.push(Math.min(i, lastIndex));
       }
       return paint;
     }
@@ -1046,7 +1050,7 @@
     function makePatterns(display, inputs){
       return [...new Set(inputs)].map(seq => ({
         seq,
-        paint: buildPaint(display, seq)
+        paint:buildPaint(display, seq)
       }));
     }
 
@@ -1059,72 +1063,36 @@
         const pair = (chars[i] || "") + (chars[i + 1] || "");
 
         if(ch === "っ"){
-  const nextBase = getBaseChunk(chars, i + 1);
+          const nextBase = getBaseChunk(chars, i + 1);
+          let inputs = ["xtu","ltu"];
+          let display = "tu";
 
-  let inputs = ["xtu","ltu"];
-  let display = "tu";
+          if(nextBase && nextBase.inputs.length){
+            const doubled = [];
 
-  if(nextBase && nextBase.inputs.length){
+            for(const opt of nextBase.inputs){
+              const first = opt[0];
+              if(first && consonants.includes(first) && first !== "n"){
+                doubled.push(first + opt);
+              }
+            }
 
-    const doubled = [];
-
-    for(const opt of nextBase.inputs){
-
-      const first = opt[0];
-
-      if(first && consonants.includes(first) && first !== "n"){
-
-        // 入力候補
-        doubled.push(first + opt);
-
-      }
-    }
-
-    if(doubled.length){
-
-      inputs = [...new Set([...doubled,"xtu","ltu"])];
-
-      // 表示ローマ字
-      const first = nextBase.display[0];
-
-      if(first && consonants.includes(first) && first !== "n"){
-
-        display = first + nextBase.display.slice(1);
-
-      }else{
-
-        display = "tu";
-
-      }
-    }
-  }
-
-  chunks.push({
-    kana:"っ",
-    display,
-    patterns: makePatterns(display, inputs),
-    typed:"",
-    accepted:"",
-    paintedCount:0,
-    done:false,
-    missFlash:false
-  });
-
-  continue;
-}            
-        if(doubled.length){
+            if(doubled.length){
               inputs = [...new Set([...doubled, "xtu", "ltu"])];
-              const d0 = nextBase.display[0];
-              display = (d0 && consonants.includes(d0) && d0 !== "n")
-                ? d0 + nextBase.display
-                : "tu";
+
+              const first = nextBase.display[0];
+              if(first && consonants.includes(first) && first !== "n"){
+                display = first;
+              }else{
+                display = "tu";
+              }
             }
           }
 
           chunks.push({
             kana:"っ",
             display,
-            patterns: makePatterns(display, inputs),
+            patterns:makePatterns(display, inputs),
             typed:"",
             accepted:"",
             paintedCount:0,
@@ -1145,7 +1113,7 @@
           chunks.push({
             kana:"ん",
             display:"n",
-            patterns: makePatterns("n", [...new Set(inputs)]),
+            patterns:makePatterns("n", [...new Set(inputs)]),
             typed:"",
             accepted:"",
             paintedCount:0,
@@ -1161,7 +1129,7 @@
           chunks.push({
             kana:pair,
             display,
-            patterns: makePatterns(display, inputs),
+            patterns:makePatterns(display, inputs),
             typed:"",
             accepted:"",
             paintedCount:0,
@@ -1177,7 +1145,7 @@
         chunks.push({
           kana:ch,
           display,
-          patterns: makePatterns(display, [...new Set(singleInputs)]),
+          patterns:makePatterns(display, [...new Set(singleInputs)]),
           typed:"",
           accepted:"",
           paintedCount:0,
@@ -1194,11 +1162,7 @@
       for(let i = 0; i < typedLen && i < paint.length; i++){
         const p = paint[i];
         if(p == null) continue;
-        if(Array.isArray(p)){
-          for(const v of p){
-            if(typeof v === "number") max = Math.max(max, v);
-          }
-        } else if(typeof p === "number"){
+        if(typeof p === "number"){
           max = Math.max(max, p);
         }
       }
@@ -1246,7 +1210,7 @@
 
           if(chunk.done || j < chunk.paintedCount){
             cls = "done";
-          } else if(i === state.currentChunkIndex && j === chunk.paintedCount){
+          }else if(i === state.currentChunkIndex && j === chunk.paintedCount){
             cls = "current";
           }
 
@@ -1271,6 +1235,7 @@
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
       }
+
       if(count === Infinity) return arr;
       if(count <= arr.length) return arr.slice(0, count);
 
@@ -1435,17 +1400,17 @@
 
       const name = (playerNameInput.value || "").trim() || "NO NAME";
       const records = loadRanking();
-      const id = Date.now() + "_" + Math.random().toString(36).slice(2,7);
+      const id = Date.now() + "_" + Math.random().toString(36).slice(2, 7);
 
       records.push({
         id,
         name,
-        mode: state.modeLabel,
-        accuracy: Number(acc.toFixed(2)),
-        time: Number(elapsed.toFixed(2)),
-        misses: state.totalMiss,
-        typed: state.totalAcceptedChars,
-        createdAt: Date.now()
+        mode:state.modeLabel,
+        accuracy:Number(acc.toFixed(2)),
+        time:Number(elapsed.toFixed(2)),
+        misses:state.totalMiss,
+        typed:state.totalAcceptedChars,
+        createdAt:Date.now()
       });
 
       records.sort((a,b) => {
@@ -1454,7 +1419,7 @@
         return a.createdAt - b.createdAt;
       });
 
-      const top10 = records.slice(0,10);
+      const top10 = records.slice(0, 10);
       localStorage.setItem("yojiTypingRanking", JSON.stringify(top10));
       state.latestRankId = id;
       renderRanking();
@@ -1478,11 +1443,11 @@
         return;
       }
 
-      records.slice(0,10).forEach((r,idx) => {
+      records.slice(0, 10).forEach((r, idx) => {
         const div = document.createElement("div");
         div.className = "rankItem" + (r.id === state.latestRankId ? " latest" : "");
         div.innerHTML = `
-          <div class="rankNum">${idx+1}</div>
+          <div class="rankNum">${idx + 1}</div>
           <div class="rankMain">
             <div class="rankName">${escapeHtml(r.name)}</div>
             <div class="rankMeta">${escapeHtml(r.mode)} / ミス ${r.misses}</div>
@@ -1511,7 +1476,6 @@
       const exactPatterns = chunk.patterns.filter(p => p.seq === nextTyped);
 
       if(exactPatterns.length){
-        const best = chooseBestPattern(exactPatterns, nextTyped) || exactPatterns[0];
         chunk.typed = nextTyped;
         chunk.accepted = nextTyped;
         chunk.paintedCount = chunk.display.length;
@@ -1724,8 +1688,8 @@
       showNotice("ランキングを初期化しました");
     }
 
-    document.addEventListener("pointerdown", unlockAudio, { passive:true });
-    document.addEventListener("touchstart", unlockAudio, { passive:true });
+    document.addEventListener("pointerdown", unlockAudio, {passive:true});
+    document.addEventListener("touchstart", unlockAudio, {passive:true});
     document.addEventListener("keydown", (e) => {
       unlockAudio();
       if(resultOverlay.classList.contains("show")) return;
