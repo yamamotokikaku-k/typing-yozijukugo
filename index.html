@@ -103,21 +103,41 @@
       font-size:13px;
     }
 
-    .soundBtn{
-      border:none;
+    .topActions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .soundBtn,
+    .soundSelect{
       color:var(--text);
       background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
       border:1px solid var(--line);
       padding:14px 16px;
       border-radius:16px;
-      cursor:pointer;
       font-weight:700;
       box-shadow:var(--shadow);
       backdrop-filter: blur(12px);
+    }
+
+    .soundBtn{
+      cursor:pointer;
       transition:.2s transform,.2s background;
     }
     .soundBtn:hover{transform:translateY(-1px)}
     .soundBtn.off{opacity:.72}
+
+    .soundSelect{
+      cursor:pointer;
+      min-width:170px;
+      outline:none;
+    }
+    .soundSelect option{
+      background:#0d1b2f;
+      color:var(--text);
+    }
 
     .hero{
       background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
@@ -564,6 +584,7 @@
 
     @media (max-width: 720px){
       .topbar{grid-template-columns:1fr}
+      .topActions{justify-content:flex-start}
       .cards{grid-template-columns:1fr}
       .mini{grid-template-columns:1fr}
       .rankItem{
@@ -592,7 +613,15 @@
           <p>入力は複数方式対応、表示ローマ字はヘボン式で統一</p>
         </div>
       </div>
-      <button class="soundBtn" id="soundBtn" type="button">🔊 効果音 ON</button>
+
+      <div class="topActions">
+        <select class="soundSelect" id="soundTypeSelect" title="効果音タイプ">
+          <option value="crystal">効果音: クリスタル</option>
+          <option value="click">効果音: クリック</option>
+          <option value="arcade">効果音: アーケード</option>
+        </select>
+        <button class="soundBtn" id="soundBtn" type="button">🔊 効果音 ON</button>
+      </div>
     </div>
 
     <section class="hero">
@@ -604,6 +633,7 @@
           <div class="pill">モード <strong id="modeLabel">10問</strong></div>
           <div class="pill">状態 <strong id="stateLabel">待機中</strong></div>
           <div class="pill">開始 <strong>最初のキー入力で計測</strong></div>
+          <div class="pill">効果音 <strong id="soundTypeLabel">クリスタル</strong></div>
         </div>
 
         <div class="kanji" id="kanjiDisplay">四字熟語</div>
@@ -874,6 +904,8 @@
       const rankList = $("rankList");
       const modeButtons = $("modeButtons");
       const soundBtn = $("soundBtn");
+      const soundTypeSelect = $("soundTypeSelect");
+      const soundTypeLabel = $("soundTypeLabel");
       const startBtn = $("startBtn");
       const resetRankingBtn = $("resetRankingBtn");
       const resultOverlay = $("resultOverlay");
@@ -894,6 +926,12 @@
         {label:"∞", count:Infinity}
       ];
 
+      const soundNames = {
+        crystal:"クリスタル",
+        click:"クリック",
+        arcade:"アーケード"
+      };
+
       const state = {
         modeCount:10,
         modeLabel:"10問",
@@ -911,7 +949,8 @@
         totalMiss:0,
         totalAcceptedChars:0,
         latestRankId:null,
-        soundOn:true
+        soundOn:true,
+        soundType:"crystal"
       };
 
       function showNotice(msg){
@@ -1454,12 +1493,80 @@
         osc.stop(now + duration + 0.01);
       }
 
+      function noise(duration=.03, gainAmount=.04, highpass=1500){
+        if(!state.soundOn) return;
+        const ctx = getAudioCtx();
+        if(ctx.state !== "running") return;
+
+        const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * duration));
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for(let i=0;i<bufferSize;i++){
+          data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+        }
+
+        const source = ctx.createBufferSource();
+        const filter = ctx.createBiquadFilter();
+        filter.type = "highpass";
+        filter.frequency.value = highpass;
+
+        const gain = ctx.createGain();
+        const now = ctx.currentTime;
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.002);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        source.buffer = buffer;
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtxHolder.master);
+        source.start(now);
+        source.stop(now + duration + 0.01);
+      }
+
       function playTypeSound(){
-        tone(1100, 0.045, "triangle", 0.11, 1380);
+        switch(state.soundType){
+          case "click":
+            tone(780, 0.022, "square", 0.14, 700);
+            noise(0.012, 0.022, 2200);
+            break;
+          case "arcade":
+            tone(920, 0.028, "square", 0.11, 1280);
+            setTimeout(() => tone(1480, 0.018, "square", 0.07, 1620), 8);
+            break;
+          case "crystal":
+          default:
+            tone(1100, 0.045, "triangle", 0.11, 1380);
+            break;
+        }
       }
 
       function playMissSound(){
-        tone(220, 0.08, "sawtooth", 0.13, 150);
+        switch(state.soundType){
+          case "click":
+            tone(190, 0.06, "sawtooth", 0.14, 120);
+            noise(0.02, 0.026, 900);
+            break;
+          case "arcade":
+            tone(260, 0.05, "square", 0.14, 160);
+            setTimeout(() => tone(180, 0.04, "square", 0.1, 110), 18);
+            break;
+          case "crystal":
+          default:
+            tone(220, 0.08, "sawtooth", 0.13, 150);
+            break;
+        }
+      }
+
+      function updateSoundUI(){
+        soundTypeSelect.value = state.soundType;
+        soundTypeLabel.textContent = soundNames[state.soundType];
+      }
+
+      function previewSound(){
+        unlockAudio();
+        playTypeSound();
       }
 
       function resetRanking(){
@@ -1491,7 +1598,14 @@
         state.soundOn = !state.soundOn;
         soundBtn.classList.toggle("off", !state.soundOn);
         soundBtn.textContent = state.soundOn ? "🔊 効果音 ON" : "🔈 効果音 OFF";
-        if(state.soundOn) playTypeSound();
+        if(state.soundOn) previewSound();
+      });
+
+      soundTypeSelect.addEventListener("change", () => {
+        state.soundType = soundTypeSelect.value;
+        updateSoundUI();
+        previewSound();
+        showNotice(`効果音を「${soundNames[state.soundType]}」に変更`);
       });
 
       resetRankingBtn.addEventListener("click", resetRanking);
@@ -1507,6 +1621,7 @@
 
       function init(){
         buildModeButtons();
+        updateSoundUI();
         modeLabel.textContent = "10問";
         stateLabel.textContent = "待機中";
         kanjiDisplay.textContent = "四字熟語";
