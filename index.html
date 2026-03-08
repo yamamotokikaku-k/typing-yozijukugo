@@ -610,7 +610,7 @@
         <div class="logo"></div>
         <div>
           <h1>四字熟語ローマ字タイピング</h1>
-          <p>入力は複数方式対応、表示ローマ字はヘボン式で統一</p>
+          <p>入力は複数方式対応、表示ローマ字は訓令式で統一</p>
         </div>
       </div>
 
@@ -693,8 +693,8 @@
     </div>
 
     <div class="footerNote">
-      入力対応例: し = shi / si、ち = chi / ti、つ = tsu / tu、ふ = fu / hu、じ = ji / zi など。<br>
-      ただし画面に表示するローマ字はヘボン式で統一しています。
+      入力対応例: し = si / shi、ち = ti / chi、つ = tu / tsu、ふ = hu / fu、じ = zi / ji など。<br>
+      画面に表示するローマ字は訓令式で統一しています。
     </div>
   </div>
 
@@ -803,17 +803,17 @@
     const kanaMap = {
       "あ":["a"],"い":["i","yi"],"う":["u","wu"],"え":["e"],"お":["o"],
       "か":["ka","ca"],"き":["ki"],"く":["ku","cu","qu"],"け":["ke"],"こ":["ko","co"],
-      "さ":["sa"],"し":["shi","si","ci"],"す":["su"],"せ":["se","ce"],"そ":["so"],
-      "た":["ta"],"ち":["chi","ti"],"つ":["tsu","tu"],"て":["te"],"と":["to"],
+      "さ":["sa"],"し":["si","shi","ci"],"す":["su"],"せ":["se","ce"],"そ":["so"],
+      "た":["ta"],"ち":["ti","chi"],"つ":["tu","tsu"],"て":["te"],"と":["to"],
       "な":["na"],"に":["ni"],"ぬ":["nu"],"ね":["ne"],"の":["no"],
-      "は":["ha"],"ひ":["hi"],"ふ":["fu","hu"],"へ":["he"],"ほ":["ho"],
+      "は":["ha"],"ひ":["hi"],"ふ":["hu","fu"],"へ":["he"],"ほ":["ho"],
       "ま":["ma"],"み":["mi"],"む":["mu"],"め":["me"],"も":["mo"],
       "や":["ya"],"ゆ":["yu"],"よ":["yo"],
       "ら":["ra"],"り":["ri"],"る":["ru"],"れ":["re"],"ろ":["ro"],
       "わ":["wa"],"を":["wo","o"],
       "ん":["n","nn","xn"],
       "が":["ga"],"ぎ":["gi"],"ぐ":["gu"],"げ":["ge"],"ご":["go"],
-      "ざ":["za"],"じ":["ji","zi"],"ず":["zu"],"ぜ":["ze"],"ぞ":["zo"],
+      "ざ":["za"],"じ":["zi","ji"],"ず":["zu"],"ぜ":["ze"],"ぞ":["zo"],
       "だ":["da"],"ぢ":["di","ji"],"づ":["du","zu"],"で":["de"],"ど":["do"],
       "ば":["ba"],"び":["bi"],"ぶ":["bu"],"べ":["be"],"ぼ":["bo"],
       "ぱ":["pa"],"ぴ":["pi"],"ぷ":["pu"],"ぺ":["pe"],"ぽ":["po"],
@@ -825,38 +825,38 @@
 
     const digraphMap = {
       "きゃ":["kya"],"きゅ":["kyu"],"きょ":["kyo"],
-      "しゃ":["sha","sya"],"しゅ":["shu","syu"],"しょ":["sho","syo"],
-      "ちゃ":["cha","tya","cya"],"ちゅ":["chu","tyu","cyu"],"ちょ":["cho","tyo","cyo"],
+      "しゃ":["sya","sha"],"しゅ":["syu","shu"],"しょ":["syo","sho"],
+      "ちゃ":["tya","cha","cya"],"ちゅ":["tyu","chu","cyu"],"ちょ":["tyo","cho","cyo"],
       "にゃ":["nya"],"にゅ":["nyu"],"にょ":["nyo"],
       "ひゃ":["hya"],"ひゅ":["hyu"],"ひょ":["hyo"],
       "みゃ":["mya"],"みゅ":["myu"],"みょ":["myo"],
       "りゃ":["rya"],"りゅ":["ryu"],"りょ":["ryo"],
       "ぎゃ":["gya"],"ぎゅ":["gyu"],"ぎょ":["gyo"],
-      "じゃ":["ja","jya","zya"],"じゅ":["ju","jyu","zyu"],"じょ":["jo","jyo","zyo"],
+      "じゃ":["zya","ja","jya"],"じゅ":["zyu","ju","jyu"],"じょ":["zyo","jo","jyo"],
       "びゃ":["bya"],"びゅ":["byu"],"びょ":["byo"],
       "ぴゃ":["pya"],"ぴゅ":["pyu"],"ぴょ":["pyo"],
       "ゔぁ":["va"],"ゔぃ":["vi","vyi"],"ゔぇ":["ve","vye"],"ゔぉ":["vo"],"ゔゅ":["vyu"],
       "てぃ":["thi"],"でぃ":["dhi"],"とぅ":["twu","tu"],"どぅ":["dwu","du"],
       "ふぁ":["fa"],"ふぃ":["fi"],"ふぇ":["fe"],"ふぉ":["fo"],"ふゅ":["fyu"],
-      "しぇ":["she"],"じぇ":["je","zye"],"ちぇ":["che","tye","cye"],
+      "しぇ":["sye","she"],"じぇ":["zye","je"],"ちぇ":["tye","che","cye"],
       "うぃ":["wi"],"うぇ":["we"],"うぉ":["who","wo"]
     };
 
-    const hepburnSingle = {
+    const kunreiSingle = {
       "あ":"a","い":"i","う":"u","え":"e","お":"o",
       "か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko",
-      "さ":"sa","し":"shi","す":"su","せ":"se","そ":"so",
-      "た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to",
+      "さ":"sa","し":"si","す":"su","せ":"se","そ":"so",
+      "た":"ta","ち":"ti","つ":"tu","て":"te","と":"to",
       "な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no",
-      "は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho",
+      "は":"ha","ひ":"hi","ふ":"hu","へ":"he","ほ":"ho",
       "ま":"ma","み":"mi","む":"mu","め":"me","も":"mo",
       "や":"ya","ゆ":"yu","よ":"yo",
       "ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro",
       "わ":"wa","を":"o",
       "ん":"n",
       "が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go",
-      "ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo",
-      "だ":"da","ぢ":"ji","づ":"zu","で":"de","ど":"do",
+      "ざ":"za","じ":"zi","ず":"zu","ぜ":"ze","ぞ":"zo",
+      "だ":"da","ぢ":"di","づ":"du","で":"de","ど":"do",
       "ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo",
       "ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po",
       "ぁ":"a","ぃ":"i","ぅ":"u","ぇ":"e","ぉ":"o",
@@ -865,22 +865,22 @@
       "ー":"-"
     };
 
-    const hepburnDigraph = {
+    const kunreiDigraph = {
       "きゃ":"kya","きゅ":"kyu","きょ":"kyo",
-      "しゃ":"sha","しゅ":"shu","しょ":"sho",
-      "ちゃ":"cha","ちゅ":"chu","ちょ":"cho",
+      "しゃ":"sya","しゅ":"syu","しょ":"syo",
+      "ちゃ":"tya","ちゅ":"tyu","ちょ":"tyo",
       "にゃ":"nya","にゅ":"nyu","にょ":"nyo",
       "ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo",
       "みゃ":"mya","みゅ":"myu","みょ":"myo",
       "りゃ":"rya","りゅ":"ryu","りょ":"ryo",
       "ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo",
-      "じゃ":"ja","じゅ":"ju","じょ":"jo",
+      "じゃ":"zya","じゅ":"zyu","じょ":"zyo",
       "びゃ":"bya","びゅ":"byu","びょ":"byo",
       "ぴゃ":"pya","ぴゅ":"pyu","ぴょ":"pyo",
       "ゔぁ":"va","ゔぃ":"vi","ゔぇ":"ve","ゔぉ":"vo","ゔゅ":"vyu",
       "てぃ":"thi","でぃ":"dhi","とぅ":"tu","どぅ":"du",
       "ふぁ":"fa","ふぃ":"fi","ふぇ":"fe","ふぉ":"fo","ふゅ":"fyu",
-      "しぇ":"she","じぇ":"je","ちぇ":"che",
+      "しぇ":"sye","じぇ":"zye","ちぇ":"tye",
       "うぃ":"wi","うぇ":"we","うぉ":"wo"
     };
 
@@ -957,7 +957,7 @@
       notice.textContent = msg;
       notice.classList.add("show");
       clearTimeout(showNotice._t);
-      showNotice._t = setTimeout(()=>notice.classList.remove("show"), 1800);
+      showNotice._t = setTimeout(() => notice.classList.remove("show"), 1800);
     }
 
     function escapeHtml(s){
@@ -970,39 +970,6 @@
       return text.length > max ? text.slice(0, max - 1) + "…" : text;
     }
 
-    function kanaToHepburn(kana){
-      let result = "";
-      for(let i=0; i<kana.length; i++){
-        const ch = kana[i];
-        const pair = kana.slice(i, i+2);
-
-        if(ch === "っ"){
-          const nextPair = kana.slice(i+1, i+3);
-          let nextRoman = "";
-          if(hepburnDigraph[nextPair]){
-            nextRoman = hepburnDigraph[nextPair];
-          } else {
-            nextRoman = hepburnSingle[kana[i+1]] || "";
-          }
-          if(nextRoman && consonants.includes(nextRoman[0]) && nextRoman[0] !== "n"){
-            result += nextRoman[0];
-          } else {
-            result += "tsu";
-          }
-          continue;
-        }
-
-        if(hepburnDigraph[pair]){
-          result += hepburnDigraph[pair];
-          i++;
-          continue;
-        }
-
-        result += hepburnSingle[ch] || ch;
-      }
-      return result;
-    }
-
     function getBaseChunk(chars, index){
       if(index >= chars.length) return null;
 
@@ -1010,7 +977,7 @@
       if(digraphMap[pair]){
         return {
           kana: pair,
-          display: hepburnDigraph[pair] || digraphMap[pair][0],
+          display: kunreiDigraph[pair] || digraphMap[pair][0],
           inputs: [...new Set(digraphMap[pair])]
         };
       }
@@ -1018,9 +985,69 @@
       const ch = chars[index];
       return {
         kana: ch,
-        display: hepburnSingle[ch] || ch,
+        display: kunreiSingle[ch] || ch,
         inputs: [...new Set(kanaMap[ch] || [ch])]
       };
+    }
+
+    function getPaintOverride(display, seq){
+      const map = {
+        "si|shi":[0,null,1],
+        "si|ci":[0,1],
+
+        "ti|chi":[0,null,1],
+
+        "tu|tsu":[0,null,1],
+
+        "hu|fu":[0,1],
+
+        "zi|ji":[0,1],
+        "di|ji":[0,1],
+        "du|zu":[0,1],
+
+        "sya|sha":[0,null,[1,2]],
+        "syu|shu":[0,null,[1,2]],
+        "syo|sho":[0,null,[1,2]],
+
+        "tya|cha":[0,null,[1,2]],
+        "tyu|chu":[0,null,[1,2]],
+        "tyo|cho":[0,null,[1,2]],
+
+        "zya|ja":[0,[1,2]],
+        "zyu|ju":[0,[1,2]],
+        "zyo|jo":[0,[1,2]]
+      };
+      return map[`${display}|${seq}`] || null;
+    }
+
+    function buildPaint(display, seq){
+      const override = getPaintOverride(display, seq);
+      if(override) return override;
+
+      if(seq === display){
+        return [...display].map((_, i) => i);
+      }
+
+      if(seq.length === display.length){
+        return [...seq].map((_, i) => i);
+      }
+
+      const paint = [];
+      for(let i = 0; i < seq.length; i++){
+        if(i < display.length){
+          paint.push(i);
+        }else{
+          paint.push(display.length - 1);
+        }
+      }
+      return paint;
+    }
+
+    function makePatterns(display, inputs){
+      return [...new Set(inputs)].map(seq => ({
+        seq,
+        paint: buildPaint(display, seq)
+      }));
     }
 
     function buildRomanChunks(kana){
@@ -1034,7 +1061,7 @@
         if(ch === "っ"){
           const nextBase = getBaseChunk(chars, i + 1);
           let inputs = ["xtu", "ltu"];
-          let display = "tsu";
+          let display = "tu";
 
           if(nextBase && nextBase.inputs.length){
             const doubled = [];
@@ -1049,16 +1076,17 @@
               const d0 = nextBase.display[0];
               display = (d0 && consonants.includes(d0) && d0 !== "n")
                 ? d0 + nextBase.display
-                : "tsu";
+                : "tu";
             }
           }
 
           chunks.push({
             kana:"っ",
             display,
-            inputs,
+            patterns: makePatterns(display, inputs),
             typed:"",
             accepted:"",
+            paintedCount:0,
             done:false,
             missFlash:false
           });
@@ -1076,9 +1104,10 @@
           chunks.push({
             kana:"ん",
             display:"n",
-            inputs:[...new Set(inputs)],
+            patterns: makePatterns("n", [...new Set(inputs)]),
             typed:"",
             accepted:"",
+            paintedCount:0,
             done:false,
             missFlash:false
           });
@@ -1086,12 +1115,15 @@
         }
 
         if(digraphMap[pair]){
+          const display = kunreiDigraph[pair] || digraphMap[pair][0];
+          const inputs = [...new Set(digraphMap[pair])];
           chunks.push({
             kana:pair,
-            display:hepburnDigraph[pair] || digraphMap[pair][0],
-            inputs:[...new Set(digraphMap[pair])],
+            display,
+            patterns: makePatterns(display, inputs),
             typed:"",
             accepted:"",
+            paintedCount:0,
             done:false,
             missFlash:false
           });
@@ -1100,18 +1132,54 @@
         }
 
         const singleInputs = kanaMap[ch] || [ch];
+        const display = kunreiSingle[ch] || ch;
         chunks.push({
           kana:ch,
-          display:hepburnSingle[ch] || ch,
-          inputs:[...new Set(singleInputs)],
+          display,
+          patterns: makePatterns(display, [...new Set(singleInputs)]),
           typed:"",
           accepted:"",
+          paintedCount:0,
           done:false,
           missFlash:false
         });
       }
 
       return chunks;
+    }
+
+    function paintToCount(paint, typedLen){
+      let max = -1;
+      for(let i = 0; i < typedLen && i < paint.length; i++){
+        const p = paint[i];
+        if(p == null) continue;
+        if(Array.isArray(p)){
+          for(const v of p){
+            if(typeof v === "number") max = Math.max(max, v);
+          }
+        } else if(typeof p === "number"){
+          max = Math.max(max, p);
+        }
+      }
+      return max + 1;
+    }
+
+    function chooseBestPattern(patterns, nextTyped){
+      const exact = patterns.filter(p => p.seq === nextTyped);
+      if(exact.length){
+        return exact.sort((a,b) => a.seq.length - b.seq.length)[0];
+      }
+
+      const partial = patterns.filter(p => p.seq.startsWith(nextTyped));
+      if(!partial.length) return null;
+
+      partial.sort((a,b) => {
+        const ac = paintToCount(a.paint, nextTyped.length);
+        const bc = paintToCount(b.paint, nextTyped.length);
+        if(bc !== ac) return bc - ac;
+        return a.seq.length - b.seq.length;
+      });
+      return partial[0];
     }
 
     function getTypedPreview(){
@@ -1129,17 +1197,25 @@
 
       for(let i = 0; i < state.currentChunks.length; i++){
         const chunk = state.currentChunks[i];
-        let cls = "pending";
-        if(chunk.done) cls = "done";
-        else if(i === state.currentChunkIndex) cls = "current";
+        const chars = [...chunk.display];
 
-        for(const c of chunk.display){
+        for(let j = 0; j < chars.length; j++){
           const span = document.createElement("span");
+          let cls = "pending";
+
+          if(chunk.done || j < chunk.paintedCount){
+            cls = "done";
+          } else if(i === state.currentChunkIndex && j === chunk.paintedCount){
+            cls = "current";
+          }
+
           span.className = "rchar " + cls;
-          if(chunk.missFlash && i === state.currentChunkIndex){
+
+          if(chunk.missFlash && i === state.currentChunkIndex && j === chunk.paintedCount){
             span.classList.add("wrongFlash");
           }
-          span.textContent = c;
+
+          span.textContent = chars[j];
           romajiWrap.appendChild(span);
         }
       }
@@ -1150,9 +1226,9 @@
 
     function pickProblems(count){
       const arr = [...dictionary];
-      for(let i=arr.length-1;i>0;i--){
-        const j = Math.floor(Math.random()*(i+1));
-        [arr[i],arr[j]] = [arr[j],arr[i]];
+      for(let i = arr.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
       if(count === Infinity) return arr;
       if(count <= arr.length) return arr.slice(0, count);
@@ -1160,9 +1236,9 @@
       const result = [];
       while(result.length < count){
         const copy = [...dictionary];
-        for(let i=copy.length-1;i>0;i--){
-          const j = Math.floor(Math.random()*(i+1));
-          [copy[i],copy[j]] = [copy[j],copy[i]];
+        for(let i = copy.length - 1; i > 0; i--){
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
         }
         result.push(...copy);
       }
@@ -1390,12 +1466,14 @@
       if(!chunk) return;
 
       const nextTyped = chunk.typed + ch;
-      const exact = chunk.inputs.includes(nextTyped);
-      const partial = chunk.inputs.some(opt => opt.startsWith(nextTyped));
+      const matchingPatterns = chunk.patterns.filter(p => p.seq.startsWith(nextTyped));
+      const exactPatterns = chunk.patterns.filter(p => p.seq === nextTyped);
 
-      if(exact){
+      if(exactPatterns.length){
+        const best = chooseBestPattern(exactPatterns, nextTyped) || exactPatterns[0];
         chunk.typed = nextTyped;
         chunk.accepted = nextTyped;
+        chunk.paintedCount = chunk.display.length;
         chunk.done = true;
         chunk.missFlash = false;
         state.currentChunkIndex++;
@@ -1410,8 +1488,11 @@
         return;
       }
 
-      if(partial){
+      if(matchingPatterns.length){
+        const best = chooseBestPattern(matchingPatterns, nextTyped) || matchingPatterns[0];
         chunk.typed = nextTyped;
+        chunk.accepted = nextTyped;
+        chunk.paintedCount = paintToCount(best.paint, nextTyped.length);
         chunk.missFlash = false;
         state.totalAcceptedChars++;
         playTypeSound();
@@ -1526,7 +1607,7 @@
       const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * duration));
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
-      for(let i=0;i<bufferSize;i++){
+      for(let i = 0; i < bufferSize; i++){
         data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
       }
 
@@ -1662,6 +1743,6 @@
 
     init();
   })();
-</script>
+  </script>
 </body>
 </html>
