@@ -711,941 +711,957 @@
   </div>
 
   <script>
-    (() => {
-      const dictionary = [
-        {kanji:"一期一会", kana:"いちごいちえ"},
-        {kanji:"異口同音", kana:"いくどうおん"},
-        {kanji:"以心伝心", kana:"いしんでんしん"},
-        {kanji:"一心不乱", kana:"いっしんふらん"},
-        {kanji:"右往左往", kana:"うおうさおう"},
-        {kanji:"温故知新", kana:"おんこちしん"},
-        {kanji:"花鳥風月", kana:"かちょうふうげつ"},
-        {kanji:"我田引水", kana:"がでんいんすい"},
-        {kanji:"起死回生", kana:"きしかいせい"},
-        {kanji:"喜怒哀楽", kana:"きどあいらく"},
-        {kanji:"旧態依然", kana:"きゅうたいいぜん"},
-        {kanji:"空前絶後", kana:"くうぜんぜつご"},
-        {kanji:"言行一致", kana:"げんこういっち"},
-        {kanji:"古今東西", kana:"ここんとうざい"},
-        {kanji:"試行錯誤", kana:"しこうさくご"},
-        {kanji:"自給自足", kana:"じきゅうじそく"},
-        {kanji:"自業自得", kana:"じごうじとく"},
-        {kanji:"弱肉強食", kana:"じゃくにくきょうしょく"},
-        {kanji:"十人十色", kana:"じゅうにんといろ"},
-        {kanji:"縦横無尽", kana:"じゅうおうむじん"},
-        {kanji:"純情可憐", kana:"じゅんじょうかれん"},
-        {kanji:"切磋琢磨", kana:"せっさたくま"},
-        {kanji:"千差万別", kana:"せんさばんべつ"},
-        {kanji:"創意工夫", kana:"そういくふう"},
-        {kanji:"大器晩成", kana:"たいきばんせい"},
-        {kanji:"単刀直入", kana:"たんとうちょくにゅう"},
-        {kanji:"電光石火", kana:"でんこうせっか"},
-        {kanji:"天真爛漫", kana:"てんしんらんまん"},
-        {kanji:"東奔西走", kana:"とうほんせいそう"},
-        {kanji:"独立独歩", kana:"どくりつどっぽ"},
-        {kanji:"日進月歩", kana:"にっしんげっぽ"},
-        {kanji:"波乱万丈", kana:"はらんばんじょう"},
-        {kanji:"半信半疑", kana:"はんしんはんぎ"},
-        {kanji:"百発百中", kana:"ひゃっぱつひゃくちゅう"},
-        {kanji:"不言実行", kana:"ふげんじっこう"},
-        {kanji:"粉骨砕身", kana:"ふんこつさいしん"},
-        {kanji:"明鏡止水", kana:"めいきょうしすい"},
-        {kanji:"臨機応変", kana:"りんきおうへん"},
-        {kanji:"和気藹藹", kana:"わきあいあい"},
-        {kanji:"前代未聞", kana:"ぜんだいみもん"},
-        {kanji:"大胆不敵", kana:"だいたんふてき"},
-        {kanji:"支離滅裂", kana:"しりめつれつ"},
-        {kanji:"行雲流水", kana:"こううんりゅうすい"},
-        {kanji:"晴耕雨読", kana:"せいこううどく"},
-        {kanji:"自由自在", kana:"じゆうじざい"},
-        {kanji:"内憂外患", kana:"ないゆうがいかん"},
-        {kanji:"千客万来", kana:"せんきゃくばんらい"},
-        {kanji:"美辞麗句", kana:"びじれいく"},
-        {kanji:"付和雷同", kana:"ふわらいどう"},
-        {kanji:"一網打尽", kana:"いちもうだじん"},
-        {kanji:"一石二鳥", kana:"いっせきにちょう"},
-        {kanji:"因果応報", kana:"いんがおうほう"},
-        {kanji:"栄枯盛衰", kana:"えいこせいすい"},
-        {kanji:"快刀乱麻", kana:"かいとうらんま"},
-        {kanji:"危機一髪", kana:"ききいっぱつ"},
-        {kanji:"玉石混交", kana:"ぎょくせきこんこう"},
-        {kanji:"虚心坦懐", kana:"きょしんたんかい"},
-        {kanji:"敬天愛人", kana:"けいてんあいじん"},
-        {kanji:"公明正大", kana:"こうめいせいだい"},
-        {kanji:"呉越同舟", kana:"ごえつどうしゅう"},
-        {kanji:"再起不能", kana:"さいきふのう"},
-        {kanji:"質実剛健", kana:"しつじつごうけん"},
-        {kanji:"疾風迅雷", kana:"しっぷうじんらい"},
-        {kanji:"森羅万象", kana:"しんらばんしょう"},
-        {kanji:"真実一路", kana:"しんじついちろ"},
-        {kanji:"誠心誠意", kana:"せいしんせいい"},
-        {kanji:"泰然自若", kana:"たいぜんじじゃく"},
-        {kanji:"多士済済", kana:"たしせいせい"},
-        {kanji:"天衣無縫", kana:"てんいむほう"},
-        {kanji:"当意即妙", kana:"とういそくみょう"},
-        {kanji:"南船北馬", kana:"なんせんほくば"},
-        {kanji:"難攻不落", kana:"なんこうふらく"},
-        {kanji:"二律背反", kana:"にりつはいはん"},
-        {kanji:"馬耳東風", kana:"ばじとうふう"},
-        {kanji:"半死半生", kana:"はんしはんしょう"},
-        {kanji:"風林火山", kana:"ふうりんかざん"},
-        {kanji:"傍若無人", kana:"ぼうじゃくぶじん"},
-        {kanji:"本末転倒", kana:"ほんまつてんとう"},
-        {kanji:"無我夢中", kana:"むがむちゅう"},
-        {kanji:"有名無実", kana:"ゆうめいむじつ"},
-        {kanji:"勇往邁進", kana:"ゆうおうまいしん"},
-        {kanji:"優柔不断", kana:"ゆうじゅうふだん"},
-        {kanji:"竜頭蛇尾", kana:"りゅうとうだび"},
-        {kanji:"流言飛語", kana:"りゅうげんひご"},
-        {kanji:"冷静沈着", kana:"れいせいちんちゃく"}
-      ];
+  (() => {
+    const dictionary = [
+      {kanji:"一期一会", kana:"いちごいちえ"},
+      {kanji:"異口同音", kana:"いくどうおん"},
+      {kanji:"以心伝心", kana:"いしんでんしん"},
+      {kanji:"一心不乱", kana:"いっしんふらん"},
+      {kanji:"右往左往", kana:"うおうさおう"},
+      {kanji:"温故知新", kana:"おんこちしん"},
+      {kanji:"花鳥風月", kana:"かちょうふうげつ"},
+      {kanji:"我田引水", kana:"がでんいんすい"},
+      {kanji:"起死回生", kana:"きしかいせい"},
+      {kanji:"喜怒哀楽", kana:"きどあいらく"},
+      {kanji:"旧態依然", kana:"きゅうたいいぜん"},
+      {kanji:"空前絶後", kana:"くうぜんぜつご"},
+      {kanji:"言行一致", kana:"げんこういっち"},
+      {kanji:"古今東西", kana:"ここんとうざい"},
+      {kanji:"試行錯誤", kana:"しこうさくご"},
+      {kanji:"自給自足", kana:"じきゅうじそく"},
+      {kanji:"自業自得", kana:"じごうじとく"},
+      {kanji:"弱肉強食", kana:"じゃくにくきょうしょく"},
+      {kanji:"十人十色", kana:"じゅうにんといろ"},
+      {kanji:"縦横無尽", kana:"じゅうおうむじん"},
+      {kanji:"純情可憐", kana:"じゅんじょうかれん"},
+      {kanji:"切磋琢磨", kana:"せっさたくま"},
+      {kanji:"千差万別", kana:"せんさばんべつ"},
+      {kanji:"創意工夫", kana:"そういくふう"},
+      {kanji:"大器晩成", kana:"たいきばんせい"},
+      {kanji:"単刀直入", kana:"たんとうちょくにゅう"},
+      {kanji:"電光石火", kana:"でんこうせっか"},
+      {kanji:"天真爛漫", kana:"てんしんらんまん"},
+      {kanji:"東奔西走", kana:"とうほんせいそう"},
+      {kanji:"独立独歩", kana:"どくりつどっぽ"},
+      {kanji:"日進月歩", kana:"にっしんげっぽ"},
+      {kanji:"波乱万丈", kana:"はらんばんじょう"},
+      {kanji:"半信半疑", kana:"はんしんはんぎ"},
+      {kanji:"百発百中", kana:"ひゃっぱつひゃくちゅう"},
+      {kanji:"不言実行", kana:"ふげんじっこう"},
+      {kanji:"粉骨砕身", kana:"ふんこつさいしん"},
+      {kanji:"明鏡止水", kana:"めいきょうしすい"},
+      {kanji:"臨機応変", kana:"りんきおうへん"},
+      {kanji:"和気藹藹", kana:"わきあいあい"},
+      {kanji:"前代未聞", kana:"ぜんだいみもん"},
+      {kanji:"大胆不敵", kana:"だいたんふてき"},
+      {kanji:"支離滅裂", kana:"しりめつれつ"},
+      {kanji:"行雲流水", kana:"こううんりゅうすい"},
+      {kanji:"晴耕雨読", kana:"せいこううどく"},
+      {kanji:"自由自在", kana:"じゆうじざい"},
+      {kanji:"内憂外患", kana:"ないゆうがいかん"},
+      {kanji:"千客万来", kana:"せんきゃくばんらい"},
+      {kanji:"美辞麗句", kana:"びじれいく"},
+      {kanji:"付和雷同", kana:"ふわらいどう"},
+      {kanji:"一網打尽", kana:"いちもうだじん"},
+      {kanji:"一石二鳥", kana:"いっせきにちょう"},
+      {kanji:"因果応報", kana:"いんがおうほう"},
+      {kanji:"栄枯盛衰", kana:"えいこせいすい"},
+      {kanji:"快刀乱麻", kana:"かいとうらんま"},
+      {kanji:"危機一髪", kana:"ききいっぱつ"},
+      {kanji:"玉石混交", kana:"ぎょくせきこんこう"},
+      {kanji:"虚心坦懐", kana:"きょしんたんかい"},
+      {kanji:"敬天愛人", kana:"けいてんあいじん"},
+      {kanji:"公明正大", kana:"こうめいせいだい"},
+      {kanji:"呉越同舟", kana:"ごえつどうしゅう"},
+      {kanji:"再起不能", kana:"さいきふのう"},
+      {kanji:"質実剛健", kana:"しつじつごうけん"},
+      {kanji:"疾風迅雷", kana:"しっぷうじんらい"},
+      {kanji:"森羅万象", kana:"しんらばんしょう"},
+      {kanji:"真実一路", kana:"しんじついちろ"},
+      {kanji:"誠心誠意", kana:"せいしんせいい"},
+      {kanji:"泰然自若", kana:"たいぜんじじゃく"},
+      {kanji:"多士済済", kana:"たしせいせい"},
+      {kanji:"天衣無縫", kana:"てんいむほう"},
+      {kanji:"当意即妙", kana:"とういそくみょう"},
+      {kanji:"南船北馬", kana:"なんせんほくば"},
+      {kanji:"難攻不落", kana:"なんこうふらく"},
+      {kanji:"二律背反", kana:"にりつはいはん"},
+      {kanji:"馬耳東風", kana:"ばじとうふう"},
+      {kanji:"半死半生", kana:"はんしはんしょう"},
+      {kanji:"風林火山", kana:"ふうりんかざん"},
+      {kanji:"傍若無人", kana:"ぼうじゃくぶじん"},
+      {kanji:"本末転倒", kana:"ほんまつてんとう"},
+      {kanji:"無我夢中", kana:"むがむちゅう"},
+      {kanji:"有名無実", kana:"ゆうめいむじつ"},
+      {kanji:"勇往邁進", kana:"ゆうおうまいしん"},
+      {kanji:"優柔不断", kana:"ゆうじゅうふだん"},
+      {kanji:"竜頭蛇尾", kana:"りゅうとうだび"},
+      {kanji:"流言飛語", kana:"りゅうげんひご"},
+      {kanji:"冷静沈着", kana:"れいせいちんちゃく"}
+    ];
 
-      const kanaMap = {
-        "あ":["a"],"い":["i","yi"],"う":["u","wu"],"え":["e"],"お":["o"],
-        "か":["ka","ca"],"き":["ki"],"く":["ku","cu","qu"],"け":["ke"],"こ":["ko","co"],
-        "さ":["sa"],"し":["shi","si","ci"],"す":["su"],"せ":["se","ce"],"そ":["so"],
-        "た":["ta"],"ち":["chi","ti"],"つ":["tsu","tu"],"て":["te"],"と":["to"],
-        "な":["na"],"に":["ni"],"ぬ":["nu"],"ね":["ne"],"の":["no"],
-        "は":["ha"],"ひ":["hi"],"ふ":["fu","hu"],"へ":["he"],"ほ":["ho"],
-        "ま":["ma"],"み":["mi"],"む":["mu"],"め":["me"],"も":["mo"],
-        "や":["ya"],"ゆ":["yu"],"よ":["yo"],
-        "ら":["ra"],"り":["ri"],"る":["ru"],"れ":["re"],"ろ":["ro"],
-        "わ":["wa"],"を":["wo","o"],
-        "ん":["n","nn","xn"],
-        "が":["ga"],"ぎ":["gi"],"ぐ":["gu"],"げ":["ge"],"ご":["go"],
-        "ざ":["za"],"じ":["ji","zi"],"ず":["zu"],"ぜ":["ze"],"ぞ":["zo"],
-        "だ":["da"],"ぢ":["di","ji"],"づ":["du","zu"],"で":["de"],"ど":["do"],
-        "ば":["ba"],"び":["bi"],"ぶ":["bu"],"べ":["be"],"ぼ":["bo"],
-        "ぱ":["pa"],"ぴ":["pi"],"ぷ":["pu"],"ぺ":["pe"],"ぽ":["po"],
-        "ぁ":["xa","la"],"ぃ":["xi","li","xyi","lyi"],"ぅ":["xu","lu"],"ぇ":["xe","le","xye","lye"],"ぉ":["xo","lo"],
-        "ゃ":["xya","lya","ya"],"ゅ":["xyu","lyu","yu"],"ょ":["xyo","lyo","yo"],
-        "ゔ":["vu"],
-        "ー":["-"]
-      };
+    const kanaMap = {
+      "あ":["a"],"い":["i","yi"],"う":["u","wu"],"え":["e"],"お":["o"],
+      "か":["ka","ca"],"き":["ki"],"く":["ku","cu","qu"],"け":["ke"],"こ":["ko","co"],
+      "さ":["sa"],"し":["shi","si","ci"],"す":["su"],"せ":["se","ce"],"そ":["so"],
+      "た":["ta"],"ち":["chi","ti"],"つ":["tsu","tu"],"て":["te"],"と":["to"],
+      "な":["na"],"に":["ni"],"ぬ":["nu"],"ね":["ne"],"の":["no"],
+      "は":["ha"],"ひ":["hi"],"ふ":["fu","hu"],"へ":["he"],"ほ":["ho"],
+      "ま":["ma"],"み":["mi"],"む":["mu"],"め":["me"],"も":["mo"],
+      "や":["ya"],"ゆ":["yu"],"よ":["yo"],
+      "ら":["ra"],"り":["ri"],"る":["ru"],"れ":["re"],"ろ":["ro"],
+      "わ":["wa"],"を":["wo","o"],
+      "ん":["n","nn","xn"],
+      "が":["ga"],"ぎ":["gi"],"ぐ":["gu"],"げ":["ge"],"ご":["go"],
+      "ざ":["za"],"じ":["ji","zi"],"ず":["zu"],"ぜ":["ze"],"ぞ":["zo"],
+      "だ":["da"],"ぢ":["di","ji"],"づ":["du","zu"],"で":["de"],"ど":["do"],
+      "ば":["ba"],"び":["bi"],"ぶ":["bu"],"べ":["be"],"ぼ":["bo"],
+      "ぱ":["pa"],"ぴ":["pi"],"ぷ":["pu"],"ぺ":["pe"],"ぽ":["po"],
+      "ぁ":["xa","la"],"ぃ":["xi","li","xyi","lyi"],"ぅ":["xu","lu"],"ぇ":["xe","le","xye","lye"],"ぉ":["xo","lo"],
+      "ゃ":["xya","lya","ya"],"ゅ":["xyu","lyu","yu"],"ょ":["xyo","lyo","yo"],
+      "ゔ":["vu"],
+      "ー":["-"]
+    };
 
-      const digraphMap = {
-        "きゃ":["kya"],"きゅ":["kyu"],"きょ":["kyo"],
-        "しゃ":["sha","sya"],"しゅ":["shu","syu"],"しょ":["sho","syo"],
-        "ちゃ":["cha","tya","cya"],"ちゅ":["chu","tyu","cyu"],"ちょ":["cho","tyo","cyo"],
-        "にゃ":["nya"],"にゅ":["nyu"],"にょ":["nyo"],
-        "ひゃ":["hya"],"ひゅ":["hyu"],"ひょ":["hyo"],
-        "みゃ":["mya"],"みゅ":["myu"],"みょ":["myo"],
-        "りゃ":["rya"],"りゅ":["ryu"],"りょ":["ryo"],
-        "ぎゃ":["gya"],"ぎゅ":["gyu"],"ぎょ":["gyo"],
-        "じゃ":["ja","jya","zya"],"じゅ":["ju","jyu","zyu"],"じょ":["jo","jyo","zyo"],
-        "びゃ":["bya"],"びゅ":["byu"],"びょ":["byo"],
-        "ぴゃ":["pya"],"ぴゅ":["pyu"],"ぴょ":["pyo"],
-        "ゔぁ":["va"],"ゔぃ":["vi","vyi"],"ゔぇ":["ve","vye"],"ゔぉ":["vo"],"ゔゅ":["vyu"],
-        "てぃ":["thi"],"でぃ":["dhi"],"とぅ":["twu","tu"],"どぅ":["dwu","du"],
-        "ふぁ":["fa"],"ふぃ":["fi"],"ふぇ":["fe"],"ふぉ":["fo"],"ふゅ":["fyu"],
-        "しぇ":["she"],"じぇ":["je","zye"],"ちぇ":["che","tye","cye"],
-        "うぃ":["wi"],"うぇ":["we"],"うぉ":["who","wo"]
-      };
+    const digraphMap = {
+      "きゃ":["kya"],"きゅ":["kyu"],"きょ":["kyo"],
+      "しゃ":["sha","sya"],"しゅ":["shu","syu"],"しょ":["sho","syo"],
+      "ちゃ":["cha","tya","cya"],"ちゅ":["chu","tyu","cyu"],"ちょ":["cho","tyo","cyo"],
+      "にゃ":["nya"],"にゅ":["nyu"],"にょ":["nyo"],
+      "ひゃ":["hya"],"ひゅ":["hyu"],"ひょ":["hyo"],
+      "みゃ":["mya"],"みゅ":["myu"],"みょ":["myo"],
+      "りゃ":["rya"],"りゅ":["ryu"],"りょ":["ryo"],
+      "ぎゃ":["gya"],"ぎゅ":["gyu"],"ぎょ":["gyo"],
+      "じゃ":["ja","jya","zya"],"じゅ":["ju","jyu","zyu"],"じょ":["jo","jyo","zyo"],
+      "びゃ":["bya"],"びゅ":["byu"],"びょ":["byo"],
+      "ぴゃ":["pya"],"ぴゅ":["pyu"],"ぴょ":["pyo"],
+      "ゔぁ":["va"],"ゔぃ":["vi","vyi"],"ゔぇ":["ve","vye"],"ゔぉ":["vo"],"ゔゅ":["vyu"],
+      "てぃ":["thi"],"でぃ":["dhi"],"とぅ":["twu","tu"],"どぅ":["dwu","du"],
+      "ふぁ":["fa"],"ふぃ":["fi"],"ふぇ":["fe"],"ふぉ":["fo"],"ふゅ":["fyu"],
+      "しぇ":["she"],"じぇ":["je","zye"],"ちぇ":["che","tye","cye"],
+      "うぃ":["wi"],"うぇ":["we"],"うぉ":["who","wo"]
+    };
 
-      const hepburnSingle = {
-        "あ":"a","い":"i","う":"u","え":"e","お":"o",
-        "か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko",
-        "さ":"sa","し":"shi","す":"su","せ":"se","そ":"so",
-        "た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to",
-        "な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no",
-        "は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho",
-        "ま":"ma","み":"mi","む":"mu","め":"me","も":"mo",
-        "や":"ya","ゆ":"yu","よ":"yo",
-        "ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro",
-        "わ":"wa","を":"o",
-        "ん":"n",
-        "が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go",
-        "ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo",
-        "だ":"da","ぢ":"ji","づ":"zu","で":"de","ど":"do",
-        "ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo",
-        "ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po",
-        "ぁ":"a","ぃ":"i","ぅ":"u","ぇ":"e","ぉ":"o",
-        "ゃ":"ya","ゅ":"yu","ょ":"yo",
-        "ゔ":"vu",
-        "ー":"-"
-      };
+    const hepburnSingle = {
+      "あ":"a","い":"i","う":"u","え":"e","お":"o",
+      "か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko",
+      "さ":"sa","し":"shi","す":"su","せ":"se","そ":"so",
+      "た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to",
+      "な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no",
+      "は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho",
+      "ま":"ma","み":"mi","む":"mu","め":"me","も":"mo",
+      "や":"ya","ゆ":"yu","よ":"yo",
+      "ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro",
+      "わ":"wa","を":"o",
+      "ん":"n",
+      "が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go",
+      "ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo",
+      "だ":"da","ぢ":"ji","づ":"zu","で":"de","ど":"do",
+      "ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo",
+      "ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po",
+      "ぁ":"a","ぃ":"i","ぅ":"u","ぇ":"e","ぉ":"o",
+      "ゃ":"ya","ゅ":"yu","ょ":"yo",
+      "ゔ":"vu",
+      "ー":"-"
+    };
 
-      const hepburnDigraph = {
-        "きゃ":"kya","きゅ":"kyu","きょ":"kyo",
-        "しゃ":"sha","しゅ":"shu","しょ":"sho",
-        "ちゃ":"cha","ちゅ":"chu","ちょ":"cho",
-        "にゃ":"nya","にゅ":"nyu","にょ":"nyo",
-        "ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo",
-        "みゃ":"mya","みゅ":"myu","みょ":"myo",
-        "りゃ":"rya","りゅ":"ryu","りょ":"ryo",
-        "ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo",
-        "じゃ":"ja","じゅ":"ju","じょ":"jo",
-        "びゃ":"bya","びゅ":"byu","びょ":"byo",
-        "ぴゃ":"pya","ぴゅ":"pyu","ぴょ":"pyo",
-        "ゔぁ":"va","ゔぃ":"vi","ゔぇ":"ve","ゔぉ":"vo","ゔゅ":"vyu",
-        "てぃ":"thi","でぃ":"dhi","とぅ":"tu","どぅ":"du",
-        "ふぁ":"fa","ふぃ":"fi","ふぇ":"fe","ふぉ":"fo","ふゅ":"fyu",
-        "しぇ":"she","じぇ":"je","ちぇ":"che",
-        "うぃ":"wi","うぇ":"we","うぉ":"wo"
-      };
+    const hepburnDigraph = {
+      "きゃ":"kya","きゅ":"kyu","きょ":"kyo",
+      "しゃ":"sha","しゅ":"shu","しょ":"sho",
+      "ちゃ":"cha","ちゅ":"chu","ちょ":"cho",
+      "にゃ":"nya","にゅ":"nyu","にょ":"nyo",
+      "ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo",
+      "みゃ":"mya","みゅ":"myu","みょ":"myo",
+      "りゃ":"rya","りゅ":"ryu","りょ":"ryo",
+      "ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo",
+      "じゃ":"ja","じゅ":"ju","じょ":"jo",
+      "びゃ":"bya","びゅ":"byu","びょ":"byo",
+      "ぴゃ":"pya","ぴゅ":"pyu","ぴょ":"pyo",
+      "ゔぁ":"va","ゔぃ":"vi","ゔぇ":"ve","ゔぉ":"vo","ゔゅ":"vyu",
+      "てぃ":"thi","でぃ":"dhi","とぅ":"tu","どぅ":"du",
+      "ふぁ":"fa","ふぃ":"fi","ふぇ":"fe","ふぉ":"fo","ふゅ":"fyu",
+      "しぇ":"she","じぇ":"je","ちぇ":"che",
+      "うぃ":"wi","うぇ":"we","うぉ":"wo"
+    };
 
-      const consonants = "bcdfghjklmnpqrstvwxyz";
+    const consonants = "bcdfghjklmnpqrstvwxyz";
 
-      const $ = (id) => document.getElementById(id);
-      const kanjiDisplay = $("kanjiDisplay");
-      const kanaDisplay = $("kanaDisplay");
-      const romajiWrap = $("romajiWrap");
-      const ghostInput = $("ghostInput");
-      const progressText = $("progressText");
-      const timeText = $("timeText");
-      const accText = $("accText");
-      const typedText = $("typedText");
-      const missText = $("missText");
-      const wpmText = $("wpmText");
-      const candidateText = $("candidateText");
-      const progressBar = $("progressBar");
-      const modeLabel = $("modeLabel");
-      const stateLabel = $("stateLabel");
-      const rankList = $("rankList");
-      const modeButtons = $("modeButtons");
-      const soundBtn = $("soundBtn");
-      const soundTypeSelect = $("soundTypeSelect");
-      const soundTypeLabel = $("soundTypeLabel");
-      const startBtn = $("startBtn");
-      const resetRankingBtn = $("resetRankingBtn");
-      const resultOverlay = $("resultOverlay");
-      const resultSummary = $("resultSummary");
-      const resultTitle = $("resultTitle");
-      const playerNameInput = $("playerNameInput");
-      const saveResultBtn = $("saveResultBtn");
-      const closeResultBtn = $("closeResultBtn");
-      const notice = $("notice");
+    const $ = (id) => document.getElementById(id);
+    const kanjiDisplay = $("kanjiDisplay");
+    const kanaDisplay = $("kanaDisplay");
+    const romajiWrap = $("romajiWrap");
+    const ghostInput = $("ghostInput");
+    const progressText = $("progressText");
+    const timeText = $("timeText");
+    const accText = $("accText");
+    const typedText = $("typedText");
+    const missText = $("missText");
+    const wpmText = $("wpmText");
+    const candidateText = $("candidateText");
+    const progressBar = $("progressBar");
+    const modeLabel = $("modeLabel");
+    const stateLabel = $("stateLabel");
+    const rankList = $("rankList");
+    const modeButtons = $("modeButtons");
+    const soundBtn = $("soundBtn");
+    const soundTypeSelect = $("soundTypeSelect");
+    const soundTypeLabel = $("soundTypeLabel");
+    const startBtn = $("startBtn");
+    const resetRankingBtn = $("resetRankingBtn");
+    const resultOverlay = $("resultOverlay");
+    const resultSummary = $("resultSummary");
+    const resultTitle = $("resultTitle");
+    const playerNameInput = $("playerNameInput");
+    const saveResultBtn = $("saveResultBtn");
+    const closeResultBtn = $("closeResultBtn");
+    const notice = $("notice");
 
-      const modes = [
-        {label:"10問", count:10},
-        {label:"20問", count:20},
-        {label:"30問", count:30},
-        {label:"40問", count:40},
-        {label:"50問", count:50},
-        {label:"100問", count:100},
-        {label:"∞", count:Infinity}
-      ];
+    const modes = [
+      {label:"10問", count:10},
+      {label:"20問", count:20},
+      {label:"30問", count:30},
+      {label:"40問", count:40},
+      {label:"50問", count:50},
+      {label:"100問", count:100},
+      {label:"∞", count:Infinity}
+    ];
 
-      const soundNames = {
-        crystal:"クリスタル",
-        click:"クリック",
-        arcade:"アーケード"
-      };
+    const soundNames = {
+      crystal:"クリスタル",
+      click:"クリック",
+      arcade:"アーケード"
+    };
 
-      const state = {
-        modeCount:10,
-        modeLabel:"10問",
-        playing:false,
-        started:false,
-        startTime:0,
-        timerId:null,
-        problems:[],
-        currentProblemIndex:0,
-        branches:[],
-        currentWord:"",
-        currentWordKana:"",
-        currentWordRomanOptions:[],
-        currentDisplayRoman:"",
-        totalMiss:0,
-        totalAcceptedChars:0,
-        latestRankId:null,
-        soundOn:true,
-        soundType:"crystal"
-      };
+    const state = {
+      modeCount:10,
+      modeLabel:"10問",
+      playing:false,
+      started:false,
+      startTime:0,
+      timerId:null,
+      problems:[],
+      currentProblemIndex:0,
+      currentWord:"",
+      currentWordKana:"",
+      currentDisplayRoman:"",
+      currentChunks:[],
+      currentChunkIndex:0,
+      totalMiss:0,
+      totalAcceptedChars:0,
+      latestRankId:null,
+      soundOn:true,
+      soundType:"crystal"
+    };
 
-      function showNotice(msg){
-        notice.textContent = msg;
-        notice.classList.add("show");
-        clearTimeout(showNotice._t);
-        showNotice._t = setTimeout(()=>notice.classList.remove("show"), 1800);
-      }
+    function showNotice(msg){
+      notice.textContent = msg;
+      notice.classList.add("show");
+      clearTimeout(showNotice._t);
+      showNotice._t = setTimeout(()=>notice.classList.remove("show"), 1800);
+    }
 
-      function hiraToRomanOptions(kana){
-        const memo = new Map();
+    function escapeHtml(s){
+      return s.replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[m]));
+    }
 
-        function nextCharFirstRomans(startIdx){
-          if(startIdx >= kana.length) return [""];
-          const pair = kana.slice(startIdx, startIdx+2);
-          if(digraphMap[pair]) return digraphMap[pair];
-          const ch = kana[startIdx];
-          return kanaMap[ch] || [ch];
+    function shortenText(text, max){
+      return text.length > max ? text.slice(0, max - 1) + "…" : text;
+    }
+
+    function kanaToHepburn(kana){
+      let result = "";
+      for(let i=0; i<kana.length; i++){
+        const ch = kana[i];
+        const pair = kana.slice(i, i+2);
+
+        if(ch === "っ"){
+          const nextPair = kana.slice(i+1, i+3);
+          let nextRoman = "";
+          if(hepburnDigraph[nextPair]){
+            nextRoman = hepburnDigraph[nextPair];
+          } else {
+            nextRoman = hepburnSingle[kana[i+1]] || "";
+          }
+          if(nextRoman && consonants.includes(nextRoman[0]) && nextRoman[0] !== "n"){
+            result += nextRoman[0];
+          } else {
+            result += "tsu";
+          }
+          continue;
         }
 
-        function solve(i){
-          if(memo.has(i)) return memo.get(i);
-          if(i >= kana.length) return [""];
+        if(hepburnDigraph[pair]){
+          result += hepburnDigraph[pair];
+          i++;
+          continue;
+        }
 
-          let results = [];
-          const ch = kana[i];
-          const pair = kana.slice(i, i+2);
+        result += hepburnSingle[ch] || ch;
+      }
+      return result;
+    }
 
-          if(ch === "っ"){
-            const nextPair = kana.slice(i+1, i+3);
-            let nextOpts = [];
-            if(digraphMap[nextPair]){
-              nextOpts = digraphMap[nextPair];
-            }else{
-              nextOpts = nextCharFirstRomans(i+1);
-            }
-            const tails = solve(i+1);
-            results.push(...tails.map(t => "xtu" + t));
-            results.push(...tails.map(t => "ltu" + t));
+    function getBaseChunk(chars, index){
+      if(index >= chars.length) return null;
 
-            nextOpts.forEach(nr => {
-              const first = nr[0];
+      const pair = (chars[index] || "") + (chars[index + 1] || "");
+      if(digraphMap[pair]){
+        return {
+          kana: pair,
+          display: hepburnDigraph[pair] || digraphMap[pair][0],
+          inputs: [...new Set(digraphMap[pair])]
+        };
+      }
+
+      const ch = chars[index];
+      return {
+        kana: ch,
+        display: hepburnSingle[ch] || ch,
+        inputs: [...new Set(kanaMap[ch] || [ch])]
+      };
+    }
+
+    function buildRomanChunks(kana){
+      const chars = [...kana];
+      const chunks = [];
+
+      for(let i = 0; i < chars.length; i++){
+        const ch = chars[i];
+        const pair = (chars[i] || "") + (chars[i + 1] || "");
+
+        if(ch === "っ"){
+          const nextBase = getBaseChunk(chars, i + 1);
+          let inputs = ["xtu", "ltu"];
+          let display = "tsu";
+
+          if(nextBase && nextBase.inputs.length){
+            const doubled = [];
+            for(const opt of nextBase.inputs){
+              const first = opt[0];
               if(first && consonants.includes(first) && first !== "n"){
-                tails.forEach(t => results.push(first + t));
+                doubled.push(first + opt);
               }
-            });
-          }
-          else if(ch === "ん"){
-            const tails = solve(i+1);
-            const nextOpts = nextCharFirstRomans(i+1);
-            const nextStarts = new Set(nextOpts.map(o => o[0] || ""));
-            const nextStartsWithVowelOrY = [...nextStarts].some(c => ["a","i","u","e","o","y","n"].includes(c));
-
-            tails.forEach(t => results.push("nn" + t));
-            tails.forEach(t => results.push("xn" + t));
-            if(!nextStartsWithVowelOrY){
-              tails.forEach(t => results.push("n" + t));
+            }
+            if(doubled.length){
+              inputs = [...new Set([...doubled, "xtu", "ltu"])];
+              const d0 = nextBase.display[0];
+              display = (d0 && consonants.includes(d0) && d0 !== "n")
+                ? d0 + nextBase.display
+                : "tsu";
             }
           }
-          else if(digraphMap[pair]){
-            const tails = solve(i+2);
-            digraphMap[pair].forEach(r => tails.forEach(t => results.push(r + t)));
-          }
-          else{
-            const tails = solve(i+1);
-            const arr = kanaMap[ch] || [ch];
-            arr.forEach(r => tails.forEach(t => results.push(r + t)));
-          }
 
-          results = [...new Set(results)].filter(Boolean);
-          memo.set(i, results);
-          return results;
+          chunks.push({
+            kana:"っ",
+            display,
+            inputs,
+            typed:"",
+            accepted:"",
+            done:false,
+            missFlash:false
+          });
+          continue;
         }
 
-        return solve(0);
-      }
+        if(ch === "ん"){
+          const nextBase = getBaseChunk(chars, i + 1);
+          const nextStarts = new Set(
+            nextBase ? nextBase.inputs.map(v => (v[0] || "").toLowerCase()) : []
+          );
+          const blocked = [...nextStarts].some(c => ["a","i","u","e","o","y","n"].includes(c));
+          const inputs = blocked ? ["nn","xn"] : ["n","nn","xn"];
 
-      function kanaToHepburn(kana){
-        let result = "";
-        for(let i=0; i<kana.length; i++){
-          const ch = kana[i];
-          const pair = kana.slice(i, i+2);
-
-          if(ch === "っ"){
-            const nextPair = kana.slice(i+1, i+3);
-            let nextRoman = "";
-            if(hepburnDigraph[nextPair]){
-              nextRoman = hepburnDigraph[nextPair];
-            } else {
-              nextRoman = hepburnSingle[kana[i+1]] || "";
-            }
-            if(nextRoman && consonants.includes(nextRoman[0]) && nextRoman[0] !== "n"){
-              result += nextRoman[0];
-            } else {
-              result += "tsu";
-            }
-            continue;
-          }
-
-          if(hepburnDigraph[pair]){
-            result += hepburnDigraph[pair];
-            i++;
-            continue;
-          }
-
-          result += hepburnSingle[ch] || ch;
+          chunks.push({
+            kana:"ん",
+            display:"n",
+            inputs:[...new Set(inputs)],
+            typed:"",
+            accepted:"",
+            done:false,
+            missFlash:false
+          });
+          continue;
         }
-        return result;
-      }
 
-      function pickProblems(count){
-        const arr = [...dictionary];
-        for(let i=arr.length-1;i>0;i--){
-          const j = Math.floor(Math.random()*(i+1));
-          [arr[i],arr[j]] = [arr[j],arr[i]];
+        if(digraphMap[pair]){
+          chunks.push({
+            kana:pair,
+            display:hepburnDigraph[pair] || digraphMap[pair][0],
+            inputs:[...new Set(digraphMap[pair])],
+            typed:"",
+            accepted:"",
+            done:false,
+            missFlash:false
+          });
+          i++;
+          continue;
         }
-        if(count === Infinity) return arr;
-        if(count <= arr.length) return arr.slice(0, count);
 
-        const result = [];
-        while(result.length < count){
-          const copy = [...dictionary];
-          for(let i=copy.length-1;i>0;i--){
-            const j = Math.floor(Math.random()*(i+1));
-            [copy[i],copy[j]] = [copy[j],copy[i]];
-          }
-          result.push(...copy);
-        }
-        return result.slice(0, count);
-      }
-
-      function resetStats(){
-        state.playing = false;
-        state.started = false;
-        state.startTime = 0;
-        state.currentProblemIndex = 0;
-        state.branches = [];
-        state.currentWord = "";
-        state.currentWordKana = "";
-        state.currentWordRomanOptions = [];
-        state.currentDisplayRoman = "";
-        state.totalMiss = 0;
-        state.totalAcceptedChars = 0;
-        clearInterval(state.timerId);
-        state.timerId = null;
-      }
-
-      function startGame(){
-        resetStats();
-        state.problems = pickProblems(state.modeCount === Infinity ? dictionary.length : state.modeCount);
-        state.playing = true;
-        stateLabel.textContent = "待機中";
-        if(state.modeCount === Infinity){
-          state.problems = pickProblems(dictionary.length);
-        }
-        loadProblem(0);
-        updateStats();
-        showNotice("最初のキー入力で計測開始");
-      }
-
-      function ensureInfiniteProblems(){
-        if(state.modeCount === Infinity && state.currentProblemIndex >= state.problems.length - 3){
-          state.problems.push(...pickProblems(dictionary.length));
-        }
-      }
-
-      function loadProblem(index){
-        ensureInfiniteProblems();
-        const item = state.problems[index];
-        if(!item) return;
-
-        state.currentWord = item.kanji;
-        state.currentWordKana = item.kana;
-        state.currentWordRomanOptions = hiraToRomanOptions(item.kana);
-        state.currentDisplayRoman = kanaToHepburn(item.kana);
-
-        state.branches = [{
+        const singleInputs = kanaMap[ch] || [ch];
+        chunks.push({
+          kana:ch,
+          display:hepburnSingle[ch] || ch,
+          inputs:[...new Set(singleInputs)],
           typed:"",
-          remainingSet:new Set(state.currentWordRomanOptions),
-          displayTarget:state.currentDisplayRoman,
+          accepted:"",
+          done:false,
           missFlash:false
-        }];
-
-        kanjiDisplay.textContent = item.kanji;
-        kanaDisplay.textContent = item.kana;
-        ghostInput.textContent = "入力待機中";
-        candidateText.textContent = shortenText(state.currentDisplayRoman, 28);
-        renderRoman();
-        updateStats();
+        });
       }
 
-      function computeBestBranch(branches){
-        return [...branches].sort((a,b)=>{
-          if(a.typed.length !== b.typed.length) return b.typed.length - a.typed.length;
-          return 0;
-        })[0];
+      return chunks;
+    }
+
+    function getTypedPreview(){
+      let s = "";
+      for(let i = 0; i < state.currentChunks.length; i++){
+        const chunk = state.currentChunks[i];
+        if(chunk.done) s += chunk.accepted;
+        else if(i === state.currentChunkIndex) s += chunk.typed;
       }
+      return s;
+    }
 
-      function renderRoman(){
-        const best = computeBestBranch(state.branches);
-        romajiWrap.innerHTML = "";
+    function renderRoman(){
+      romajiWrap.innerHTML = "";
 
-        const typed = best.typed;
-        const display = state.currentDisplayRoman;
+      for(let i = 0; i < state.currentChunks.length; i++){
+        const chunk = state.currentChunks[i];
+        let cls = "pending";
+        if(chunk.done) cls = "done";
+        else if(i === state.currentChunkIndex) cls = "current";
 
-        for(let i=0;i<display.length;i++){
+        for(const c of chunk.display){
           const span = document.createElement("span");
-          span.className = "rchar";
-          span.textContent = display[i];
-          if(i < typed.length){
-            span.classList.add("done");
-          }else if(i === typed.length){
-            span.classList.add("current");
-          }else{
-            span.classList.add("pending");
-          }
-          if(best.missFlash && i === typed.length){
+          span.className = "rchar " + cls;
+          if(chunk.missFlash && i === state.currentChunkIndex){
             span.classList.add("wrongFlash");
           }
+          span.textContent = c;
           romajiWrap.appendChild(span);
         }
-
-        ghostInput.textContent = typed ? `入力中: ${typed}` : "入力待機中";
       }
 
-      function updateStats(){
-        const elapsed = state.started ? (performance.now() - state.startTime) / 1000 : 0;
-        const totalAttempts = state.totalAcceptedChars + state.totalMiss;
-        const acc = totalAttempts === 0 ? 100 : (state.totalAcceptedChars / totalAttempts) * 100;
-        const wpm = elapsed > 0 ? Math.round((state.totalAcceptedChars / 5) / (elapsed / 60)) : 0;
-        const totalCount = state.modeCount === Infinity ? "∞" : state.modeCount;
-        const currentCount = state.playing ? Math.min(state.currentProblemIndex + 1, state.modeCount === Infinity ? state.currentProblemIndex + 1 : state.modeCount) : 0;
-        const progressPct = state.modeCount === Infinity ? 100 : (state.modeCount ? (state.currentProblemIndex / state.modeCount) * 100 : 0);
+      const preview = getTypedPreview();
+      ghostInput.textContent = preview ? `入力中: ${preview}` : "入力待機中";
+    }
 
-        progressText.textContent = `${currentCount} / ${totalCount}`;
-        timeText.textContent = `${elapsed.toFixed(2)}秒`;
-        accText.textContent = `${acc.toFixed(2)}%`;
-        typedText.textContent = state.totalAcceptedChars;
-        missText.textContent = state.totalMiss;
-        wpmText.textContent = wpm;
-        progressBar.style.width = `${Math.max(0, Math.min(100, progressPct))}%`;
+    function pickProblems(count){
+      const arr = [...dictionary];
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
       }
+      if(count === Infinity) return arr;
+      if(count <= arr.length) return arr.slice(0, count);
 
-      function startTimerIfNeeded(){
-        if(state.started) return;
-        state.started = true;
-        state.startTime = performance.now();
-        stateLabel.textContent = "プレイ中";
-        state.timerId = setInterval(updateStats, 50);
-      }
-
-      function advanceToNextProblem(){
-        shatterDoneChars();
-
-        state.currentProblemIndex++;
-        if(state.modeCount !== Infinity && state.currentProblemIndex >= state.modeCount){
-          finishGame();
-          return;
+      const result = [];
+      while(result.length < count){
+        const copy = [...dictionary];
+        for(let i=copy.length-1;i>0;i--){
+          const j = Math.floor(Math.random()*(i+1));
+          [copy[i],copy[j]] = [copy[j],copy[i]];
         }
-        if(state.modeCount === Infinity){
-          ensureInfiniteProblems();
-        }
-        setTimeout(() => {
-          loadProblem(state.currentProblemIndex);
-        }, 110);
+        result.push(...copy);
+      }
+      return result.slice(0, count);
+    }
+
+    function resetStats(){
+      state.playing = false;
+      state.started = false;
+      state.startTime = 0;
+      state.currentProblemIndex = 0;
+      state.currentWord = "";
+      state.currentWordKana = "";
+      state.currentDisplayRoman = "";
+      state.currentChunks = [];
+      state.currentChunkIndex = 0;
+      state.totalMiss = 0;
+      state.totalAcceptedChars = 0;
+      clearInterval(state.timerId);
+      state.timerId = null;
+    }
+
+    function startGame(){
+      resetStats();
+      state.problems = pickProblems(state.modeCount === Infinity ? dictionary.length : state.modeCount);
+      state.playing = true;
+      stateLabel.textContent = "待機中";
+      if(state.modeCount === Infinity){
+        state.problems = pickProblems(dictionary.length);
+      }
+      loadProblem(0);
+      updateStats();
+      showNotice("最初のキー入力で計測開始");
+    }
+
+    function ensureInfiniteProblems(){
+      if(state.modeCount === Infinity && state.currentProblemIndex >= state.problems.length - 3){
+        state.problems.push(...pickProblems(dictionary.length));
+      }
+    }
+
+    function loadProblem(index){
+      ensureInfiniteProblems();
+      const item = state.problems[index];
+      if(!item) return;
+
+      state.currentWord = item.kanji;
+      state.currentWordKana = item.kana;
+      state.currentChunks = buildRomanChunks(item.kana);
+      state.currentChunkIndex = 0;
+      state.currentDisplayRoman = state.currentChunks.map(c => c.display).join("");
+
+      kanjiDisplay.textContent = item.kanji;
+      kanaDisplay.textContent = item.kana;
+      ghostInput.textContent = "入力待機中";
+      candidateText.textContent = shortenText(state.currentDisplayRoman, 28);
+      renderRoman();
+      updateStats();
+    }
+
+    function updateStats(){
+      const elapsed = state.started ? (performance.now() - state.startTime) / 1000 : 0;
+      const totalAttempts = state.totalAcceptedChars + state.totalMiss;
+      const acc = totalAttempts === 0 ? 100 : (state.totalAcceptedChars / totalAttempts) * 100;
+      const wpm = elapsed > 0 ? Math.round((state.totalAcceptedChars / 5) / (elapsed / 60)) : 0;
+      const totalCount = state.modeCount === Infinity ? "∞" : state.modeCount;
+      const currentCount = state.playing
+        ? Math.min(state.currentProblemIndex + 1, state.modeCount === Infinity ? state.currentProblemIndex + 1 : state.modeCount)
+        : 0;
+      const progressPct = state.modeCount === Infinity ? 100 : (state.modeCount ? (state.currentProblemIndex / state.modeCount) * 100 : 0);
+
+      progressText.textContent = `${currentCount} / ${totalCount}`;
+      timeText.textContent = `${elapsed.toFixed(2)}秒`;
+      accText.textContent = `${acc.toFixed(2)}%`;
+      typedText.textContent = state.totalAcceptedChars;
+      missText.textContent = state.totalMiss;
+      wpmText.textContent = wpm;
+      progressBar.style.width = `${Math.max(0, Math.min(100, progressPct))}%`;
+    }
+
+    function startTimerIfNeeded(){
+      if(state.started) return;
+      state.started = true;
+      state.startTime = performance.now();
+      stateLabel.textContent = "プレイ中";
+      state.timerId = setInterval(updateStats, 50);
+    }
+
+    function shatterDoneChars(){
+      const chars = [...romajiWrap.querySelectorAll(".rchar.done")];
+      const rectBase = romajiWrap.getBoundingClientRect();
+
+      chars.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const piece = document.createElement("span");
+        piece.className = "shatterPiece";
+        piece.textContent = el.textContent;
+        piece.style.left = `${r.left - rectBase.left}px`;
+        piece.style.top = `${r.top - rectBase.top}px`;
+        piece.style.fontSize = getComputedStyle(el).fontSize;
+        piece.style.color = getComputedStyle(el).color;
+        piece.style.setProperty("--tx", `${(Math.random() - .5) * 150}px`);
+        piece.style.setProperty("--ty", `${-20 - Math.random() * 85}px`);
+        piece.style.setProperty("--rot", `${(Math.random() - .5) * 220}deg`);
+        romajiWrap.appendChild(piece);
+        setTimeout(() => piece.remove(), 760);
+      });
+    }
+
+    function advanceToNextProblem(){
+      shatterDoneChars();
+
+      state.currentProblemIndex++;
+      if(state.modeCount !== Infinity && state.currentProblemIndex >= state.modeCount){
+        finishGame();
+        return;
+      }
+      if(state.modeCount === Infinity){
+        ensureInfiniteProblems();
+      }
+      setTimeout(() => {
+        loadProblem(state.currentProblemIndex);
+      }, 110);
+    }
+
+    function finishGame(){
+      state.playing = false;
+      stateLabel.textContent = "終了";
+      clearInterval(state.timerId);
+      updateStats();
+
+      const elapsed = state.started ? (performance.now() - state.startTime) / 1000 : 0;
+      const totalAttempts = state.totalAcceptedChars + state.totalMiss;
+      const acc = totalAttempts === 0 ? 100 : (state.totalAcceptedChars / totalAttempts) * 100;
+      const wpm = elapsed > 0 ? Math.round((state.totalAcceptedChars / 5) / (elapsed / 60)) : 0;
+
+      resultTitle.textContent = "プレイ結果";
+      resultSummary.innerHTML = `
+        モード: <strong>${state.modeLabel}</strong><br>
+        タイム: <strong>${elapsed.toFixed(2)}秒</strong><br>
+        正確率: <strong>${acc.toFixed(2)}%</strong><br>
+        ミス数: <strong>${state.totalMiss}</strong><br>
+        WPM目安: <strong>${wpm}</strong>
+      `;
+      playerNameInput.value = "";
+      resultOverlay.classList.add("show");
+    }
+
+    function saveRanking(){
+      const elapsed = state.started ? (performance.now() - state.startTime) / 1000 : 0;
+      const totalAttempts = state.totalAcceptedChars + state.totalMiss;
+      const acc = totalAttempts === 0 ? 100 : (state.totalAcceptedChars / totalAttempts) * 100;
+
+      const name = (playerNameInput.value || "").trim() || "NO NAME";
+      const records = loadRanking();
+      const id = Date.now() + "_" + Math.random().toString(36).slice(2,7);
+
+      records.push({
+        id,
+        name,
+        mode: state.modeLabel,
+        accuracy: Number(acc.toFixed(2)),
+        time: Number(elapsed.toFixed(2)),
+        misses: state.totalMiss,
+        typed: state.totalAcceptedChars,
+        createdAt: Date.now()
+      });
+
+      records.sort((a,b) => {
+        if(b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
+        if(a.time !== b.time) return a.time - b.time;
+        return a.createdAt - b.createdAt;
+      });
+
+      const top10 = records.slice(0,10);
+      localStorage.setItem("yojiTypingRanking", JSON.stringify(top10));
+      state.latestRankId = id;
+      renderRanking();
+      resultOverlay.classList.remove("show");
+      showNotice("ランキングを保存しました");
+    }
+
+    function loadRanking(){
+      try{
+        return JSON.parse(localStorage.getItem("yojiTypingRanking") || "[]");
+      }catch{
+        return [];
+      }
+    }
+
+    function renderRanking(){
+      const records = loadRanking();
+      rankList.innerHTML = "";
+      if(!records.length){
+        rankList.innerHTML = `<div class="empty">まだ記録がありません。プレイ後に保存するとここに表示されます。</div>`;
+        return;
       }
 
-      function shatterDoneChars(){
-        const chars = [...romajiWrap.querySelectorAll(".rchar.done")];
-        const rectBase = romajiWrap.getBoundingClientRect();
-
-        chars.forEach((el) => {
-          const r = el.getBoundingClientRect();
-          const piece = document.createElement("span");
-          piece.className = "shatterPiece";
-          piece.textContent = el.textContent;
-          piece.style.left = `${r.left - rectBase.left}px`;
-          piece.style.top = `${r.top - rectBase.top}px`;
-          piece.style.fontSize = getComputedStyle(el).fontSize;
-          piece.style.color = getComputedStyle(el).color;
-          piece.style.setProperty("--tx", `${(Math.random() - .5) * 150}px`);
-          piece.style.setProperty("--ty", `${-20 - Math.random() * 85}px`);
-          piece.style.setProperty("--rot", `${(Math.random() - .5) * 220}deg`);
-          romajiWrap.appendChild(piece);
-          setTimeout(() => piece.remove(), 760);
-        });
-      }
-
-      function finishGame(){
-        state.playing = false;
-        stateLabel.textContent = "終了";
-        clearInterval(state.timerId);
-        updateStats();
-
-        const elapsed = state.started ? (performance.now() - state.startTime) / 1000 : 0;
-        const totalAttempts = state.totalAcceptedChars + state.totalMiss;
-        const acc = totalAttempts === 0 ? 100 : (state.totalAcceptedChars / totalAttempts) * 100;
-        const wpm = elapsed > 0 ? Math.round((state.totalAcceptedChars / 5) / (elapsed / 60)) : 0;
-
-        resultTitle.textContent = "プレイ結果";
-        resultSummary.innerHTML = `
-          モード: <strong>${state.modeLabel}</strong><br>
-          タイム: <strong>${elapsed.toFixed(2)}秒</strong><br>
-          正確率: <strong>${acc.toFixed(2)}%</strong><br>
-          ミス数: <strong>${state.totalMiss}</strong><br>
-          WPM目安: <strong>${wpm}</strong>
+      records.slice(0,10).forEach((r,idx) => {
+        const div = document.createElement("div");
+        div.className = "rankItem" + (r.id === state.latestRankId ? " latest" : "");
+        div.innerHTML = `
+          <div class="rankNum">${idx+1}</div>
+          <div class="rankMain">
+            <div class="rankName">${escapeHtml(r.name)}</div>
+            <div class="rankMeta">${escapeHtml(r.mode)} / ミス ${r.misses}</div>
+          </div>
+          <div class="rankAcc">${r.accuracy.toFixed(2)}%</div>
+          <div class="rankTime">${r.time.toFixed(2)}秒</div>
         `;
-        playerNameInput.value = "";
-        resultOverlay.classList.add("show");
-      }
+        rankList.appendChild(div);
+      });
+    }
 
-      function saveRanking(){
-        const elapsed = state.started ? (performance.now() - state.startTime) / 1000 : 0;
-        const totalAttempts = state.totalAcceptedChars + state.totalMiss;
-        const acc = totalAttempts === 0 ? 100 : (state.totalAcceptedChars / totalAttempts) * 100;
+    function handleKeyInput(key){
+      if(!state.playing) return;
+      if(key.length !== 1) return;
+      if(!/^[a-zA-Z\-]$/.test(key)) return;
 
-        const name = (playerNameInput.value || "").trim() || "NO NAME";
-        const records = loadRanking();
-        const id = Date.now() + "_" + Math.random().toString(36).slice(2,7);
+      unlockAudio();
+      startTimerIfNeeded();
 
-        records.push({
-          id,
-          name,
-          mode: state.modeLabel,
-          accuracy: Number(acc.toFixed(2)),
-          time: Number(elapsed.toFixed(2)),
-          misses: state.totalMiss,
-          typed: state.totalAcceptedChars,
-          createdAt: Date.now()
-        });
+      const ch = key.toLowerCase();
+      const chunk = state.currentChunks[state.currentChunkIndex];
+      if(!chunk) return;
 
-        records.sort((a,b) => {
-          if(b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
-          if(a.time !== b.time) return a.time - b.time;
-          return a.createdAt - b.createdAt;
-        });
+      const nextTyped = chunk.typed + ch;
+      const exact = chunk.inputs.includes(nextTyped);
+      const partial = chunk.inputs.some(opt => opt.startsWith(nextTyped));
 
-        const top10 = records.slice(0,10);
-        localStorage.setItem("yojiTypingRanking", JSON.stringify(top10));
-        state.latestRankId = id;
-        renderRanking();
-        resultOverlay.classList.remove("show");
-        showNotice("ランキングを保存しました");
-      }
-
-      function loadRanking(){
-        try{
-          return JSON.parse(localStorage.getItem("yojiTypingRanking") || "[]");
-        }catch{
-          return [];
-        }
-      }
-
-      function renderRanking(){
-        const records = loadRanking();
-        rankList.innerHTML = "";
-        if(!records.length){
-          rankList.innerHTML = `<div class="empty">まだ記録がありません。プレイ後に保存するとここに表示されます。</div>`;
-          return;
-        }
-
-        records.slice(0,10).forEach((r,idx) => {
-          const div = document.createElement("div");
-          div.className = "rankItem" + (r.id === state.latestRankId ? " latest" : "");
-          div.innerHTML = `
-            <div class="rankNum">${idx+1}</div>
-            <div class="rankMain">
-              <div class="rankName">${escapeHtml(r.name)}</div>
-              <div class="rankMeta">${escapeHtml(r.mode)} / ミス ${r.misses}</div>
-            </div>
-            <div class="rankAcc">${r.accuracy.toFixed(2)}%</div>
-            <div class="rankTime">${r.time.toFixed(2)}秒</div>
-          `;
-          rankList.appendChild(div);
-        });
-      }
-
-      function escapeHtml(s){
-        return s.replace(/[&<>"']/g, m => ({
-          "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-        }[m]));
-      }
-
-      function shortenText(text, max){
-        return text.length > max ? text.slice(0, max - 1) + "…" : text;
-      }
-
-      function handleKeyInput(key){
-        if(!state.playing) return;
-        if(key.length !== 1) return;
-        if(!/^[a-zA-Z\-]$/.test(key)) return;
-
-        unlockAudio();
-        startTimerIfNeeded();
-
-        const ch = key.toLowerCase();
-        let nextBranches = [];
-
-        for(const branch of state.branches){
-          for(const opt of branch.remainingSet){
-            if(opt[branch.typed.length] === ch){
-              const typedNew = branch.typed + ch;
-              nextBranches.push({
-                typed: typedNew,
-                remainingSet: new Set(),
-                displayTarget: state.currentDisplayRoman,
-                missFlash:false
-              });
-            }
-          }
-        }
-
-        if(nextBranches.length === 0){
-          playMissSound();
-          state.totalMiss++;
-          const best = computeBestBranch(state.branches);
-          best.missFlash = true;
-          renderRoman();
-          setTimeout(() => {
-            best.missFlash = false;
-            renderRoman();
-          }, 120);
-          updateStats();
-          return;
-        }
-
-        playTypeSound();
-
-        const grouped = new Map();
-        for(const b of nextBranches){
-          const mapKey = b.typed;
-          if(!grouped.has(mapKey)){
-            grouped.set(mapKey, {
-              typed:b.typed,
-              remainingSet:new Set(),
-              displayTarget:state.currentDisplayRoman,
-              missFlash:false
-            });
-          }
-          for(const opt of state.currentWordRomanOptions){
-            if(opt.startsWith(b.typed)){
-              grouped.get(mapKey).remainingSet.add(opt);
-            }
-          }
-        }
-
-        state.branches = [...grouped.values()];
+      if(exact){
+        chunk.typed = nextTyped;
+        chunk.accepted = nextTyped;
+        chunk.done = true;
+        chunk.missFlash = false;
+        state.currentChunkIndex++;
         state.totalAcceptedChars++;
+        playTypeSound();
         renderRoman();
         updateStats();
 
-        const completed = state.branches.some(b => [...b.remainingSet].some(opt => opt.length === b.typed.length));
-        if(completed){
+        if(state.currentChunkIndex >= state.currentChunks.length){
           advanceToNextProblem();
         }
+        return;
       }
 
-      function buildModeButtons(){
-        modeButtons.innerHTML = "";
-        modes.forEach(m => {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "modeBtn" + (m.count === state.modeCount ? " active" : "");
-          btn.textContent = m.label;
-          btn.addEventListener("click", () => {
-            state.modeCount = m.count;
-            state.modeLabel = m.label === "∞" ? "終わりなし" : m.label;
-            modeLabel.textContent = state.modeLabel;
-            buildModeButtons();
-            if(!state.playing){
-              progressText.textContent = `0 / ${m.label === "∞" ? "∞" : m.count}`;
-              progressBar.style.width = "0%";
-            }
-          });
-          modeButtons.appendChild(btn);
+      if(partial){
+        chunk.typed = nextTyped;
+        chunk.missFlash = false;
+        state.totalAcceptedChars++;
+        playTypeSound();
+        renderRoman();
+        updateStats();
+        return;
+      }
+
+      playMissSound();
+      state.totalMiss++;
+      chunk.missFlash = true;
+      renderRoman();
+      setTimeout(() => {
+        if(state.currentChunks[state.currentChunkIndex] === chunk){
+          chunk.missFlash = false;
+          renderRoman();
+        }
+      }, 120);
+      updateStats();
+    }
+
+    function buildModeButtons(){
+      modeButtons.innerHTML = "";
+      modes.forEach(m => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "modeBtn" + (m.count === state.modeCount ? " active" : "");
+        btn.textContent = m.label;
+        btn.addEventListener("click", () => {
+          state.modeCount = m.count;
+          state.modeLabel = m.label === "∞" ? "終わりなし" : m.label;
+          modeLabel.textContent = state.modeLabel;
+          buildModeButtons();
+          if(!state.playing){
+            progressText.textContent = `0 / ${m.label === "∞" ? "∞" : m.count}`;
+            progressBar.style.width = "0%";
+          }
         });
+        modeButtons.appendChild(btn);
+      });
+    }
+
+    const audioCtxHolder = {
+      ctx:null,
+      master:null,
+      unlocked:false
+    };
+
+    function getAudioCtx(){
+      if(!audioCtxHolder.ctx){
+        const ctx = new (window.AudioContext || window.webkitAudioContext)({
+          latencyHint:"interactive"
+        });
+        const master = ctx.createGain();
+        master.gain.value = 1.45;
+        master.connect(ctx.destination);
+        audioCtxHolder.ctx = ctx;
+        audioCtxHolder.master = master;
       }
+      return audioCtxHolder.ctx;
+    }
 
-      const audioCtxHolder = {
-        ctx:null,
-        master:null,
-        unlocked:false
-      };
-
-      function getAudioCtx(){
-        if(!audioCtxHolder.ctx){
-          const ctx = new (window.AudioContext || window.webkitAudioContext)({
-            latencyHint:"interactive"
-          });
-          const master = ctx.createGain();
-          master.gain.value = 1.45;
-          master.connect(ctx.destination);
-          audioCtxHolder.ctx = ctx;
-          audioCtxHolder.master = master;
-        }
-        return audioCtxHolder.ctx;
+    function unlockAudio(){
+      const ctx = getAudioCtx();
+      if(ctx.state === "suspended"){
+        ctx.resume();
       }
-
-      function unlockAudio(){
-        const ctx = getAudioCtx();
-        if(ctx.state === "suspended"){
-          ctx.resume();
-        }
-        if(!audioCtxHolder.unlocked){
-          const now = ctx.currentTime;
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          gain.gain.setValueAtTime(0.0001, now);
-          osc.connect(gain);
-          gain.connect(audioCtxHolder.master);
-          osc.start(now);
-          osc.stop(now + 0.001);
-          audioCtxHolder.unlocked = true;
-        }
-      }
-
-      function tone(freq=440, duration=.04, type="sine", gainAmount=.06, freqEnd=null){
-        if(!state.soundOn) return;
-        const ctx = getAudioCtx();
-        if(ctx.state !== "running") return;
-
+      if(!audioCtxHolder.unlocked){
         const now = ctx.currentTime;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, now);
-        if(freqEnd != null){
-          osc.frequency.exponentialRampToValueAtTime(Math.max(40, freqEnd), now + duration);
-        }
-
-        gain.gain.cancelScheduledValues(now);
         gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.003);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
         osc.connect(gain);
         gain.connect(audioCtxHolder.master);
         osc.start(now);
-        osc.stop(now + duration + 0.01);
+        osc.stop(now + 0.001);
+        audioCtxHolder.unlocked = true;
+      }
+    }
+
+    function tone(freq=440, duration=.04, type="sine", gainAmount=.06, freqEnd=null){
+      if(!state.soundOn) return;
+      const ctx = getAudioCtx();
+      if(ctx.state !== "running") return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+      if(freqEnd != null){
+        osc.frequency.exponentialRampToValueAtTime(Math.max(40, freqEnd), now + duration);
       }
 
-      function noise(duration=.03, gainAmount=.04, highpass=1500){
-        if(!state.soundOn) return;
-        const ctx = getAudioCtx();
-        if(ctx.state !== "running") return;
+      gain.gain.cancelScheduledValues(now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.003);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-        const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * duration));
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for(let i=0;i<bufferSize;i++){
-          data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
-        }
+      osc.connect(gain);
+      gain.connect(audioCtxHolder.master);
+      osc.start(now);
+      osc.stop(now + duration + 0.01);
+    }
 
-        const source = ctx.createBufferSource();
-        const filter = ctx.createBiquadFilter();
-        filter.type = "highpass";
-        filter.frequency.value = highpass;
+    function noise(duration=.03, gainAmount=.04, highpass=1500){
+      if(!state.soundOn) return;
+      const ctx = getAudioCtx();
+      if(ctx.state !== "running") return;
 
-        const gain = ctx.createGain();
-        const now = ctx.currentTime;
-
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.002);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-        source.buffer = buffer;
-        source.connect(filter);
-        filter.connect(gain);
-        gain.connect(audioCtxHolder.master);
-        source.start(now);
-        source.stop(now + duration + 0.01);
+      const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * duration));
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for(let i=0;i<bufferSize;i++){
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
       }
 
-      function playTypeSound(){
-        switch(state.soundType){
-          case "click":
-            tone(780, 0.022, "square", 0.14, 700);
-            noise(0.012, 0.022, 2200);
-            break;
-          case "arcade":
-            tone(920, 0.028, "square", 0.11, 1280);
-            setTimeout(() => tone(1480, 0.018, "square", 0.07, 1620), 8);
-            break;
-          case "crystal":
-          default:
-            tone(1100, 0.045, "triangle", 0.11, 1380);
-            break;
-        }
+      const source = ctx.createBufferSource();
+      const filter = ctx.createBiquadFilter();
+      filter.type = "highpass";
+      filter.frequency.value = highpass;
+
+      const gain = ctx.createGain();
+      const now = ctx.currentTime;
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(gainAmount, now + 0.002);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      source.buffer = buffer;
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtxHolder.master);
+      source.start(now);
+      source.stop(now + duration + 0.01);
+    }
+
+    function playTypeSound(){
+      switch(state.soundType){
+        case "click":
+          tone(780, 0.022, "square", 0.14, 700);
+          noise(0.012, 0.022, 2200);
+          break;
+        case "arcade":
+          tone(920, 0.028, "square", 0.11, 1280);
+          setTimeout(() => tone(1480, 0.018, "square", 0.07, 1620), 8);
+          break;
+        case "crystal":
+        default:
+          tone(1100, 0.045, "triangle", 0.11, 1380);
+          break;
       }
+    }
 
-      function playMissSound(){
-        switch(state.soundType){
-          case "click":
-            tone(190, 0.06, "sawtooth", 0.14, 120);
-            noise(0.02, 0.026, 900);
-            break;
-          case "arcade":
-            tone(260, 0.05, "square", 0.14, 160);
-            setTimeout(() => tone(180, 0.04, "square", 0.1, 110), 18);
-            break;
-          case "crystal":
-          default:
-            tone(220, 0.08, "sawtooth", 0.13, 150);
-            break;
-        }
+    function playMissSound(){
+      switch(state.soundType){
+        case "click":
+          tone(190, 0.06, "sawtooth", 0.14, 120);
+          noise(0.02, 0.026, 900);
+          break;
+        case "arcade":
+          tone(260, 0.05, "square", 0.14, 160);
+          setTimeout(() => tone(180, 0.04, "square", 0.1, 110), 18);
+          break;
+        case "crystal":
+        default:
+          tone(220, 0.08, "sawtooth", 0.13, 150);
+          break;
       }
+    }
 
-      function updateSoundUI(){
-        soundTypeSelect.value = state.soundType;
-        soundTypeLabel.textContent = soundNames[state.soundType];
-      }
+    function updateSoundUI(){
+      soundTypeSelect.value = state.soundType;
+      soundTypeLabel.textContent = soundNames[state.soundType];
+    }
 
-      function previewSound(){
-        unlockAudio();
-        playTypeSound();
-      }
+    function previewSound(){
+      unlockAudio();
+      playTypeSound();
+    }
 
-      function resetRanking(){
-        if(!confirm("ランキングを初期化しますか？")) return;
-        localStorage.removeItem("yojiTypingRanking");
-        state.latestRankId = null;
-        renderRanking();
-        showNotice("ランキングを初期化しました");
-      }
+    function resetRanking(){
+      if(!confirm("ランキングを初期化しますか？")) return;
+      localStorage.removeItem("yojiTypingRanking");
+      state.latestRankId = null;
+      renderRanking();
+      showNotice("ランキングを初期化しました");
+    }
 
-      document.addEventListener("pointerdown", unlockAudio, { passive:true });
-      document.addEventListener("touchstart", unlockAudio, { passive:true });
-      document.addEventListener("keydown", (e) => {
-        unlockAudio();
-        if(resultOverlay.classList.contains("show")) return;
-        handleKeyInput(e.key);
-      });
+    document.addEventListener("pointerdown", unlockAudio, { passive:true });
+    document.addEventListener("touchstart", unlockAudio, { passive:true });
+    document.addEventListener("keydown", (e) => {
+      unlockAudio();
+      if(resultOverlay.classList.contains("show")) return;
+      handleKeyInput(e.key);
+    });
 
-      startBtn.addEventListener("click", () => {
-        unlockAudio();
-        state.modeLabel = modes.find(m => m.count === state.modeCount)?.label || "10問";
-        if(state.modeLabel === "∞") state.modeLabel = "終わりなし";
-        modeLabel.textContent = state.modeLabel;
-        startGame();
-      });
+    startBtn.addEventListener("click", () => {
+      unlockAudio();
+      state.modeLabel = modes.find(m => m.count === state.modeCount)?.label || "10問";
+      if(state.modeLabel === "∞") state.modeLabel = "終わりなし";
+      modeLabel.textContent = state.modeLabel;
+      startGame();
+    });
 
-      soundBtn.addEventListener("click", () => {
-        unlockAudio();
-        state.soundOn = !state.soundOn;
-        soundBtn.classList.toggle("off", !state.soundOn);
-        soundBtn.textContent = state.soundOn ? "🔊 効果音 ON" : "🔈 効果音 OFF";
-        if(state.soundOn) previewSound();
-      });
+    soundBtn.addEventListener("click", () => {
+      unlockAudio();
+      state.soundOn = !state.soundOn;
+      soundBtn.classList.toggle("off", !state.soundOn);
+      soundBtn.textContent = state.soundOn ? "🔊 効果音 ON" : "🔈 効果音 OFF";
+      if(state.soundOn) previewSound();
+    });
 
-      soundTypeSelect.addEventListener("change", () => {
-        state.soundType = soundTypeSelect.value;
-        updateSoundUI();
-        previewSound();
-        showNotice(`効果音を「${soundNames[state.soundType]}」に変更`);
-      });
+    soundTypeSelect.addEventListener("change", () => {
+      state.soundType = soundTypeSelect.value;
+      updateSoundUI();
+      previewSound();
+      showNotice(`効果音を「${soundNames[state.soundType]}」に変更`);
+    });
 
-      resetRankingBtn.addEventListener("click", resetRanking);
-      closeResultBtn.addEventListener("click", () => resultOverlay.classList.remove("show"));
-      saveResultBtn.addEventListener("click", saveRanking);
-      playerNameInput.addEventListener("keydown", (e) => {
-        if(e.key === "Enter") saveRanking();
-      });
+    resetRankingBtn.addEventListener("click", resetRanking);
+    closeResultBtn.addEventListener("click", () => resultOverlay.classList.remove("show"));
+    saveResultBtn.addEventListener("click", saveRanking);
+    playerNameInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") saveRanking();
+    });
 
-      resultOverlay.addEventListener("click", (e) => {
-        if(e.target === resultOverlay) resultOverlay.classList.remove("show");
-      });
+    resultOverlay.addEventListener("click", (e) => {
+      if(e.target === resultOverlay) resultOverlay.classList.remove("show");
+    });
 
-      function init(){
-        buildModeButtons();
-        updateSoundUI();
-        modeLabel.textContent = "10問";
-        stateLabel.textContent = "待機中";
-        kanjiDisplay.textContent = "四字熟語";
-        kanaDisplay.textContent = "よじじゅくご";
-        state.currentDisplayRoman = "yojijukugo";
-        romajiWrap.innerHTML = `
-          <span class="rchar pending">y</span>
-          <span class="rchar pending">o</span>
-          <span class="rchar pending">j</span>
-          <span class="rchar pending">i</span>
-          <span class="rchar pending">j</span>
-          <span class="rchar pending">u</span>
-          <span class="rchar pending">k</span>
-          <span class="rchar pending">u</span>
-          <span class="rchar pending">g</span>
-          <span class="rchar pending">o</span>
-        `;
-        candidateText.textContent = "yojijukugo";
-        renderRanking();
-        updateStats();
-      }
+    function init(){
+      buildModeButtons();
+      updateSoundUI();
+      modeLabel.textContent = "10問";
+      stateLabel.textContent = "待機中";
+      kanjiDisplay.textContent = "四字熟語";
+      kanaDisplay.textContent = "よじじゅくご";
+      state.currentChunks = buildRomanChunks("よじじゅくご");
+      state.currentChunkIndex = 0;
+      state.currentDisplayRoman = state.currentChunks.map(c => c.display).join("");
+      renderRoman();
+      candidateText.textContent = state.currentDisplayRoman;
+      renderRanking();
+      updateStats();
+    }
 
-      init();
-    })();
-  </script>
+    init();
+  })();
+</script>
 </body>
 </html>
