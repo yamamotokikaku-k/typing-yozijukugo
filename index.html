@@ -5,1000 +5,1002 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>四字熟語ローマ字タイピング</title>
   <style>
-    :root{
-      --bg:#f7f8fb;
-      --panel:#ffffff;
-      --text:#111827;
-      --sub:#6b7280;
-      --line:#dbe2ea;
-      --accent:#111827;
-      --ok:#16a34a;
-      --ng:#dc2626;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
-      --radius:20px;
-    }
-    *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      padding:0;
-      background:linear-gradient(180deg,#f9fbff 0%, #f3f5f9 100%);
-      color:var(--text);
-      font-family:
-        "Hiragino Sans","Yu Gothic","Meiryo","Noto Sans JP",
-        system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-    }
-    body{
-      min-height:100vh;
+    :root {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --panel2: #1d2230;
+      --text: #eef2ff;
+      --muted: #98a2b3;
+      --accent: #7c9cff;
+      --accent2: #9bffb0;
+      --danger: #ff7a7a;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,0.28);
     }
 
-    .wrap{
-      width:min(1100px, 92vw);
-      margin:0 auto;
-      padding:24px 0 56px;
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(124,156,255,0.18), transparent 30%),
+        linear-gradient(180deg, #0b0d12, #111521 40%, #0c0f16);
+      color: var(--text);
+      min-height: 100vh;
+      letter-spacing: 0.02em;
     }
 
-    .top{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:18px;
+    .wrap {
+      width: min(1100px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 20px 0 48px;
     }
 
-    .title{
-      width:100%;
-      text-align:center;
-      font-size:clamp(26px,4vw,40px);
-      font-weight:800;
-      letter-spacing:.04em;
-      margin:8px 0 6px;
+    .topbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
     }
 
-    .mode-group, .control-group{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:center;
+    .title {
+      font-size: clamp(22px, 2.5vw, 30px);
+      font-weight: 800;
+      letter-spacing: 0.05em;
     }
 
-    button, select, input{
-      font:inherit;
+    .subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
     }
 
-    .btn{
-      border:none;
-      background:var(--panel);
-      color:var(--text);
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:12px 18px;
-      cursor:pointer;
-      transition:.15s ease;
-      box-shadow:0 2px 8px rgba(0,0,0,.03);
-      font-weight:700;
-    }
-    .btn:hover{transform:translateY(-1px)}
-    .btn.active{
-      background:var(--accent);
-      color:#fff;
-      border-color:var(--accent);
-    }
-    .btn.primary{
-      background:var(--accent);
-      color:#fff;
-      border-color:var(--accent);
+    .mode-panel, .main-panel, .info-panel, .rank-panel {
+      background: rgba(23,26,33,0.92);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
     }
 
-    .game-panel{
-      background:var(--panel);
-      border:1px solid rgba(17,24,39,.06);
-      box-shadow:var(--shadow);
-      border-radius:28px;
-      min-height:430px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      padding:28px 20px 30px;
-      position:relative;
-      overflow:hidden;
+    .mode-panel {
+      padding: 14px;
+      margin-bottom: 16px;
     }
 
-    .status-top{
-      position:absolute;
-      top:18px;
-      left:20px;
-      right:20px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      color:var(--sub);
-      font-size:14px;
-      font-weight:700;
-      flex-wrap:wrap;
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
     }
 
-    .center-area{
-      width:min(900px, 100%);
-      margin-top:18px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:14px;
+    .mode-btn, .control-btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #232939, #1a1f2d);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 10px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.08s ease, border-color 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+      user-select: none;
+    }
+    .mode-btn:hover, .control-btn:hover { border-color: rgba(124,156,255,0.55); }
+    .mode-btn:active, .control-btn:active { transform: scale(0.98); }
+    .mode-btn.active {
+      background: linear-gradient(180deg, #3c57b8, #293b83);
+      border-color: rgba(255,255,255,0.18);
     }
 
-    .message{
-      min-height:1.8em;
-      font-size:15px;
-      color:var(--sub);
-      font-weight:700;
+    .main-panel {
+      min-height: 52vh;
+      display: grid;
+      place-items: center;
+      padding: 28px 24px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .yoji{
-      font-size:clamp(44px, 8vw, 86px);
-      line-height:1.1;
-      font-weight:900;
-      letter-spacing:.08em;
-      word-break:keep-all;
+    .center {
+      width: min(900px, 100%);
+      text-align: center;
     }
 
-    .kana{
-      font-size:clamp(22px, 3.2vw, 34px);
-      color:var(--sub);
-      font-weight:800;
-      letter-spacing:.08em;
+    .status-mini {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+      min-height: 20px;
     }
 
-    .roman-guide{
-      width:min(880px, 100%);
-      font-size:clamp(20px, 3vw, 32px);
-      font-weight:900;
-      line-height:1.5;
-      letter-spacing:.04em;
-      background:#f8fafc;
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:18px 20px;
-      word-break:break-all;
-      min-height:96px;
+    .kanji {
+      font-size: clamp(42px, 8vw, 88px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0.12em;
+      margin: 8px 0 8px;
+      text-shadow: 0 10px 30px rgba(0,0,0,0.35);
     }
 
-    .roman-guide .done{ color:var(--ok); }
-    .roman-guide .current{
-      color:#fff;
-      background:var(--text);
-      border-radius:8px;
-      padding:.04em .22em;
-      margin:0 .02em;
-    }
-    .roman-guide .rest{ color:#9ca3af; }
-
-    .typing-box{
-      width:min(760px, 100%);
-      background:#fff;
-      border:2px solid var(--line);
-      border-radius:18px;
-      padding:16px 18px;
-      font-size:clamp(20px, 3vw, 30px);
-      font-weight:800;
-      min-height:72px;
-      text-align:left;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
-      word-break:break-all;
-    }
-    .typing-box.ok{ border-color:#bbf7d0; background:#f0fdf4; }
-    .typing-box.miss{ border-color:#fecaca; background:#fef2f2; }
-
-    .typing-box .typed-ok{color:var(--ok)}
-    .typing-box .typed-ng{color:var(--ng); text-decoration:underline}
-    .typing-box .typed-rest{color:#9ca3af}
-
-    .bottom{
-      margin-top:22px;
-      display:grid;
-      grid-template-columns:1.3fr .9fr;
-      gap:18px;
-      align-items:start;
+    .kana {
+      font-size: clamp(18px, 2.3vw, 24px);
+      color: #c7d2fe;
+      letter-spacing: 0.08em;
+      margin-bottom: 26px;
     }
 
-    .card{
-      background:var(--panel);
-      border:1px solid rgba(17,24,39,.06);
-      box-shadow:var(--shadow);
-      border-radius:22px;
-      padding:18px;
+    .typing-line {
+      width: min(900px, 100%);
+      min-height: 92px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.025));
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 20px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: clamp(18px, 2.8vw, 36px);
+      line-height: 1.35;
+      overflow-wrap: anywhere;
     }
 
-    .card h2{
-      margin:0 0 14px;
-      font-size:20px;
+    .typed-correct { color: var(--accent2); }
+    .typed-wrong { color: var(--danger); }
+    .typed-rest { color: rgba(255,255,255,0.36); }
+    .cursor {
+      display: inline-block;
+      width: 0.6em;
+      color: var(--accent);
+      animation: blink 1s step-end infinite;
     }
 
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(4, 1fr);
-      gap:10px;
+    @keyframes blink {
+      50% { opacity: 0; }
     }
 
-    .stat{
-      background:#f8fafc;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px 10px;
-      text-align:center;
+    .hint {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 19px;
     }
 
-    .stat .label{
-      display:block;
-      font-size:12px;
-      color:var(--sub);
-      margin-bottom:6px;
-      font-weight:700;
-    }
-    .stat .value{
-      display:block;
-      font-size:22px;
-      font-weight:900;
+    .info-panel {
+      padding: 16px;
+      margin-bottom: 24px;
     }
 
-    .name-row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
     }
 
-    .name-row input{
-      flex:1;
-      min-width:180px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px 14px;
+    .info-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 12px;
+      min-height: 82px;
     }
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      font-size:14px;
-    }
-    th, td{
-      padding:10px 8px;
-      border-bottom:1px solid #edf2f7;
-      text-align:left;
-      vertical-align:top;
-    }
-    th{
-      font-size:12px;
-      color:var(--sub);
-      letter-spacing:.04em;
-    }
-    td.rank{
-      width:56px;
-      font-weight:900;
+    .info-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
     }
 
-    .footer-note{
-      margin-top:10px;
-      color:var(--sub);
-      font-size:12px;
-      line-height:1.7;
+    .info-value {
+      font-size: clamp(18px, 2vw, 28px);
+      font-weight: 900;
+      letter-spacing: 0.03em;
     }
 
-    .hidden-input{
-      position:absolute;
-      opacity:0;
-      pointer-events:none;
-      width:1px;
-      height:1px;
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
     }
 
-    .end-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:center;
-      margin-top:10px;
+    .control-btn {
+      padding: 12px 16px;
+      font-size: 14px;
     }
 
-    .small{
-      font-size:12px;
-      color:var(--sub);
-      font-weight:700;
+    .rank-panel {
+      padding: 16px;
+      scroll-margin-top: 16px;
     }
 
-    @media (max-width: 860px){
-      .bottom{
-        grid-template-columns:1fr;
-      }
-      .stats{
-        grid-template-columns:repeat(2, 1fr);
-      }
-      .status-top{
-        position:static;
-        justify-content:center;
-        margin-bottom:8px;
-      }
-      .game-panel{
-        min-height:390px;
-      }
+    .panel-title {
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .rank-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: rgba(255,255,255,0.04);
+      color: #dbe4ff;
+      font-size: 13px;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .empty {
+      color: var(--muted);
+      padding: 18px 6px 4px;
+      font-size: 14px;
+    }
+
+    .footer-space {
+      height: 18px;
+    }
+
+    @media (max-width: 920px) {
+      .mode-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .info-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { width: min(100vw - 20px, 1100px); }
+      .mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .main-panel { min-height: 48vh; padding: 22px 14px; }
+      .typing-line { min-height: 80px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="top">
-      <div class="title">四字熟語 ローマ字タイピング</div>
-
-      <div class="mode-group" id="modeGroup">
-        <button class="btn active" data-mode="10">10問</button>
-        <button class="btn" data-mode="20">20問</button>
-        <button class="btn" data-mode="30">30問</button>
-        <button class="btn" data-mode="40">40問</button>
-        <button class="btn" data-mode="50">50問</button>
-        <button class="btn" data-mode="100">100問</button>
-        <button class="btn" data-mode="endless">終わりなし</button>
-      </div>
-
-      <div class="control-group">
-        <button class="btn primary" id="startBtn">スタート</button>
-        <button class="btn" id="resetBtn">リセット</button>
+    <div class="topbar">
+      <div>
+        <div class="title">四字熟語 ローマ字タイピング</div>
+        <div class="subtitle">最初のキー入力で計測開始 / 複数ローマ字入力対応 / 効果音つき</div>
       </div>
     </div>
 
-    <section class="game-panel" id="gamePanel">
-      <div class="status-top">
-        <div id="statusMode">モード: 10問</div>
-        <div id="statusProgress">問題: 0 / 10</div>
-        <div id="statusTimer">タイム: 0.00秒</div>
-      </div>
+    <section class="mode-panel">
+      <div class="mode-grid" id="modeGrid"></div>
+    </section>
 
-      <div class="center-area">
-        <div class="message" id="message">スタートを押すと開始します。最初のキー入力で計測開始。</div>
-        <div class="yoji" id="yoji">四字熟語</div>
-        <div class="kana" id="kana">しじゅくご</div>
-        <div class="roman-guide" id="romanGuide">shijukugo</div>
-        <div class="typing-box" id="typingBox">ここに入力状況が表示されます</div>
-        <input class="hidden-input" id="hiddenInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
-        <div class="end-actions">
-          <span class="small">画面のどこを押しても入力できます</span>
-        </div>
+    <section class="main-panel">
+      <div class="center">
+        <div class="status-mini" id="statusMini">モードを選ぶと開始できます</div>
+        <div class="kanji" id="kanjiDisplay">四字熟語</div>
+        <div class="kana" id="kanaDisplay">よみがな</div>
+        <div class="typing-line" id="typingLine"></div>
+        <div class="hint" id="hintLine">スペースや数字キーではなく、ローマ字で入力してください</div>
       </div>
     </section>
 
-    <div class="bottom">
-      <section class="card">
-        <h2>今回の成績</h2>
-        <div class="stats">
-          <div class="stat">
-            <span class="label">正確率</span>
-            <span class="value" id="accuracyView">0%</span>
-          </div>
-          <div class="stat">
-            <span class="label">タイム</span>
-            <span class="value" id="timeView">0.00秒</span>
-          </div>
-          <div class="stat">
-            <span class="label">正打鍵数</span>
-            <span class="value" id="correctView">0</span>
-          </div>
-          <div class="stat">
-            <span class="label">ミス数</span>
-            <span class="value" id="missView">0</span>
-          </div>
+    <section class="info-panel">
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-label">モード</div>
+          <div class="info-value" id="modeValue">未選択</div>
         </div>
-        <div class="footer-note">
-          正確率が高い順で順位を決定。正確率が同じ場合はタイムが短い方が上位。<br>
-          終わりなしモードはランキング対象外です。
+        <div class="info-card">
+          <div class="info-label">進行</div>
+          <div class="info-value" id="progressValue">0 / 0</div>
         </div>
-      </section>
+        <div class="info-card">
+          <div class="info-label">時間</div>
+          <div class="info-value" id="timeValue">0.00s</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">正確率</div>
+          <div class="info-value" id="accuracyValue">100.0%</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">ミス</div>
+          <div class="info-value" id="missValue">0</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">WPM</div>
+          <div class="info-value" id="wpmValue">0</div>
+        </div>
+      </div>
 
-      <section class="card">
-        <h2>ランキング ベスト10</h2>
-        <div class="name-row">
-          <input id="playerName" maxlength="16" placeholder="名前を入力（例: AAA）" />
-          <button class="btn" id="saveScoreBtn">成績を保存</button>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>順位</th>
-              <th>名前</th>
-              <th>モード</th>
-              <th>正確率</th>
-              <th>タイム</th>
-              <th>日時</th>
-            </tr>
-          </thead>
-          <tbody id="rankingBody"></tbody>
-        </table>
-      </section>
-    </div>
+      <div class="controls">
+        <button class="control-btn" id="restartBtn">このモードをやり直す</button>
+        <button class="control-btn" id="soundBtn">効果音: ON</button>
+        <button class="control-btn" id="rankResetBtn">ランキング初期化</button>
+      </div>
+    </section>
+
+    <section class="rank-panel" id="rankPanel">
+      <div class="panel-title">ランキング TOP 10</div>
+      <div class="rank-note">正確率が高い順。正確率が同じ場合はタイムが速い順。</div>
+      <div id="rankArea"></div>
+    </section>
+
+    <div class="footer-space"></div>
   </div>
 
   <script>
-    const WORDS = [
-      { kanji:"一期一会", kana:"いちごいちえ" },
-      { kanji:"異口同音", kana:"いくどうおん" },
-      { kanji:"以心伝心", kana:"いしんでんしん" },
-      { kanji:"一石二鳥", kana:"いっせきにちょう" },
-      { kanji:"一進一退", kana:"いっしんいったい" },
-      { kanji:"一長一短", kana:"いっちょういったん" },
-      { kanji:"右往左往", kana:"うおうさおう" },
-      { kanji:"海千山千", kana:"うみせんやません" },
-      { kanji:"温故知新", kana:"おんこちしん" },
-      { kanji:"我田引水", kana:"がでんいんすい" },
-      { kanji:"危機一髪", kana:"ききいっぱつ" },
-      { kanji:"起死回生", kana:"きしかいせい" },
-      { kanji:"牛飲馬食", kana:"ぎゅういんばしょく" },
-      { kanji:"切磋琢磨", kana:"せっさたくま" },
-      { kanji:"言語道断", kana:"ごんごどうだん" },
-      { kanji:"公明正大", kana:"こうめいせいだい" },
-      { kanji:"行雲流水", kana:"こううんりゅうすい" },
-      { kanji:"山紫水明", kana:"さんしすいめい" },
-      { kanji:"試行錯誤", kana:"しこうさくご" },
-      { kanji:"自画自賛", kana:"じがじさん" },
-      { kanji:"四面楚歌", kana:"しめんそか" },
-      { kanji:"森羅万象", kana:"しんらばんしょう" },
-      { kanji:"順風満帆", kana:"じゅんぷうまんぱん" },
-      { kanji:"晴耕雨読", kana:"せいこううどく" },
-      { kanji:"千載一遇", kana:"せんざいいちぐう" },
-      { kanji:"千差万別", kana:"せんさばんべつ" },
-      { kanji:"電光石火", kana:"でんこうせっか" },
-      { kanji:"天真爛漫", kana:"てんしんらんまん" },
-      { kanji:"東奔西走", kana:"とうほんせいそう" },
-      { kanji:"二束三文", kana:"にそくさんもん" },
-      { kanji:"半信半疑", kana:"はんしんはんぎ" },
-      { kanji:"美辞麗句", kana:"びじれいく" },
-      { kanji:"付和雷同", kana:"ふわらいどう" },
-      { kanji:"不言実行", kana:"ふげんじっこう" },
-      { kanji:"臥薪嘗胆", kana:"がしんしょうたん" },
-      { kanji:"馬耳東風", kana:"ばじとうふう" },
-      { kanji:"明鏡止水", kana:"めいきょうしすい" },
-      { kanji:"優柔不断", kana:"ゆうじゅうふだん" },
-      { kanji:"有名無実", kana:"ゆうめいむじつ" },
-      { kanji:"竜頭蛇尾", kana:"りゅうとうだび" },
-      { kanji:"冷静沈着", kana:"れいせいちんちゃく" },
-      { kanji:"和洋折衷", kana:"わようせっちゅう" },
-      { kanji:"大胆不敵", kana:"だいたんふてき" },
-      { kanji:"支離滅裂", kana:"しりめつれつ" },
-      { kanji:"前代未聞", kana:"ぜんだいみもん" },
-      { kanji:"厚顔無恥", kana:"こうがんむち" },
-      { kanji:"完全無欠", kana:"かんぜんむけつ" },
-      { kanji:"豪放磊落", kana:"ごうほうらいらく" },
-      { kanji:"大器晩成", kana:"たいきばんせい" },
-      { kanji:"質実剛健", kana:"しつじつごうけん" },
-      { kanji:"因果応報", kana:"いんがおうほう" },
-      { kanji:"一念発起", kana:"いちねんほっき" },
-      { kanji:"一蓮托生", kana:"いちれんたくしょう" },
-      { kanji:"栄枯盛衰", kana:"えいこせいすい" },
-      { kanji:"快刀乱麻", kana:"かいとうらんま" },
-      { kanji:"換骨奪胎", kana:"かんこつだったい" },
-      { kanji:"喜怒哀楽", kana:"きどあいらく" },
-      { kanji:"玉石混交", kana:"ぎょくせきこんこう" },
-      { kanji:"空前絶後", kana:"くうぜんぜつご" },
-      { kanji:"軽挙妄動", kana:"けいきょもうどう" },
-      { kanji:"古今東西", kana:"ここんとうざい" },
-      { kanji:"才色兼備", kana:"さいしょくけんび" },
-      { kanji:"三寒四温", kana:"さんかんしおん" },
-      { kanji:"自業自得", kana:"じごうじとく" },
-      { kanji:"縦横無尽", kana:"じゅうおうむじん" },
-      { kanji:"初志貫徹", kana:"しょしかんてつ" },
-      { kanji:"心機一転", kana:"しんきいってん" },
-      { kanji:"大同小異", kana:"だいどうしょうい" },
-      { kanji:"単刀直入", kana:"たんとうちょくにゅう" },
-      { kanji:"天衣無縫", kana:"てんいむほう" },
-      { kanji:"内憂外患", kana:"ないゆうがいかん" },
-      { kanji:"二律背反", kana:"にりつはいはん" },
-      { kanji:"白砂青松", kana:"はくしゃせいしょう" },
-      { kanji:"品行方正", kana:"ひんこうほうせい" },
-      { kanji:"風光明媚", kana:"ふうこうめいび" },
-      { kanji:"平身低頭", kana:"へいしんていとう" },
-      { kanji:"本末転倒", kana:"ほんまつてんとう" },
-      { kanji:"無我夢中", kana:"むがむちゅう" },
-      { kanji:"無病息災", kana:"むびょうそくさい" },
-      { kanji:"有言実行", kana:"ゆうげんじっこう" },
-      { kanji:"臨機応変", kana:"りんきおうへん" }
-    ];
+    (() => {
+      const idioms = [
+        { kanji: "一期一会", kana: "いちごいちえ" },
+        { kanji: "異口同音", kana: "いくどうおん" },
+        { kanji: "以心伝心", kana: "いしんでんしん" },
+        { kanji: "温故知新", kana: "おんこちしん" },
+        { kanji: "完全無欠", kana: "かんぜんむけつ" },
+        { kanji: "起死回生", kana: "きしかいせい" },
+        { kanji: "喜怒哀楽", kana: "きどあいらく" },
+        { kanji: "空前絶後", kana: "くうぜんぜつご" },
+        { kanji: "公平無私", kana: "こうへいむし" },
+        { kanji: "古今東西", kana: "ここんとうざい" },
+        { kanji: "試行錯誤", kana: "しこうさくご" },
+        { kanji: "自画自賛", kana: "じがじさん" },
+        { kanji: "自給自足", kana: "じきゅうじそく" },
+        { kanji: "四苦八苦", kana: "しくはっく" },
+        { kanji: "十人十色", kana: "じゅうにんといろ" },
+        { kanji: "順風満帆", kana: "じゅんぷうまんぱん" },
+        { kanji: "晴耕雨読", kana: "せいこううどく" },
+        { kanji: "切磋琢磨", kana: "せっさたくま" },
+        { kanji: "全身全霊", kana: "ぜんしんぜんれい" },
+        { kanji: "千載一遇", kana: "せんざいいちぐう" },
+        { kanji: "泰然自若", kana: "たいぜんじじゃく" },
+        { kanji: "大胆不敵", kana: "だいたんふてき" },
+        { kanji: "単刀直入", kana: "たんとうちょくにゅう" },
+        { kanji: "天真爛漫", kana: "てんしんらんまん" },
+        { kanji: "電光石火", kana: "でんこうせっか" },
+        { kanji: "東奔西走", kana: "とうほんせいそう" },
+        { kanji: "独立独歩", kana: "どくりつどっぽ" },
+        { kanji: "日進月歩", kana: "にっしんげっぽ" },
+        { kanji: "二者択一", kana: "にしゃたくいつ" },
+        { kanji: "馬耳東風", kana: "ばじとうふう" },
+        { kanji: "半信半疑", kana: "はんしんはんぎ" },
+        { kanji: "美辞麗句", kana: "びじれいく" },
+        { kanji: "百花繚乱", kana: "ひゃっかりょうらん" },
+        { kanji: "不言実行", kana: "ふげんじっこう" },
+        { kanji: "付和雷同", kana: "ふわらいどう" },
+        { kanji: "粉骨砕身", kana: "ふんこつさいしん" },
+        { kanji: "変幻自在", kana: "へんげんじざい" },
+        { kanji: "無我夢中", kana: "むがむちゅう" },
+        { kanji: "明鏡止水", kana: "めいきょうしすい" },
+        { kanji: "面目躍如", kana: "めんもくやくじょ" },
+        { kanji: "有言実行", kana: "ゆうげんじっこう" },
+        { kanji: "勇猛果敢", kana: "ゆうもうかかん" },
+        { kanji: "用意周到", kana: "よういしゅうとう" },
+        { kanji: "臨機応変", kana: "りんきおうへん" },
+        { kanji: "和洋折衷", kana: "わようせっちゅう" },
+        { kanji: "公明正大", kana: "こうめいせいだい" },
+        { kanji: "言語道断", kana: "ごんごどうだん" },
+        { kanji: "自由自在", kana: "じゆうじざい" },
+        { kanji: "千差万別", kana: "せんさばんべつ" },
+        { kanji: "前代未聞", kana: "ぜんだいみもん" },
+        { kanji: "大同小異", kana: "だいどうしょうい" },
+        { kanji: "単純明快", kana: "たんじゅんめいかい" },
+        { kanji: "朝令暮改", kana: "ちょうれいぼかい" },
+        { kanji: "猪突猛進", kana: "ちょとつもうしん" },
+        { kanji: "当意即妙", kana: "とういそくみょう" },
+        { kanji: "内柔外剛", kana: "ないじゅうがいごう" },
+        { kanji: "日常茶飯", kana: "にちじょうさはん" },
+        { kanji: "破顔一笑", kana: "はがんいっしょう" },
+        { kanji: "反面教師", kana: "はんめんきょうし" },
+        { kanji: "品行方正", kana: "ひんこうほうせい" },
+        { kanji: "不撓不屈", kana: "ふとうふくつ" },
+        { kanji: "無病息災", kana: "むびょうそくさい" },
+        { kanji: "名実一体", kana: "めいじついったい" },
+        { kanji: "油断大敵", kana: "ゆだんたいてき" },
+        { kanji: "竜頭蛇尾", kana: "りゅうとうだび" },
+        { kanji: "良妻賢母", kana: "りょうさいけんぼ" },
+        { kanji: "冷酷無比", kana: "れいこくむひ" }
+      ];
 
-    const ROMA = {
-      "あ":["a"], "い":["i","yi"], "う":["u","wu","whu"], "え":["e"], "お":["o"],
-      "か":["ka","ca"], "き":["ki"], "く":["ku","cu","qu"], "け":["ke"], "こ":["ko","co"],
-      "さ":["sa"], "し":["shi","si","ci"], "す":["su"], "せ":["se","ce"], "そ":["so"],
-      "た":["ta"], "ち":["chi","ti"], "つ":["tsu","tu"], "て":["te"], "と":["to"],
-      "な":["na"], "に":["ni"], "ぬ":["nu"], "ね":["ne"], "の":["no"],
-      "は":["ha"], "ひ":["hi"], "ふ":["fu","hu"], "へ":["he"], "ほ":["ho"],
-      "ま":["ma"], "み":["mi"], "む":["mu"], "め":["me"], "も":["mo"],
-      "や":["ya"], "ゆ":["yu"], "よ":["yo"],
-      "ら":["ra"], "り":["ri"], "る":["ru"], "れ":["re"], "ろ":["ro"],
-      "わ":["wa"], "を":["wo","o"], "ん":["n","nn","xn"],
-      "が":["ga"], "ぎ":["gi"], "ぐ":["gu"], "げ":["ge"], "ご":["go"],
-      "ざ":["za"], "じ":["ji","zi"], "ず":["zu"], "ぜ":["ze"], "ぞ":["zo"],
-      "だ":["da"], "ぢ":["di","ji"], "づ":["du","zu"], "で":["de"], "ど":["do"],
-      "ば":["ba"], "び":["bi"], "ぶ":["bu"], "べ":["be"], "ぼ":["bo"],
-      "ぱ":["pa"], "ぴ":["pi"], "ぷ":["pu"], "ぺ":["pe"], "ぽ":["po"],
+      const modes = [
+        { label: "10問", value: 10 },
+        { label: "20問", value: 20 },
+        { label: "30問", value: 30 },
+        { label: "40問", value: 40 },
+        { label: "50問", value: 50 },
+        { label: "100問", value: 100 },
+        { label: "∞", value: Infinity }
+      ];
 
-      "きゃ":["kya"], "きゅ":["kyu"], "きょ":["kyo"],
-      "しゃ":["sha","sya"], "しゅ":["shu","syu"], "しょ":["sho","syo"],
-      "ちゃ":["cha","tya","cya"], "ちゅ":["chu","tyu","cyu"], "ちょ":["cho","tyo","cyo"],
-      "にゃ":["nya"], "にゅ":["nyu"], "にょ":["nyo"],
-      "ひゃ":["hya"], "ひゅ":["hyu"], "ひょ":["hyo"],
-      "みゃ":["mya"], "みゅ":["myu"], "みょ":["myo"],
-      "りゃ":["rya"], "りゅ":["ryu"], "りょ":["ryo"],
-      "ぎゃ":["gya"], "ぎゅ":["gyu"], "ぎょ":["gyo"],
-      "じゃ":["ja","jya","zya"], "じゅ":["ju","jyu","zyu"], "じょ":["jo","jyo","zyo"],
-      "びゃ":["bya"], "びゅ":["byu"], "びょ":["byo"],
-      "ぴゃ":["pya"], "ぴゅ":["pyu"], "ぴょ":["pyo"],
+      const modeGrid = document.getElementById("modeGrid");
+      const kanjiDisplay = document.getElementById("kanjiDisplay");
+      const kanaDisplay = document.getElementById("kanaDisplay");
+      const typingLine = document.getElementById("typingLine");
+      const hintLine = document.getElementById("hintLine");
+      const statusMini = document.getElementById("statusMini");
 
-      "ゔぁ":["va"], "ゔぃ":["vi"], "ゔ":["vu"], "ゔぇ":["ve"], "ゔぉ":["vo"],
+      const modeValue = document.getElementById("modeValue");
+      const progressValue = document.getElementById("progressValue");
+      const timeValue = document.getElementById("timeValue");
+      const accuracyValue = document.getElementById("accuracyValue");
+      const missValue = document.getElementById("missValue");
+      const wpmValue = document.getElementById("wpmValue");
 
-      "ぁ":["xa","la"], "ぃ":["xi","li"], "ぅ":["xu","lu"], "ぇ":["xe","le"], "ぉ":["xo","lo"],
-      "ゃ":["xya","lya"], "ゅ":["xyu","lyu"], "ょ":["xyo","lyo"],
-      "っ":["xtu","ltu","xtsu"]
-    };
+      const restartBtn = document.getElementById("restartBtn");
+      const soundBtn = document.getElementById("soundBtn");
+      const rankResetBtn = document.getElementById("rankResetBtn");
+      const rankArea = document.getElementById("rankArea");
 
-    const modeGroup = document.getElementById("modeGroup");
-    const startBtn = document.getElementById("startBtn");
-    const resetBtn = document.getElementById("resetBtn");
-    const saveScoreBtn = document.getElementById("saveScoreBtn");
-    const playerName = document.getElementById("playerName");
+      const STORAGE_KEY = "yojijukugo_typing_rank_v1";
 
-    const statusMode = document.getElementById("statusMode");
-    const statusProgress = document.getElementById("statusProgress");
-    const statusTimer = document.getElementById("statusTimer");
-
-    const message = document.getElementById("message");
-    const yoji = document.getElementById("yoji");
-    const kana = document.getElementById("kana");
-    const romanGuide = document.getElementById("romanGuide");
-    const typingBox = document.getElementById("typingBox");
-    const hiddenInput = document.getElementById("hiddenInput");
-
-    const accuracyView = document.getElementById("accuracyView");
-    const timeView = document.getElementById("timeView");
-    const correctView = document.getElementById("correctView");
-    const missView = document.getElementById("missView");
-    const rankingBody = document.getElementById("rankingBody");
-
-    let selectedMode = "10";
-    let problemSet = [];
-    let currentIndex = 0;
-    let started = false;
-    let finished = false;
-    let timerId = null;
-    let startTime = 0;
-    let elapsed = 0;
-
-    let correctCount = 0;
-    let missCount = 0;
-    let typedHistory = "";
-    let missFlash = false;
-
-    let currentWord = null;
-    let candidates = [];
-    let activeCandidate = "";
-    let typed = "";
-
-    function escapeHtml(str){
-      return str
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#39;");
-    }
-
-    function shuffle(arr){
-      const a = [...arr];
-      for(let i=a.length-1;i>0;i--){
-        const j = Math.floor(Math.random()*(i+1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    }
-
-    function chooseProblems(mode){
-      if(mode === "endless"){
-        return [];
-      }
-      const count = Number(mode);
-      const base = shuffle(WORDS);
-      const result = [];
-      while(result.length < count){
-        result.push(...shuffle(base));
-      }
-      return result.slice(0, count);
-    }
-
-    function isSmallKana(ch){
-      return ["ゃ","ゅ","ょ","ぁ","ぃ","ぅ","ぇ","ぉ"].includes(ch);
-    }
-
-    function splitKanaUnits(text){
-      const units = [];
-      for(let i=0;i<text.length;i++){
-        const ch = text[i];
-        const next = text[i+1];
-        if(next && isSmallKana(next)){
-          units.push(ch + next);
-          i++;
-        } else {
-          units.push(ch);
-        }
-      }
-      return units;
-    }
-
-    function consonantOfRoma(roma){
-      if(!roma) return "";
-      const m = roma.match(/^[bcdfghjklmnpqrstvwxyz]+/i);
-      return m ? m[0][0].toLowerCase() : "";
-    }
-
-    function getNextKana(units, idx){
-      return units[idx+1] || "";
-    }
-
-    function getOptionsForUnit(units, idx){
-      const unit = units[idx];
-      const next = getNextKana(units, idx);
-
-      if(unit === "っ"){
-        const options = [...(ROMA["っ"] || [])];
-        if(next){
-          const nextOptions = getOptionsForUnit(units, idx+1);
-          const initials = [...new Set(
-            nextOptions
-              .map(consonantOfRoma)
-              .filter(c => c && c !== "n")
-          )];
-          initials.forEach(c => options.push(c));
-        }
-        return [...new Set(options)];
-      }
-
-      if(unit === "ん"){
-        const options = [...(ROMA["ん"] || ["n","nn"])];
-        if(next){
-          const nextOptions = getOptionsForUnit(units, idx+1);
-          const initials = [...new Set(
-            nextOptions
-              .map(consonantOfRoma)
-              .filter(Boolean)
-          )];
-          const danger = ["a","i","u","e","o","y","n"];
-          if(initials.some(c => danger.includes(c))){
-            return options.filter(x => x !== "n");
-          }
-        }
-        return options;
-      }
-
-      return ROMA[unit] || [unit];
-    }
-
-    function buildCandidatesFromKana(kanaText){
-      const units = splitKanaUnits(kanaText);
-      let list = [""];
-      for(let i=0;i<units.length;i++){
-        const opts = getOptionsForUnit(units, i);
-        const nextList = [];
-        for(const base of list){
-          for(const opt of opts){
-            nextList.push(base + opt);
-          }
-        }
-        const unique = [...new Set(nextList)];
-        unique.sort((a,b)=>a.length-b.length);
-        list = unique.slice(0, 300);
-      }
-      return [...new Set(list)].sort((a,b)=>a.length-b.length || a.localeCompare(b));
-    }
-
-    function pickActiveCandidate(userTyped){
-      const matched = candidates.filter(c => c.startsWith(userTyped));
-      if(matched.length === 0){
-        return activeCandidate || candidates[0] || "";
-      }
-      matched.sort((a,b)=>{
-        const al = a.length - userTyped.length;
-        const bl = b.length - userTyped.length;
-        if(al !== bl) return al - bl;
-        return a.localeCompare(b);
-      });
-      return matched[0];
-    }
-
-    function renderRomanGuide(){
-      const done = escapeHtml(typed);
-      const current = activeCandidate[typed.length] || "";
-      const rest = activeCandidate.slice(typed.length + (current ? 1 : 0));
-
-      romanGuide.innerHTML =
-        `<span class="done">${done}</span>` +
-        (current ? `<span class="current">${escapeHtml(current)}</span>` : "") +
-        `<span class="rest">${escapeHtml(rest)}</span>`;
-    }
-
-    function renderTypingBox(lastMiss=false){
-      const ok = escapeHtml(typedHistory);
-      typingBox.innerHTML = `
-        <span class="typed-ok">${ok}</span>
-        <span class="typed-ng">${lastMiss ? "×" : ""}</span>
-        <span class="typed-rest">${escapeHtml(activeCandidate.slice(typed.length))}</span>
-      `;
-      typingBox.classList.toggle("ok", typed.length > 0 && !lastMiss);
-      typingBox.classList.toggle("miss", lastMiss);
-    }
-
-    function updateStats(){
-      const total = correctCount + missCount;
-      const acc = total ? (correctCount / total) * 100 : 0;
-      accuracyView.textContent = acc.toFixed(1) + "%";
-      timeView.textContent = elapsed.toFixed(2) + "秒";
-      correctView.textContent = correctCount;
-      missView.textContent = missCount;
-    }
-
-    function updateHeader(){
-      statusMode.textContent = "モード: " + (selectedMode === "endless" ? "終わりなし" : selectedMode + "問");
-      const totalLabel = selectedMode === "endless" ? "∞" : problemSet.length;
-      statusProgress.textContent = `問題: ${Math.min(currentIndex, totalLabel === "∞" ? currentIndex : problemSet.length)} / ${totalLabel}`;
-      statusTimer.textContent = `タイム: ${elapsed.toFixed(2)}秒`;
-    }
-
-    function tick(){
-      if(!started || finished) return;
-      elapsed = (performance.now() - startTime) / 1000;
-      updateHeader();
-      updateStats();
-    }
-
-    function startTimerIfNeeded(){
-      if(started) return;
-      started = true;
-      startTime = performance.now();
-      timerId = setInterval(tick, 30);
-      message.textContent = "入力中…";
-    }
-
-    function setCurrentWord(word){
-      currentWord = word;
-      candidates = buildCandidatesFromKana(word.kana);
-      activeCandidate = candidates[0] || "";
-      typed = "";
-      typedHistory = "";
-      yoji.textContent = word.kanji;
-      kana.textContent = word.kana;
-      renderRomanGuide();
-      renderTypingBox(false);
-      updateHeader();
-      hiddenInput.value = "";
-      hiddenInput.focus();
-    }
-
-    function nextWord(){
-      if(selectedMode === "endless"){
-        const word = WORDS[Math.floor(Math.random() * WORDS.length)];
-        currentIndex++;
-        setCurrentWord(word);
-        return;
-      }
-
-      if(currentIndex >= problemSet.length){
-        finishGame();
-        return;
-      }
-      const word = problemSet[currentIndex];
-      currentIndex++;
-      setCurrentWord(word);
-    }
-
-    function startGame(){
-      clearInterval(timerId);
-      timerId = null;
-      started = false;
-      finished = false;
-      elapsed = 0;
-      correctCount = 0;
-      missCount = 0;
-      typedHistory = "";
-      currentIndex = 0;
-      problemSet = chooseProblems(selectedMode);
-      updateStats();
-      updateHeader();
-      message.textContent = "最初のキー入力で計測開始";
-      nextWord();
-    }
-
-    function resetGame(){
-      clearInterval(timerId);
-      timerId = null;
-      started = false;
-      finished = false;
-      elapsed = 0;
-      correctCount = 0;
-      missCount = 0;
-      typedHistory = "";
-      currentIndex = 0;
-      currentWord = null;
-      candidates = [];
-      activeCandidate = "";
-      typed = "";
-      yoji.textContent = "四字熟語";
-      kana.textContent = "しじゅくご";
-      romanGuide.textContent = "shijukugo";
-      typingBox.textContent = "ここに入力状況が表示されます";
-      typingBox.classList.remove("ok","miss");
-      message.textContent = "スタートを押すと開始します。最初のキー入力で計測開始。";
-      updateStats();
-      updateHeader();
-    }
-
-    function finishGame(){
-      finished = true;
-      clearInterval(timerId);
-      timerId = null;
-      tick();
-      message.textContent = "終了しました。名前を入れて成績を保存できます。";
-      yoji.textContent = "終了";
-      kana.textContent = "";
-      romanGuide.textContent = "おつかれさまでした";
-      typingBox.textContent = "下のランキングに保存できます";
-      typingBox.classList.remove("ok","miss");
-    }
-
-    function getResultObject(){
-      const total = correctCount + missCount;
-      const accuracy = total ? (correctCount / total) * 100 : 0;
-      return {
-        name: (playerName.value || "NO NAME").trim().slice(0,16) || "NO NAME",
-        mode: selectedMode,
-        accuracy: Number(accuracy.toFixed(1)),
-        time: Number(elapsed.toFixed(2)),
-        correct: correctCount,
-        miss: missCount,
-        createdAt: new Date().toLocaleString("ja-JP")
+      const state = {
+        mode: null,
+        totalQuestions: 0,
+        started: false,
+        finished: false,
+        startTime: null,
+        elapsedMs: 0,
+        index: 0,
+        queue: [],
+        current: null,
+        accepted: "",
+        displayGuide: "",
+        mistakes: 0,
+        typedCount: 0,
+        correctCount: 0,
+        keySoundOn: true,
+        audioCtx: null,
+        timerId: null
       };
-    }
 
-    function loadRanking(){
-      try{
-        return JSON.parse(localStorage.getItem("yojiRomaRanking") || "[]");
-      }catch{
-        return [];
+      const kanaMap = {
+        "あ":["a"], "い":["i","yi"], "う":["u","wu","whu"], "え":["e"], "お":["o"],
+        "か":["ka","ca"], "き":["ki"], "く":["ku","cu","qu"], "け":["ke"], "こ":["ko","co"],
+        "さ":["sa"], "し":["shi","si","ci"], "す":["su"], "せ":["se","ce"], "そ":["so"],
+        "た":["ta"], "ち":["chi","ti"], "つ":["tsu","tu"], "て":["te"], "と":["to"],
+        "な":["na"], "に":["ni"], "ぬ":["nu"], "ね":["ne"], "の":["no"],
+        "は":["ha"], "ひ":["hi"], "ふ":["fu","hu"], "へ":["he"], "ほ":["ho"],
+        "ま":["ma"], "み":["mi"], "む":["mu"], "め":["me"], "も":["mo"],
+        "や":["ya"], "ゆ":["yu"], "よ":["yo"],
+        "ら":["ra"], "り":["ri"], "る":["ru"], "れ":["re"], "ろ":["ro"],
+        "わ":["wa"], "を":["wo","o"],
+        "ん":["n","nn","n'"],
+        "が":["ga"], "ぎ":["gi"], "ぐ":["gu"], "げ":["ge"], "ご":["go"],
+        "ざ":["za"], "じ":["ji","zi"], "ず":["zu"], "ぜ":["ze"], "ぞ":["zo"],
+        "だ":["da"], "ぢ":["ji","di"], "づ":["zu","du"], "で":["de"], "ど":["do"],
+        "ば":["ba"], "び":["bi"], "ぶ":["bu"], "べ":["be"], "ぼ":["bo"],
+        "ぱ":["pa"], "ぴ":["pi"], "ぷ":["pu"], "ぺ":["pe"], "ぽ":["po"],
+        "ぁ":["xa","la"], "ぃ":["xi","li","yi"], "ぅ":["xu","lu"], "ぇ":["xe","le"], "ぉ":["xo","lo"],
+        "ゃ":["xya","lya"], "ゅ":["xyu","lyu"], "ょ":["xyo","lyo"],
+        "ゔ":["vu"],
+        "ー":["-"]
+      };
+
+      const digraphMap = {
+        "きゃ":["kya"], "きゅ":["kyu"], "きょ":["kyo"],
+        "しゃ":["sha","sya"], "しゅ":["shu","syu"], "しょ":["sho","syo"],
+        "ちゃ":["cha","cya","tya"], "ちゅ":["chu","cyu","tyu"], "ちょ":["cho","cyo","tyo"],
+        "にゃ":["nya"], "にゅ":["nyu"], "にょ":["nyo"],
+        "ひゃ":["hya"], "ひゅ":["hyu"], "ひょ":["hyo"],
+        "みゃ":["mya"], "みゅ":["myu"], "みょ":["myo"],
+        "りゃ":["rya"], "りゅ":["ryu"], "りょ":["ryo"],
+        "ぎゃ":["gya"], "ぎゅ":["gyu"], "ぎょ":["gyo"],
+        "じゃ":["ja","jya","zya"], "じゅ":["ju","jyu","zyu"], "じょ":["jo","jyo","zyo"],
+        "ぢゃ":["ja","dya"], "ぢゅ":["ju","dyu"], "ぢょ":["jo","dyo"],
+        "びゃ":["bya"], "びゅ":["byu"], "びょ":["byo"],
+        "ぴゃ":["pya"], "ぴゅ":["pyu"], "ぴょ":["pyo"],
+        "てぃ":["thi","ti"], "でぃ":["dhi","di"],
+        "とぅ":["twu","tu"], "どぅ":["dwu","du"],
+        "しぇ":["she","sye"], "ちぇ":["che","tye","cye"], "じぇ":["je","jye","zye"],
+        "ふぁ":["fa"], "ふぃ":["fi"], "ふぇ":["fe"], "ふぉ":["fo"],
+        "うぃ":["wi"], "うぇ":["we"], "うぉ":["who","wo"],
+        "ヴぁ":["va"], "ヴぃ":["vi"], "ヴぇ":["ve"], "ヴぉ":["vo"],
+        "ゔぁ":["va"], "ゔぃ":["vi"], "ゔぇ":["ve"], "ゔぉ":["vo"],
+        "りぇ":["rye"], "みぇ":["mye"], "ひぇ":["hye"], "にぇ":["nye"],
+        "ぎぇ":["gye"], "びぇ":["bye"], "ぴぇ":["pye"], "しぃ":["syi","shi"], "ちぃ":["tyi","chi"]
+      };
+
+      function uniq(arr) {
+        return [...new Set(arr)];
       }
-    }
 
-    function saveRankingData(data){
-      localStorage.setItem("yojiRomaRanking", JSON.stringify(data));
-    }
-
-    function sortRanking(list){
-      return [...list].sort((a,b)=>{
-        if(b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
-        if(a.time !== b.time) return a.time - b.time;
-        return (b.correct - a.correct);
-      }).slice(0,10);
-    }
-
-    function renderRanking(){
-      const ranking = sortRanking(loadRanking());
-      if(ranking.length === 0){
-        rankingBody.innerHTML = `<tr><td colspan="6" style="color:#6b7280;">まだ記録がありません</td></tr>`;
-        return;
+      function firstEffectiveConsonant(roma) {
+        const m = roma.match(/^[^aeiouxn]/);
+        return m ? m[0] : "";
       }
-      rankingBody.innerHTML = ranking.map((r,i)=>`
-        <tr>
-          <td class="rank">${i+1}</td>
-          <td>${escapeHtml(r.name)}</td>
-          <td>${r.mode === "endless" ? "終わりなし" : escapeHtml(String(r.mode)+"問")}</td>
-          <td>${r.accuracy.toFixed(1)}%</td>
-          <td>${r.time.toFixed(2)}秒</td>
-          <td>${escapeHtml(r.createdAt)}</td>
-        </tr>
-      `).join("");
-    }
 
-    function saveScore(){
-      if(!finished){
-        alert("終了後に保存できます。");
-        return;
+      function buildRomanizations(kana) {
+        const memo = new Map();
+
+        function dfs(i) {
+          const key = i;
+          if (memo.has(key)) return memo.get(key);
+          if (i >= kana.length) return [""];
+
+          let results = [];
+
+          const two = kana.slice(i, i + 2);
+          const one = kana[i];
+
+          if (one === "っ") {
+            const nextParts = dfs(i + 1);
+            const doubled = [];
+            for (const p of nextParts) {
+              const c = firstEffectiveConsonant(p);
+              if (c) doubled.push(c + p);
+              doubled.push("xtu" + p, "ltu" + p, "xtsu" + p, "ltsu" + p);
+            }
+            results = results.concat(doubled);
+          } else if (two && digraphMap[two]) {
+            const tails = dfs(i + 2);
+            for (const head of digraphMap[two]) {
+              for (const tail of tails) results.push(head + tail);
+            }
+          } else if (kanaMap[one]) {
+            const tails = dfs(i + 1);
+            for (const head of kanaMap[one]) {
+              for (const tail of tails) {
+                if (one === "ん" && (head === "n" || head === "n'")) {
+                  if (tail[0] && "aiueoyn".includes(tail[0])) {
+                    results.push("nn" + tail);
+                    results.push("n'" + tail);
+                    continue;
+                  }
+                  if (tail[0] && "bmp".includes(tail[0])) results.push("m" + tail);
+                }
+                results.push(head + tail);
+              }
+            }
+          } else {
+            const tails = dfs(i + 1);
+            for (const tail of tails) results.push(one + tail);
+          }
+
+          results = uniq(results).filter(v => v.length <= 64);
+          memo.set(key, results);
+          return results;
+        }
+
+        return uniq(dfs(0));
       }
-      if(selectedMode === "endless"){
-        alert("終わりなしモードはランキング対象外です。");
-        return;
+
+      function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
       }
-      const ranking = loadRanking();
-      ranking.push(getResultObject());
-      saveRankingData(sortRanking(ranking));
+
+      function createQueue(count) {
+        if (count === Infinity) return [];
+        const need = count;
+        const out = [];
+        while (out.length < need) out.push(...shuffle(idioms));
+        return shuffle(out).slice(0, need);
+      }
+
+      function getInfiniteItem() {
+        return idioms[Math.floor(Math.random() * idioms.length)];
+      }
+
+      function getCurrentCandidates() {
+        return state.current ? state.current.candidates : [];
+      }
+
+      function getMatchingCandidates(prefix) {
+        return getCurrentCandidates().filter(c => c.startsWith(prefix));
+      }
+
+      function getShortestMatch(prefix) {
+        const matches = getMatchingCandidates(prefix);
+        matches.sort((a, b) => a.length - b.length || a.localeCompare(b));
+        return matches[0] || "";
+      }
+
+      function renderTyping() {
+        if (!state.current) {
+          typingLine.innerHTML = '<span class="typed-rest">モードを選択してください</span>';
+          return;
+        }
+
+        const best = getShortestMatch(state.accepted) || "";
+        const correct = escapeHtml(state.accepted);
+        const rest = escapeHtml(best.slice(state.accepted.length));
+        typingLine.innerHTML =
+          `<span class="typed-correct">${correct}</span>` +
+          `<span class="cursor">|</span>` +
+          `<span class="typed-rest">${rest}</span>`;
+
+        const candidates = getMatchingCandidates(state.accepted);
+        const nextChars = uniq(
+          candidates.map(c => c[state.accepted.length]).filter(Boolean)
+        ).sort();
+
+        state.displayGuide = best;
+        hintLine.textContent = candidates.length
+          ? `入力候補例: ${best}${nextChars.length ? " / 次に打てるキー: " + nextChars.join(" ") : ""}`
+          : "入力候補がありません";
+      }
+
+      function renderStats() {
+        const elapsed = state.started
+          ? state.finished
+            ? state.elapsedMs
+            : Date.now() - state.startTime
+          : 0;
+
+        const total = state.typedCount + state.mistakes;
+        const acc = total > 0 ? (state.typedCount / total) * 100 : 100;
+        const minutes = elapsed / 60000;
+        const wpm = minutes > 0 ? Math.round((state.correctCount / 5) / minutes) : 0;
+        const progressTotal = state.mode === Infinity ? "∞" : state.totalQuestions;
+
+        modeValue.textContent = state.mode === Infinity ? "∞" : `${state.mode}問`;
+        progressValue.textContent = `${Math.min(state.index + (state.finished ? 1 : 0), state.mode === Infinity ? state.index + 1 : state.totalQuestions)} / ${progressTotal}`;
+        timeValue.textContent = `${(elapsed / 1000).toFixed(2)}s`;
+        accuracyValue.textContent = `${acc.toFixed(1)}%`;
+        missValue.textContent = `${state.mistakes}`;
+        wpmValue.textContent = `${wpm}`;
+
+        if (!state.current) {
+          progressValue.textContent = "0 / 0";
+          modeValue.textContent = "未選択";
+          timeValue.textContent = "0.00s";
+          accuracyValue.textContent = "100.0%";
+          missValue.textContent = "0";
+          wpmValue.textContent = "0";
+        }
+      }
+
+      function renderCurrent() {
+        if (!state.current) {
+          kanjiDisplay.textContent = "四字熟語";
+          kanaDisplay.textContent = "よみがな";
+          statusMini.textContent = "モードを選ぶと開始できます";
+          renderTyping();
+          renderStats();
+          return;
+        }
+
+        kanjiDisplay.textContent = state.current.kanji;
+        kanaDisplay.textContent = state.current.kana;
+        if (!state.started) {
+          statusMini.textContent = "最初のキー入力で計測開始";
+        } else if (state.finished) {
+          statusMini.textContent = "終了";
+        } else {
+          statusMini.textContent = "そのまま入力してください";
+        }
+        renderTyping();
+        renderStats();
+      }
+
+      function updateTimer() {
+        renderStats();
+      }
+
+      function startTimerIfNeeded() {
+        if (state.started) return;
+        state.started = true;
+        state.startTime = Date.now();
+        if (state.timerId) clearInterval(state.timerId);
+        state.timerId = setInterval(updateTimer, 50);
+      }
+
+      function stopTimer() {
+        if (!state.started) return;
+        state.elapsedMs = Date.now() - state.startTime;
+        state.finished = true;
+        if (state.timerId) clearInterval(state.timerId);
+        state.timerId = null;
+      }
+
+      function nextQuestion() {
+        state.accepted = "";
+
+        if (state.mode === Infinity) {
+          const item = getInfiniteItem();
+          state.current = {
+            ...item,
+            candidates: buildRomanizations(item.kana)
+          };
+          renderCurrent();
+          return;
+        }
+
+        if (state.index >= state.queue.length) {
+          finishGame();
+          return;
+        }
+
+        const item = state.queue[state.index];
+        state.current = {
+          ...item,
+          candidates: buildRomanizations(item.kana)
+        };
+        renderCurrent();
+      }
+
+      function startGame(modeValueSelected) {
+        state.mode = modeValueSelected;
+        state.totalQuestions = modeValueSelected === Infinity ? Infinity : modeValueSelected;
+        state.started = false;
+        state.finished = false;
+        state.startTime = null;
+        state.elapsedMs = 0;
+        state.index = 0;
+        state.accepted = "";
+        state.mistakes = 0;
+        state.typedCount = 0;
+        state.correctCount = 0;
+        state.queue = createQueue(modeValueSelected);
+        state.current = null;
+        if (state.timerId) clearInterval(state.timerId);
+        state.timerId = null;
+
+        document.querySelectorAll(".mode-btn").forEach(btn => {
+          btn.classList.toggle("active", String(btn.dataset.value) === String(modeValueSelected));
+        });
+
+        nextQuestion();
+      }
+
+      function finishGame() {
+        stopTimer();
+        renderCurrent();
+
+        const total = state.typedCount + state.mistakes;
+        const accuracy = total > 0 ? (state.typedCount / total) * 100 : 100;
+        statusMini.textContent = `終了 / 正確率 ${accuracy.toFixed(1)}% / タイム ${(state.elapsedMs / 1000).toFixed(2)}s`;
+        kanjiDisplay.textContent = "結果";
+        kanaDisplay.textContent = "ランキングに記録しました";
+        typingLine.innerHTML = `<span class="typed-correct">正確率 ${accuracy.toFixed(1)}%　タイム ${(state.elapsedMs / 1000).toFixed(2)}s</span>`;
+        hintLine.textContent = "同じモードで再挑戦するか、別のモードを選んでください";
+        saveRanking();
+        renderRanking();
+      }
+
+      function saveRanking() {
+        if (state.mode === Infinity) return;
+
+        const rows = loadRanking();
+        const total = state.typedCount + state.mistakes;
+        const accuracy = total > 0 ? (state.typedCount / total) * 100 : 100;
+
+        rows.push({
+          mode: state.mode,
+          accuracy: Number(accuracy.toFixed(2)),
+          timeMs: state.elapsedMs,
+          misses: state.mistakes,
+          date: new Date().toLocaleString("ja-JP")
+        });
+
+        rows.sort((a, b) => {
+          if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
+          if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
+          return a.misses - b.misses;
+        });
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(rows.slice(0, 10)));
+      }
+
+      function loadRanking() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function renderRanking() {
+        const rows = loadRanking();
+        if (!rows.length) {
+          rankArea.innerHTML = `<div class="empty">まだ記録がありません</div>`;
+          return;
+        }
+
+        const html = `
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>モード</th>
+                <th>正確率</th>
+                <th>タイム</th>
+                <th>ミス</th>
+                <th>日時</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map((r, i) => `
+                <tr>
+                  <td>${i + 1}</td>
+                  <td>${r.mode}問</td>
+                  <td>${Number(r.accuracy).toFixed(2)}%</td>
+                  <td>${(r.timeMs / 1000).toFixed(2)}s</td>
+                  <td>${r.misses}</td>
+                  <td>${escapeHtml(r.date)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+        rankArea.innerHTML = html;
+      }
+
+      function handleCorrectChar(ch) {
+        startTimerIfNeeded();
+        state.accepted += ch;
+        state.typedCount += 1;
+        state.correctCount += 1;
+        playKeySound(false);
+
+        const matches = getMatchingCandidates(state.accepted);
+        if (!matches.length) {
+          state.mistakes += 1;
+          playKeySound(true);
+        }
+
+        const completed = matches.some(c => c === state.accepted);
+        if (completed) {
+          playCompleteSound();
+          state.index += 1;
+          if (state.mode === Infinity) {
+            nextQuestion();
+          } else if (state.index >= state.totalQuestions) {
+            finishGame();
+          } else {
+            nextQuestion();
+          }
+          return;
+        }
+
+        renderCurrent();
+      }
+
+      function handleWrongChar() {
+        if (!state.current || state.finished) return;
+        startTimerIfNeeded();
+        state.mistakes += 1;
+        playKeySound(true);
+        renderCurrent();
+      }
+
+      function validTypingKey(e) {
+        if (e.ctrlKey || e.metaKey || e.altKey) return null;
+        const k = e.key;
+        if (!k || k.length !== 1) return null;
+        if (/^[a-zA-Z'-]$/.test(k)) return k.toLowerCase();
+        return null;
+      }
+
+      function onKeyDown(e) {
+        const ch = validTypingKey(e);
+        if (!ch) return;
+        if (!state.current || state.finished) return;
+
+        e.preventDefault();
+
+        const trial = state.accepted + ch;
+        const matches = getMatchingCandidates(trial);
+        if (matches.length) {
+          handleCorrectChar(ch);
+        } else {
+          handleWrongChar();
+        }
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function ensureAudio() {
+        if (!state.keySoundOn) return null;
+        if (!state.audioCtx) {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return null;
+          state.audioCtx = new Ctx();
+        }
+        if (state.audioCtx.state === "suspended") state.audioCtx.resume();
+        return state.audioCtx;
+      }
+
+      function tone(freq, duration, type = "sine", gainValue = 0.025) {
+        const ctx = ensureAudio();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(gainValue, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + duration + 0.02);
+      }
+
+      function playKeySound(isError) {
+        if (!state.keySoundOn) return;
+        if (isError) {
+          tone(180, 0.08, "square", 0.03);
+        } else {
+          tone(720, 0.045, "triangle", 0.018);
+        }
+      }
+
+      function playCompleteSound() {
+        if (!state.keySoundOn) return;
+        tone(520, 0.06, "triangle", 0.02);
+        setTimeout(() => tone(780, 0.08, "triangle", 0.02), 45);
+      }
+
+      function buildModeButtons() {
+        modeGrid.innerHTML = modes.map(m => `
+          <button class="mode-btn" data-value="${m.value}">
+            ${m.label}
+          </button>
+        `).join("");
+
+        modeGrid.querySelectorAll(".mode-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const v = btn.dataset.value === "Infinity" ? Infinity : Number(btn.dataset.value);
+            startGame(v);
+          });
+        });
+      }
+
+      restartBtn.addEventListener("click", () => {
+        if (state.mode == null) return;
+        startGame(state.mode);
+      });
+
+      soundBtn.addEventListener("click", () => {
+        state.keySoundOn = !state.keySoundOn;
+        soundBtn.textContent = `効果音: ${state.keySoundOn ? "ON" : "OFF"}`;
+        if (state.keySoundOn) ensureAudio();
+      });
+
+      rankResetBtn.addEventListener("click", () => {
+        if (!confirm("ランキングを初期化しますか？")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        renderRanking();
+      });
+
+      window.addEventListener("keydown", onKeyDown);
+
+      buildModeButtons();
       renderRanking();
-      message.textContent = "ランキングに保存しました。";
-    }
-
-    function handleCharInput(ch){
-      if(finished || !currentWord) return;
-      if(!/^[a-z]$/i.test(ch)) return;
-
-      startTimerIfNeeded();
-      ch = ch.toLowerCase();
-
-      const nextTyped = typed + ch;
-      const matched = candidates.filter(c => c.startsWith(nextTyped));
-
-      if(matched.length > 0){
-        typed = nextTyped;
-        typedHistory += ch;
-        activeCandidate = pickActiveCandidate(typed);
-        correctCount++;
-        renderRomanGuide();
-        renderTypingBox(false);
-
-        if(candidates.includes(typed)){
-          setTimeout(()=>{
-            if(finished) return;
-            nextWord();
-          }, 70);
-        }
-      }else{
-        missCount++;
-        renderTypingBox(true);
-        typingBox.classList.remove("ok");
-        setTimeout(()=>{
-          renderTypingBox(false);
-        }, 80);
-      }
-      tick();
-    }
-
-    document.addEventListener("keydown", (e)=>{
-      if(["Tab","Meta","Alt","Control","Shift","Escape"].includes(e.key)) return;
-
-      if(e.key === "Enter"){
-        e.preventDefault();
-        if(!currentWord || finished){
-          startGame();
-        }
-        return;
-      }
-
-      if(e.key.length === 1 && /^[a-zA-Z]$/.test(e.key)){
-        e.preventDefault();
-        hiddenInput.focus();
-        handleCharInput(e.key);
-      }
-    });
-
-    document.getElementById("gamePanel").addEventListener("click", ()=>{
-      hiddenInput.focus();
-    });
-
-    hiddenInput.addEventListener("blur", ()=>{
-      setTimeout(()=>hiddenInput.focus(), 0);
-    });
-
-    hiddenInput.addEventListener("input", ()=>{
-      hiddenInput.value = "";
-    });
-
-    modeGroup.addEventListener("click", (e)=>{
-      const btn = e.target.closest("[data-mode]");
-      if(!btn) return;
-      [...modeGroup.querySelectorAll(".btn")].forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-      selectedMode = btn.dataset.mode;
-      resetGame();
-      updateHeader();
-    });
-
-    startBtn.addEventListener("click", startGame);
-    resetBtn.addEventListener("click", resetGame);
-    saveScoreBtn.addEventListener("click", saveScore);
-
-    renderRanking();
-    resetGame();
+      renderCurrent();
+    })();
   </script>
 </body>
 </html>
