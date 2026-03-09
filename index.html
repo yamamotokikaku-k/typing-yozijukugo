@@ -616,6 +616,7 @@
       isFinished:false,
       isInfinite:false,
       awaitingEnter:false,
+      canAdvanceInfinite:false,
       queue:[],
       current:null,
       currentIndex:0,
@@ -732,6 +733,7 @@
       clearRepeatTimer();
       state.isFinished = false;
       state.awaitingEnter = false;
+      state.canAdvanceInfinite = false;
       state.current = null;
       state.currentIndex = 0;
       state.typed = "";
@@ -804,6 +806,7 @@
       state.correctKeys = 0;
       state.repeatCount = 0;
       state.awaitingEnter = false;
+      state.canAdvanceInfinite = false;
       state.isRunning = true;
       state.isFinished = false;
       state.startTime = performance.now();
@@ -822,6 +825,7 @@
       state.isCounting = false;
       state.isRunning = false;
       state.awaitingEnter = false;
+      state.canAdvanceInfinite = false;
       state.endTime = performance.now();
 
       state.countdownTimers.forEach(id=>clearTimeout(id));
@@ -842,6 +846,7 @@
       state.isRunning = false;
       state.isFinished = true;
       state.awaitingEnter = false;
+      state.canAdvanceInfinite = false;
       state.endTime = performance.now();
 
       if(state.timerId) cancelAnimationFrame(state.timerId);
@@ -892,6 +897,7 @@
       }
 
       state.awaitingEnter = false;
+      state.canAdvanceInfinite = false;
       state.current.roman = kanaToRomajiStrict(state.current.kana).toUpperCase();
       state.typed = "";
       el.kanji.textContent = state.current.kanji;
@@ -977,6 +983,7 @@
       clearRepeatTimer();
       state.currentIndex++;
       state.awaitingEnter = false;
+      state.canAdvanceInfinite = false;
 
       const idx = state.currentIndex % state.queue.length;
       if(idx === 0){
@@ -998,12 +1005,8 @@
 
       if(state.isInfinite){
         state.awaitingEnter = true;
+        state.canAdvanceInfinite = true;
         setMessage("正解。Enter で次へ / そのまま同じ熟語を繰り返し練習", "ok");
-        state.repeatTimer = setTimeout(()=>{
-          if(state.awaitingEnter && state.isRunning){
-            repeatCurrentWord();
-          }
-        }, 180);
       }else{
         setMessage("正解", "ok");
         state.repeatTimer = setTimeout(()=>{
@@ -1018,16 +1021,8 @@
       if(!state.current) return;
       const target = state.current.roman;
 
-      if(state.awaitingEnter && state.isInfinite){
-        if(key === "Enter"){
-          advanceWordInfinite();
-          return;
-        }
-        if(/^[a-z]$/.test(key)){
-          repeatCurrentWord();
-        }else{
-          return;
-        }
+      if(state.awaitingEnter && state.isInfinite && /^[a-z]$/.test(key)){
+        repeatCurrentWord();
       }
 
       if(!/^[a-z]$/.test(key)) return;
@@ -1082,7 +1077,7 @@
 
       if(key === "Enter"){
         e.preventDefault();
-        if(state.isInfinite && state.awaitingEnter){
+        if(state.isInfinite && state.canAdvanceInfinite){
           advanceWordInfinite();
         }
         return;
