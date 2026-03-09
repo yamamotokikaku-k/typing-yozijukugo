@@ -400,7 +400,7 @@
         </div>
 
         <div class="kanji" id="kanji">四字熟語</div>
-        <div class="reading" id="reading">YOJIJUKUGO</div>
+        <div class="reading" id="reading">よじじゅくご</div>
 
         <div class="typing">
           <div class="romaji" id="romajiView"></div>
@@ -735,7 +735,7 @@
       updateStats();
       el.runLabel.textContent = "待機中";
       el.kanji.textContent = "四字熟語";
-      el.reading.textContent = "YOJIJUKUGO";
+      el.reading.textContent = "よじじゅくご";
       renderRomaji("");
       setMessage("スペースキーで開始", "");
       el.resultPanel.classList.remove("show");
@@ -879,7 +879,7 @@
       state.current.roman = kanaToRomajiStrict(state.current.kana).toUpperCase();
       state.typed = "";
       el.kanji.textContent = state.current.kanji;
-      el.reading.textContent = state.current.roman;
+      el.reading.textContent = state.current.kana;
       renderRomaji();
       updateStats();
 
@@ -898,8 +898,8 @@
       setMessage("同じ熟語をもう一度。Enter で次の熟語へ", "");
     }
 
-    function renderRomaji(){
-      const target = state.current?.roman || "";
+    function renderRomaji(initialText = null){
+      const target = initialText !== null ? initialText : (state.current?.roman || "");
       const done = escapeHtml(target.slice(0, state.typed.length));
       const rest = escapeHtml(target.slice(state.typed.length));
 
@@ -967,7 +967,7 @@
       state.current.roman = kanaToRomajiStrict(state.current.kana).toUpperCase();
       state.typed = "";
       el.kanji.textContent = state.current.kanji;
-      el.reading.textContent = state.current.roman;
+      el.reading.textContent = state.current.kana;
       renderRomaji();
       updateStats();
       setMessage("入力して練習。正解後 Enter で次へ", "");
