@@ -627,7 +627,8 @@
       endTime:0,
       timerId:null,
       countdownTimers:[],
-      repeatCount:0
+      repeatCount:0,
+      repeatTimer:null
     };
 
     const el = {
@@ -707,6 +708,13 @@
       src.start(audioCtx.currentTime + 0.0005);
     }
 
+    function clearRepeatTimer(){
+      if(state.repeatTimer){
+        clearTimeout(state.repeatTimer);
+        state.repeatTimer = null;
+      }
+    }
+
     function setMode(mode){
       if(state.isRunning || state.isCounting) return;
       state.mode = mode;
@@ -721,6 +729,7 @@
     }
 
     function resetIdleScreen(){
+      clearRepeatTimer();
       state.isFinished = false;
       state.awaitingEnter = false;
       state.current = null;
@@ -756,6 +765,7 @@
     function startCountdown(){
       if(state.isCounting || state.isRunning) return;
 
+      clearRepeatTimer();
       ensureAudio();
       state.isCounting = true;
       el.resultPanel.classList.remove("show");
@@ -785,6 +795,7 @@
     }
 
     function beginGame(){
+      clearRepeatTimer();
       state.queue = buildQueue();
       state.currentIndex = 0;
       state.typed = "";
@@ -807,6 +818,7 @@
     }
 
     function stopGame(manual = true){
+      clearRepeatTimer();
       state.isCounting = false;
       state.isRunning = false;
       state.awaitingEnter = false;
@@ -826,6 +838,7 @@
     }
 
     function finishGame(){
+      clearRepeatTimer();
       state.isRunning = false;
       state.isFinished = true;
       state.awaitingEnter = false;
@@ -859,6 +872,8 @@
     }
 
     function nextWord(initial = false){
+      clearRepeatTimer();
+
       if(state.isInfinite){
         if(initial || !state.current){
           if(state.currentIndex === 0){
@@ -876,6 +891,7 @@
         state.current = state.queue[state.currentIndex];
       }
 
+      state.awaitingEnter = false;
       state.current.roman = kanaToRomajiStrict(state.current.kana).toUpperCase();
       state.typed = "";
       el.kanji.textContent = state.current.kanji;
@@ -891,6 +907,8 @@
     }
 
     function repeatCurrentWord(){
+      clearRepeatTimer();
+      state.awaitingEnter = false;
       state.typed = "";
       renderRomaji();
       state.repeatCount++;
@@ -945,6 +963,7 @@
     }
 
     function advanceWordFinite(){
+      clearRepeatTimer();
       state.currentIndex++;
       if(state.currentIndex >= state.queue.length){
         finishGame();
@@ -955,6 +974,7 @@
     }
 
     function advanceWordInfinite(){
+      clearRepeatTimer();
       state.currentIndex++;
       state.awaitingEnter = false;
 
@@ -974,17 +994,19 @@
     }
 
     function onCorrectComplete(){
+      clearRepeatTimer();
+
       if(state.isInfinite){
         state.awaitingEnter = true;
         setMessage("正解。Enter で次へ / そのまま同じ熟語を繰り返し練習", "ok");
-        setTimeout(()=>{
+        state.repeatTimer = setTimeout(()=>{
           if(state.awaitingEnter && state.isRunning){
             repeatCurrentWord();
           }
         }, 180);
       }else{
         setMessage("正解", "ok");
-        setTimeout(()=>{
+        state.repeatTimer = setTimeout(()=>{
           if(state.isRunning){
             advanceWordFinite();
           }
