@@ -6,29 +6,37 @@
   <title>四字熟語タイピング練習</title>
   <style>
     :root{
-      --bg:#8b7b2f;
-      --bg-deep:#756725;
-      --panel:rgba(255,255,255,.18);
-      --panel-strong:rgba(255,255,255,.28);
-      --line:rgba(0,0,0,.18);
-      --text:#101010;
-      --sub:#2c2a1d;
-      --accent:#5f3dc4;
-      --ok:#0f6d3b;
-      --miss:#9c1f1f;
-      --typed:#4d2ca8;
-      --typed-bg:rgba(77,44,168,.10);
-      --shadow:0 16px 40px rgba(0,0,0,.18);
+      --bg:#c9ad46;
+      --bg-deep:#b5942f;
+      --bg-light:#d8bf63;
+      --panel:rgba(255,255,255,.14);
+      --panel-strong:rgba(255,255,255,.22);
+      --line:rgba(255,255,255,.16);
+      --text:#111111;
+      --sub:#2d2610;
+
+      --display-white:#fffdf6;
+      --display-white-soft:#f8f3e6;
+      --typed-black:#111111;
+      --typed-black-soft:#1e1a10;
+      --typed-bg:rgba(0,0,0,.12);
+
+      --accent:#ffffff;
+      --ok:#ffffff;
+      --miss:#2b0000;
+
+      --shadow:0 16px 40px rgba(0,0,0,.16);
     }
 
     *{box-sizing:border-box}
+
     html,body{
       margin:0;
       min-height:100%;
       font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
       background:
-        radial-gradient(circle at top, rgba(255,255,255,.10), transparent 30%),
-        linear-gradient(180deg, #958538 0%, var(--bg) 45%, var(--bg-deep) 100%);
+        radial-gradient(circle at top, rgba(255,255,255,.14), transparent 32%),
+        linear-gradient(180deg, var(--bg-light) 0%, var(--bg) 45%, var(--bg-deep) 100%);
       color:var(--text);
     }
 
@@ -63,8 +71,9 @@
 
     .title{
       font-size:clamp(20px,2.6vw,30px);
-      font-weight:800;
+      font-weight:900;
       letter-spacing:.05em;
+      color:#1a1407;
     }
 
     .controls{
@@ -77,19 +86,24 @@
     .mode-btn{
       border:none;
       background:rgba(255,255,255,.42);
-      color:var(--text);
+      color:#1a1407;
       padding:10px 16px;
       border-radius:999px;
       cursor:pointer;
-      font-weight:800;
+      font-weight:900;
       letter-spacing:.04em;
       box-shadow:0 3px 10px rgba(0,0,0,.08);
       transition:.15s transform,.15s background,.15s box-shadow;
     }
-    .mode-btn:hover{ transform:translateY(-1px); background:rgba(255,255,255,.56); }
+
+    .mode-btn:hover{
+      transform:translateY(-1px);
+      background:rgba(255,255,255,.56);
+    }
+
     .mode-btn.active{
-      background:var(--text);
-      color:#d8cb79;
+      background:#1b160c;
+      color:#f5e9b1;
       box-shadow:0 8px 18px rgba(0,0,0,.18);
     }
 
@@ -120,67 +134,90 @@
     }
 
     .badge{
-      background:rgba(255,255,255,.35);
-      border:1px solid rgba(0,0,0,.08);
+      background:rgba(255,255,255,.26);
+      border:1px solid rgba(255,255,255,.14);
       border-radius:999px;
       padding:8px 14px;
-      font-weight:700;
-      color:var(--sub);
+      font-weight:800;
+      color:#241d0d;
     }
 
     .kanji{
-      font-size:clamp(42px,8vw,90px);
+      font-size:clamp(44px,8vw,96px);
       font-weight:900;
-      letter-spacing:.12em;
-      line-height:1.15;
+      letter-spacing:.14em;
+      line-height:1.12;
       min-height:1.2em;
-      text-shadow:0 2px 0 rgba(255,255,255,.15);
+      color:var(--display-white);
+      text-shadow:
+        0 2px 0 rgba(0,0,0,.08),
+        0 6px 18px rgba(0,0,0,.12);
+      font-family:
+        "Yu Mincho",
+        "Hiragino Mincho ProN",
+        "Hiragino Mincho Pro",
+        "MS PMincho",
+        "Times New Roman",
+        serif;
+      font-feature-settings:"palt";
     }
 
     .reading{
       font-size:clamp(18px,2.5vw,30px);
-      font-weight:700;
-      color:var(--sub);
-      letter-spacing:.08em;
+      font-weight:900;
+      color:var(--display-white-soft);
+      letter-spacing:.10em;
       min-height:1.4em;
       word-break:break-all;
+      text-shadow:
+        0 2px 0 rgba(0,0,0,.07),
+        0 4px 12px rgba(0,0,0,.08);
     }
 
     .typing{
-      background:rgba(255,255,255,.34);
-      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.16);
       border-radius:24px;
       padding:20px;
       min-height:96px;
       display:grid;
       align-items:center;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
     }
 
     .romaji{
       font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-      font-size:clamp(22px,3vw,38px);
+      font-size:clamp(24px,3vw,40px);
       line-height:1.5;
-      letter-spacing:.04em;
+      letter-spacing:.06em;
       word-break:break-all;
+      font-weight:900;
     }
 
     .done{
-      color:var(--typed);
+      color:var(--typed-black);
       background:var(--typed-bg);
       border-radius:10px;
       padding:0 .08em;
     }
+
     .rest{
-      color:rgba(0,0,0,.72);
+      color:var(--display-white);
+      text-shadow:
+        0 2px 0 rgba(0,0,0,.07),
+        0 4px 12px rgba(0,0,0,.08);
     }
+
     .cursor{
       display:inline-block;
       width:.65em;
       text-align:center;
-      color:var(--accent);
+      color:var(--display-white);
       animation:blink 1s step-end infinite;
       font-weight:900;
+      text-shadow:0 2px 8px rgba(0,0,0,.18);
     }
+
     @keyframes blink{
       50%{ opacity:0; }
     }
@@ -188,11 +225,18 @@
     .message{
       min-height:1.6em;
       font-size:clamp(16px,2vw,22px);
-      font-weight:800;
-      color:var(--sub);
+      font-weight:900;
+      color:#251e0e;
     }
-    .message.ok{ color:var(--ok); }
-    .message.miss{ color:var(--miss); }
+
+    .message.ok{
+      color:#ffffff;
+      text-shadow:0 2px 8px rgba(0,0,0,.18);
+    }
+
+    .message.miss{
+      color:var(--miss);
+    }
 
     .bottom{
       display:grid;
@@ -208,16 +252,19 @@
       box-shadow:var(--shadow);
       text-align:center;
     }
+
     .stat .label{
       font-size:13px;
-      color:var(--sub);
-      font-weight:800;
+      color:#322911;
+      font-weight:900;
       letter-spacing:.08em;
     }
+
     .stat .value{
       margin-top:8px;
       font-size:clamp(22px,3vw,36px);
       font-weight:900;
+      color:#171208;
     }
 
     .overlay{
@@ -225,11 +272,14 @@
       inset:0;
       display:none;
       place-items:center;
-      background:rgba(0,0,0,.24);
+      background:rgba(0,0,0,.20);
       backdrop-filter:blur(2px);
       z-index:5;
     }
-    .overlay.show{ display:grid; }
+
+    .overlay.show{
+      display:grid;
+    }
 
     .count{
       width:160px;
@@ -239,51 +289,62 @@
       place-items:center;
       font-size:72px;
       font-weight:900;
-      background:rgba(255,255,255,.74);
-      color:var(--text);
+      background:rgba(255,255,255,.78);
+      color:#1a1407;
       box-shadow:0 18px 40px rgba(0,0,0,.24);
     }
 
     .help{
       font-size:14px;
-      color:rgba(0,0,0,.82);
+      color:#2c2410;
       margin-top:4px;
       line-height:1.7;
+      font-weight:700;
     }
 
     .result-panel{
       margin-top:8px;
-      background:rgba(255,255,255,.32);
-      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.24);
+      border:1px solid rgba(255,255,255,.16);
       border-radius:20px;
       padding:16px;
       display:none;
     }
-    .result-panel.show{ display:block; }
+
+    .result-panel.show{
+      display:block;
+    }
+
     .result-title{
       font-size:24px;
       font-weight:900;
       margin-bottom:10px;
+      color:#1a1407;
     }
+
     .result-grid{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
       gap:12px;
     }
+
     .result-card{
-      background:rgba(255,255,255,.35);
+      background:rgba(255,255,255,.28);
       border-radius:16px;
       padding:12px;
     }
+
     .result-card .r-label{
       font-size:13px;
-      font-weight:800;
-      color:var(--sub);
+      font-weight:900;
+      color:#30270f;
     }
+
     .result-card .r-value{
       margin-top:6px;
       font-size:30px;
       font-weight:900;
+      color:#140f07;
     }
 
     @media (max-width:900px){
@@ -303,7 +364,7 @@
         grid-template-columns:1fr;
       }
       .kanji{
-        letter-spacing:.06em;
+        letter-spacing:.08em;
       }
     }
   </style>
@@ -339,7 +400,7 @@
         </div>
 
         <div class="kanji" id="kanji">四字熟語</div>
-        <div class="reading" id="reading">よじじゅくご</div>
+        <div class="reading" id="reading">YOJIJUKUGO</div>
 
         <div class="typing">
           <div class="romaji" id="romajiView"></div>
@@ -563,6 +624,7 @@
       totalKeys:0,
       correctKeys:0,
       startTime:0,
+      endTime:0,
       timerId:null,
       countdownTimers:[],
       repeatCount:0
@@ -588,7 +650,6 @@
       resultTime:document.getElementById("resultTime")
     };
 
-    // 低めのパンチ音：極力遅延を減らすため事前生成バッファを使う
     let audioCtx = null;
     let punchBuffer = null;
 
@@ -627,6 +688,7 @@
 
     function playPunch(){
       if(!audioCtx || !punchBuffer) return;
+
       const src = audioCtx.createBufferSource();
       const gain = audioCtx.createGain();
       const filter = audioCtx.createBiquadFilter();
@@ -642,17 +704,18 @@
       filter.connect(gain);
       gain.connect(audioCtx.destination);
 
-      const when = audioCtx.currentTime + 0.0005;
-      src.start(when);
+      src.start(audioCtx.currentTime + 0.0005);
     }
 
     function setMode(mode){
       if(state.isRunning || state.isCounting) return;
       state.mode = mode;
       state.isInfinite = mode === "infinite";
+
       [...el.modeButtons.querySelectorAll(".mode-btn")].forEach(btn=>{
         btn.classList.toggle("active", btn.dataset.mode === mode);
       });
+
       el.modeLabel.textContent = `モード：${mode === "infinite" ? "無限" : mode + "問"}`;
       resetIdleScreen();
     }
@@ -667,10 +730,12 @@
       state.totalKeys = 0;
       state.correctKeys = 0;
       state.repeatCount = 0;
+      state.startTime = 0;
+      state.endTime = 0;
       updateStats();
       el.runLabel.textContent = "待機中";
       el.kanji.textContent = "四字熟語";
-      el.reading.textContent = "よじじゅくご";
+      el.reading.textContent = "YOJIJUKUGO";
       renderRomaji("");
       setMessage("スペースキーで開始", "");
       el.resultPanel.classList.remove("show");
@@ -678,9 +743,8 @@
 
     function buildQueue(){
       const shuffled = shuffle(WORDS);
-      if(state.isInfinite){
-        return shuffled;
-      }
+      if(state.isInfinite) return shuffled;
+
       const count = Number(state.mode);
       const pool = [];
       while(pool.length < count){
@@ -691,12 +755,14 @@
 
     function startCountdown(){
       if(state.isCounting || state.isRunning) return;
+
       ensureAudio();
       state.isCounting = true;
       el.resultPanel.classList.remove("show");
       el.overlay.classList.add("show");
       el.runLabel.textContent = "カウントダウン";
       setMessage("開始します", "");
+
       const seq = ["3","2","1","START"];
       el.countText.textContent = seq[0];
 
@@ -730,8 +796,11 @@
       state.isRunning = true;
       state.isFinished = false;
       state.startTime = performance.now();
+      state.endTime = 0;
+
       if(state.timerId) cancelAnimationFrame(state.timerId);
       tickTimer();
+
       el.runLabel.textContent = "プレイ中";
       nextWord(true);
       updateStats();
@@ -741,20 +810,27 @@
       state.isCounting = false;
       state.isRunning = false;
       state.awaitingEnter = false;
+      state.endTime = performance.now();
+
       state.countdownTimers.forEach(id=>clearTimeout(id));
       state.countdownTimers = [];
       el.overlay.classList.remove("show");
+
       if(state.timerId) cancelAnimationFrame(state.timerId);
       el.runLabel.textContent = manual ? "中断" : "終了";
+
       if(manual){
         setMessage("停止しました。スペースキーで最初から再開", "");
       }
+      updateStats();
     }
 
     function finishGame(){
       state.isRunning = false;
       state.isFinished = true;
       state.awaitingEnter = false;
+      state.endTime = performance.now();
+
       if(state.timerId) cancelAnimationFrame(state.timerId);
       el.runLabel.textContent = "終了";
       setMessage("おつかれさまでした。スペースキーで再スタート", "ok");
@@ -778,7 +854,7 @@
 
     function elapsedSec(){
       if(!state.startTime) return 0;
-      const end = state.isRunning ? performance.now() : performance.now();
+      const end = state.isRunning ? performance.now() : (state.endTime || performance.now());
       return (end - state.startTime) / 1000;
     }
 
@@ -800,12 +876,13 @@
         state.current = state.queue[state.currentIndex];
       }
 
-      state.current.roman = kanaToRomajiStrict(state.current.kana);
+      state.current.roman = kanaToRomajiStrict(state.current.kana).toUpperCase();
       state.typed = "";
       el.kanji.textContent = state.current.kanji;
-      el.reading.textContent = state.current.kana;
+      el.reading.textContent = state.current.roman;
       renderRomaji();
       updateStats();
+
       if(state.isInfinite){
         setMessage("入力して練習。正解後 Enter で次へ", "");
       }else{
@@ -825,6 +902,7 @@
       const target = state.current?.roman || "";
       const done = escapeHtml(target.slice(0, state.typed.length));
       const rest = escapeHtml(target.slice(state.typed.length));
+
       el.romajiView.innerHTML = `
         <span class="done">${done}</span><span class="cursor">|</span><span class="rest">${rest}</span>
       `;
@@ -858,9 +936,9 @@
       }
 
       if(!state.isRunning){
-        if(state.isFinished){
+        if(state.isFinished || state.endTime){
           el.timeValue.textContent = `${elapsedSec().toFixed(1)}s`;
-        }else if(!state.startTime){
+        }else{
           el.timeValue.textContent = "0.0s";
         }
       }
@@ -879,15 +957,17 @@
     function advanceWordInfinite(){
       state.currentIndex++;
       state.awaitingEnter = false;
+
       const idx = state.currentIndex % state.queue.length;
       if(idx === 0){
         state.queue = shuffle(WORDS);
       }
+
       state.current = state.queue[idx];
-      state.current.roman = kanaToRomajiStrict(state.current.kana);
+      state.current.roman = kanaToRomajiStrict(state.current.kana).toUpperCase();
       state.typed = "";
       el.kanji.textContent = state.current.kanji;
-      el.reading.textContent = state.current.kana;
+      el.reading.textContent = state.current.roman;
       renderRomaji();
       updateStats();
       setMessage("入力して練習。正解後 Enter で次へ", "");
@@ -933,12 +1013,13 @@
       ensureAudio();
       playPunch();
 
+      const upperKey = key.toUpperCase();
       state.totalKeys++;
       const expected = target[state.typed.length];
 
-      if(key === expected){
+      if(upperKey === expected){
         state.correctKeys++;
-        state.typed += key;
+        state.typed += upperKey;
         renderRomaji();
 
         if(state.typed === target){
@@ -997,7 +1078,6 @@
       setMode(btn.dataset.mode);
     });
 
-    // 初期表示
     setMode("10");
   </script>
 </body>
